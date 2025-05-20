@@ -65,7 +65,7 @@
       font-family: 'Great Vibes', Cursive;
       font-size: clamp(4rem,12vw,8rem);
       color: #6b4e3d; margin-bottom: 1.5rem;
-      text-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+      text-shadow: 4px 4px 8px rgba(0,0,0,0.3);
     }
     h2 {
       font-size: 2.2rem; color: #8a7463; font-weight: 600;
@@ -94,7 +94,7 @@
 
     .countdown {
       display: grid; grid-template-columns: repeat(4,1fr);
-      gap: 10px; justify-items: center; margin-bottom: 30px;
+      gap: 20px; justify-items: center; margin-bottom: 30px;
     }
     .countdown-item {
       display: flex; flex-direction: column; align-items: center;
@@ -189,7 +189,8 @@
 
   <div class="container">
     <section>
-      <h2>8 de Noviembre de 2025, 13:00 Hrs.</h2>
+      <h2>8 de Noviembre de 2025<br />
+	  13:00 Hrs.</h2>
       <div class="countdown">
         <div class="countdown-item">
           <div class="countdown-number" id="days">00</div>
