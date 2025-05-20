@@ -33,7 +33,7 @@
       height:100vh;
       display:flex; flex-direction:column;
       justify-content:center; align-items:center;
-      padding:20px;
+      padding:60px;
       background:linear-gradient(
         45deg,
         rgba(251,247,237,0),
@@ -147,6 +147,17 @@
     }
 
     @media(max-width:600px) {
+	h1 .name-part,
+  h1 .name-amp {
+    display: block;
+    line-height: 0.9;
+    margin: 8px 0;
+  }
+
+  h1 .name-amp {
+    font-size: 0.8em;
+    margin: -5px 0;
+  }
       .countdown-number {
         width:60px; height:60px; font-size:2rem;
       }
@@ -163,9 +174,13 @@
   <div class="music-alert" id="music-alert">¡Música activada! 🎶</div>
 
   <header>
-    <h1>Carmen & Alfredo</h1>
-    <h2>¡Nos Casamos!</h2>
-  </header>
+  <h1>
+    <span class="name-part">Carmen</span>
+    <span class="name-amp">&</span>
+    <span class="name-part">Alfredo</span>
+  </h1>
+  <h2>¡Nos Casamos!</h2>
+</header>
 
   <div class="container">
     <section>
