@@ -3,184 +3,164 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Boda de Carmen & Alfredo</title>
+  <title>Boda Carmen & Alfredo</title>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     body {
-      font-family: 'Playfair Display', serif;
-      background: #f8f8f0 url('pattern.png') repeat fixed;
-      color: #4a4a4a;
-      overflow-x: hidden;
-      line-height: 1.8;
-      font-size: 1.1rem;
+      font-family:'Playfair Display', serif;
+      background:#f8f8f0 url('pattern.png') repeat fixed;
+      color:#4a4a4a;
+      overflow-x:hidden;
+      line-height:1.8;
+      font-size:1.1rem;
     }
     body::after {
-      content: '';
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-image: linear-gradient(
+      content:'';
+      position:fixed; top:0; left:0;
+      width:100%; height:100%;
+      background-image:linear-gradient(
         to bottom right,
         rgba(139,128,98,0.02),
         rgba(255,255,255,0.02)
       );
-      pointer-events: none;
-      z-index: -1;
+      pointer-events:none; z-index:-1;
     }
-    h1, h2 { text-align: center; }
-
-    .leaves {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none; z-index: 1; overflow: hidden;
-    }
-    .leaf {
-      position: absolute;
-      width: 30px; height: 30px;
-      background: url('0a0f63cf-5ce0-4ba3-a5f7-648917b676ea.png') no-repeat center/contain;
-      animation: fall linear infinite;
-      opacity: 0.85;
-    }
-    @keyframes fall {
-      0%   { transform: translate(-10vw, -10vh) rotate(0deg); opacity: 1; }
-      100% { transform: translate(110vw, 110vh) rotate(360deg); opacity: 0.2; }
-    }
+    h1, h2 { text-align:center; }
 
     header {
-      height: 100vh;
-      display: flex; flex-direction: column;
-      justify-content: center; align-items: center;
-      padding: 20px;
-      background: linear-gradient(
+      height:100vh;
+      display:flex; flex-direction:column;
+      justify-content:center; align-items:center;
+      padding:20px;
+      background:linear-gradient(
         45deg,
         rgba(251,247,237,0),
         rgba(245,245,220,0)
       );
-      backdrop-filter: saturate(100%) blur(0px);
-      
-      position: relative; z-index: 2;
+      backdrop-filter:saturate(180%) blur(0px);
+      position:relative; z-index:2;
     }
     h1 {
-      font-family: 'Great Vibes', Cursive;
-      font-size: clamp(4rem,12vw,8rem);
-      color: #6b4e3d; margin-bottom: 1.5rem;
-      text-shadow: 4px 4px 8px rgba(0,0,0,0.3);
+      font-family:'Great Vibes',cursive;
+      font-size:clamp(4rem,12vw,8rem);
+      color:#6b4e3d; margin-bottom:1.5rem;
+      text-shadow:4px 4px 8px rgba(0,0,0,0.2);
     }
     h2 {
-      font-size: 2.2rem; color: #8a7463; font-weight: 600;
-      margin-bottom: 2rem; position: relative; padding-bottom: 0.8rem;
+      font-size:2.2rem; color:#8a7463; font-weight:600;
+      margin-bottom:2rem; position:relative; padding-bottom:0.8rem;
     }
     h2::after {
-      content: ''; position: absolute; bottom: 0; left: 50%;
-      transform: translateX(-50%); width: 80px; height: 3px;
-      background: #d8b38e;
+      content:''; position:absolute; bottom:0; left:50%;
+      transform:translateX(-50%); width:80px; height:3px; background:#d8b38e;
     }
 
     .container {
-      max-width: 800px; margin: 0 auto;
-      padding: 30px 20px; background: rgba(255,255,255,0);
-      position: relative; z-index: 3;
+      max-width:800px; margin:0 auto;
+      padding:30px 20px; background:rgba(255,255,255,0);
+      position:relative; z-index:3;
     }
     section {
-      background: rgba(255,255,255,1);
-      padding: 30px; margin: 25px 0;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(107,78,61,0.5);
+      background:rgba(255,255,255,0.95);
+      padding:30px; margin:25px 0;
+      border-radius:15px;
+      box-shadow:0 4px 20px rgba(107,78,61,0.08);
     }
     section p {
-      text-align: center; font-size: 1.2rem; line-height: 1.8; color: #5a5a5a;
+      text-align:center; font-size:1.2rem; line-height:1.8; color:#5a5a5a;
     }
 
     .countdown {
-      display: grid; grid-template-columns: repeat(4,1fr);
-      gap: 20px; justify-items: center; margin-bottom: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+      gap: 15px;
+      justify-items: center;
+      margin-bottom: 30px;
     }
     .countdown-item {
-      display: flex; flex-direction: column; align-items: center;
+      display:flex; flex-direction:column; align-items:center;
     }
     .countdown-number {
-      width: 80px; height: 80px; border-radius: 50%;
-      background: rgba(255,255,255,1);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Great Vibes', Cursive;
-      font-size: 3rem;
-      margin-bottom: 0.7rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      width: 80px; height: 80px; border-radius:50%;
+      background: rgba(255,255,255,0.95);
+      display:flex; align-items:center; justify-content:center;
+      font-family:'Great Vibes', cursive;
+      font-size:3rem; margin-bottom:0.5rem;
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
     }
 
-    .map-container { margin: 1.5rem 0; }
+    .map-container { margin:1.5rem 0; }
     .map {
-      width: 100%; height: 0; padding-bottom: 56.25%;
-      position: relative; border-radius: 15px; overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width:100%; height:0; padding-bottom:56.25%;
+      position:relative; border-radius:15px; overflow:hidden;
+      box-shadow:0 4px 15px rgba(0,0,0,0.1);
     }
     .map iframe {
-      position: absolute; top: 0; left: 0;
-      width: 100%; height: 100%; border: 0;
+      position:absolute; top:0; left:0; width:100%; height:100%; border:0;
     }
 
     .gallery {
-      display: grid; grid-template-columns: repeat(2,1fr);
-      gap: 15px; margin: 25px 0;
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+      gap:15px; margin:25px 0;
     }
     .gallery-img {
-      width: 100%; height: 250px; object-fit: cover;
-      border-radius: 10px; cursor: pointer; transition: transform .3s ease;
+      width:100%; height:150px; object-fit:cover;
+      border-radius:10px; cursor:pointer; transition:transform .3s ease;
     }
 
     .button {
-      display: block; padding: 18px 25px; margin: 20px 0;
-      text-align: center; text-decoration: none; border-radius: 30px;
-      font-weight: 600; transition: all .3s ease;
+      display:block; padding:18px 25px; margin:20px 0;
+      text-align:center; text-decoration:none; border-radius:30px;
+      font-weight:600; transition:all .3s ease;
     }
-    .whatsapp { background: #25D366; color: #fff; }
-    .whatsapp:hover { background: #128C7E; }
-    .mega { background: #d8b38e; color: #4a4a4a; }
-    .mega:hover { background: #c19a7b; }
+    .whatsapp { background:#25D366; color:#fff; }
+    .whatsapp:hover { background:#128C7E; }
+    .mega { background:#d8b38e; color:#4a4a4a; }
+    .mega:hover { background:#c19a7b; }
 
     .music-toggle {
-      position: fixed; bottom: 25px; left: 25px;
-      width: 60px; height: 60px; background: #d8b38e; color: #fff;
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; z-index: 1000;
+      position:fixed; bottom:25px; left:25px;
+      width:60px; height:60px; background:#d8b38e; color:#fff;
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+      box-shadow:0 4px 15px rgba(0,0,0,0.2); cursor:pointer; z-index:1000;
     }
     .music-alert {
-      position: fixed; bottom: 95px; left: 25px;
-      background: rgba(0,0,0,0.7); color: #fff; padding: 10px 15px;
-      border-radius: 5px; display: none; z-index: 1000;
+      position:fixed; bottom:95px; left:25px;
+      background:rgba(0,0,0,0.7); color:#fff; padding:10px 15px;
+      border-radius:5px; display:none; z-index:1000;
     }
 
     .lightbox {
-      display: none; position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%; background: rgba(0,0,0,0.9);
-      align-items: center; justify-content: center; z-index: 10000;
+      display:none; position:fixed; top:0; left:0;
+      width:100%; height:100%; background:rgba(0,0,0,0.9);
+      align-items:center; justify-content:center; z-index:10000;
     }
-    .lightbox.active { display: flex; }
+    .lightbox.active { display:flex; }
     .lightbox-img {
-      max-width: 90%; max-height: 90%; border-radius: 5px;
+      max-width:90%; max-height:90%; border-radius:5px;
     }
     .close-btn {
-      position: absolute; top: 20px; right: 20px;
-      font-size: 2rem; color: #fff; cursor: pointer;
+      position:absolute; top:20px; right:20px;
+      font-size:2rem; color:#fff; cursor:pointer;
     }
 
-    @media(min-width:768px) {
-      .gallery { grid-template-columns: repeat(4,1fr); }
-      h1 { font-size: clamp(5rem,12vw,9rem); }
-      h2 { font-size: 2.5rem; }
-      section p { font-size: 1.3rem; }
+    @media(max-width:600px) {
+      .countdown-number {
+        width:60px; height:60px; font-size:2rem;
+      }
+      .gallery-img { height:120px; }
     }
   </style>
 </head>
 <body>
-  <div class="leaves" id="leaves"></div>
 
   <audio id="bg-music" loop preload="none">
     <source src="romantic-music.mp3" type="audio/mpeg" />
   </audio>
   <div class="music-toggle" id="toggle-music"><i class="fas fa-play"></i></div>
-  <div class="music-alert" id="music-alert">¡Música activada, Sube el Volumen!</div>
+  <div class="music-alert" id="music-alert">¡Música activada! 🎶</div>
 
   <header>
     <h1>Carmen & Alfredo</h1>
@@ -189,8 +169,7 @@
 
   <div class="container">
     <section>
-      <h2>8 de Noviembre de 2025<br />
-	  13:00 Hrs.</h2>
+      <h2>8 de Noviembre de 2025<br/>13:00 Hrs.</h2>
       <div class="countdown">
         <div class="countdown-item">
           <div class="countdown-number" id="days">00</div>
@@ -212,16 +191,16 @@
     </section>
 
     <section>
-      <p>Estimados familiares y amigos:<br /><br />
-      Con gran emoción tenemos el honor de invitarles a ser testigos de la formalización de nuestro compromiso.<br /><br />
-      Después de un camino compartido, hemos decidido unir nuestras vidas en el marco de una ceremonia civil.<br /><br />
-      Será un privilegio contar con su presencia, siendo su compañía el más valioso de los regalos.<br /><br />
+      <p>Estimados familiares y amigos:<br/><br/>
+      Con gran emoción tenemos el honor de invitarles a ser testigos de la formalización de nuestro compromiso.<br/><br/>
+      Después de un camino compartido, hemos decidido unir nuestras vidas en el marco de una ceremonia civil.<br/><br/>
+      Será un privilegio contar con su presencia, siendo su compañía el más valioso de los regalos.<br/><br/>
       Les esperamos para compartir una velada honrando los valores del respeto, la igualdad y la unión libremente elegida.</p>
     </section>
 
     <section>
       <h2>Ubicación</h2>
-      <p>Villa La Perla, Reserva La Calixtina<br />Calvillo, Aguascalientes</p>
+      <p>Villa La Perla, Reserva La Calixtina<br/>Calvillo, Aguascalientes</p>
       <div class="map-container">
         <div class="map">
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4394.026996501516!2d-102.7768482241435!3d21.807530560574886!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8429cb00636cc6c5%3A0x1845a654b7b07076!2sVilla%20la%20Perla!5e1!3m2!1ses-419!2smx!4v1747757358727!5m2!1ses-419!2smx" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -231,37 +210,37 @@
 
     <section>
       <h2>Itinerario</h2>
-      <p>1:00 p.m. – Recepción de invitados<br />
-         2:00 p.m. – Ceremonia civil<br />
+      <p>1:00 p.m. – Recepción de invitados<br/>
+         2:00 p.m. – Ceremonia civil<br/>
          3:30 p.m. – Comida y celebración</p>
     </section>
 
     <section>
       <h2>Nuestros Momentos</h2>
       <div class="gallery">
-        <img src="images/Foto (1).jpg" class="gallery-img" alt="Momento 1" />
-        <img src="images/Foto (2).jpg" class="gallery-img" alt="Momento 2" />
-        <img src="images/Foto (3).jpg" class="gallery-img" alt="Momento 3" />
-        <img src="images/Foto (4).jpg" class="gallery-img" alt="Momento 4" />
-        <img src="images/Foto (5).jpg" class="gallery-img" alt="Momento 5" />
-        <img src="images/Foto (6).jpg" class="gallery-img" alt="Momento 6" />
-        <img src="images/Foto (7).jpg" class="gallery-img" alt="Momento 7" />
-        <img src="images/Foto (8).jpg" class="gallery-img" alt="Momento 8" />
+        <img src="images/Foto (1).jpg" class="gallery-img" alt="Momento 1"/>
+        <img src="images/Foto (2).jpg" class="gallery-img" alt="Momento 2"/>
+        <img src="images/Foto (3).jpg" class="gallery-img" alt="Momento 3"/>
+        <img src="images/Foto (4).jpg" class="gallery-img" alt="Momento 4"/>
+        <img src="images/Foto (5).jpg" class="gallery-img" alt="Momento 5"/>
+        <img src="images/Foto (6).jpg" class="gallery-img" alt="Momento 6"/>
+        <img src="images/Foto (7).jpg" class="gallery-img" alt="Momento 7"/>
+        <img src="images/Foto (8).jpg" class="gallery-img" alt="Momento 8"/>
       </div>
     </section>
 
     <section>
       <h2>Código de Vestimenta</h2>
-      <p>Será un día agradable, cálido por la tarde y fresco al caer el sol.<br /><br />
-      Te recomendamos un outfit cómodo y elegante.<br /><br />
-      Lleva contigo algo ligero por si refresca por la tarde.<br /><br />
+      <p>Será un día agradable, cálido por la tarde y fresco al caer el sol.<br/><br/>
+      Te recomendamos un outfit cómodo y elegante.<br/><br/>
+      Lleva contigo algo ligero por si refresca por la tarde.<br/><br/>
       ¡Lo más importante es que disfrutes al máximo!</p>
     </section>
 
     <section>
       <h2>Comparte tus recuerdos con nosotros</h2>
-      <p>Queremos atesorar cada instante de este día mágico.<br /><br />
-      Por favor comparte tus fotos y videos con nosotros usando el siguiente enlace.<br /><br />
+      <p>Queremos atesorar cada instante de este día mágico.<br/><br/>
+      Por favor comparte tus fotos y videos con nosotros usando el siguiente enlace.<br/><br/>
       ¡Serán el mejor regalo y recuerdo de nuestra celebración!</p>
       <a href="https://mega.nz/filerequest/QHyE53BPyTg" class="button mega">Subir Fotos/Videos</a>
     </section>
@@ -269,7 +248,7 @@
 
   <div class="lightbox" id="lightbox">
     <span class="close-btn" id="close-lightbox">&times;</span>
-    <img class="lightbox-img" id="lightbox-img" src="" alt="" />
+    <img class="lightbox-img" id="lightbox-img" src="" alt=""/>
   </div>
 
   <script>
@@ -278,24 +257,17 @@
     setInterval(() => {
       const now = Date.now(), d = target - now;
       if (d < 0) return;
-      document.getElementById("days").textContent    = Math.floor(d/86400000).toString().padStart(2,'0');
-      document.getElementById("hours").textContent   = Math.floor((d%86400000)/3600000).toString().padStart(2,'0');
-      document.getElementById("minutes").textContent = Math.floor((d%3600000)/60000).toString().padStart(2,'0');
-      document.getElementById("seconds").textContent = Math.floor((d%60000)/1000).toString().padStart(2,'0');
+      ['days','hours','minutes','seconds'].forEach(id => {
+        const unit = {
+          days: 86400000,
+          hours: 3600000,
+          minutes: 60000,
+          seconds: 1000
+        }[id];
+        const value = Math.floor((d % (unit * (id==='days'? Infinity : 60))) / unit);
+        document.getElementById(id).textContent = value.toString().padStart(2,'0');
+      });
     },1000);
-
-    // Hojas cayendo
-    document.addEventListener("DOMContentLoaded", () => {
-      const leaves = document.getElementById("leaves");
-      for (let i = 0; i < 20; i++) {
-        const leaf = document.createElement("div");
-        leaf.className = "leaf";
-        leaf.style.left = Math.random() * 100 + "vw";
-        leaf.style.animationDuration = (Math.random() * 5 + 5) + "s";
-        leaf.style.animationDelay = (Math.random() * -5) + "s";
-        leaves.appendChild(leaf);
-      }
-    });
 
     // Música de fondo
     const music = document.getElementById("bg-music"),
@@ -307,7 +279,7 @@
         music.play().then(() => {
           btn.innerHTML = '<i class="fas fa-pause"></i>';
           alertBox.style.display = "block";
-          setTimeout(() => alertBox.style.display = "none", 2000);
+          setTimeout(() => alertBox.style.display = "none",2000);
         });
       } else {
         music.pause();
