@@ -307,6 +307,63 @@
   </a>
   
 </section>
+
+<!-- Agrega esto antes del cierre del </body> -->
+<footer class="footer-banner">
+  <p>
+    Elaborado con amor por 
+    <a href="https://fixtechpro.com.mx" target="_blank" rel="noopener noreferrer">Fix Tech Pro</a> 
+    ♥
+  </p>
+</footer>
+
+<style>
+  /* Estilos actualizados */
+  .footer-banner {
+    background: rgba(219, 179, 142, 0.95);
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #4a4a4a;
+    margin-top: 50px;
+    border-top: 2px solid #d8b38e;
+  }
+
+  .footer-banner a {
+    color: #6b4e3d;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .footer-banner a:hover {
+    color: #8a7463;
+  }
+
+  .footer-banner a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: #8a7463;
+    transition: width 0.3s ease;
+  }
+
+  .footer-banner a:hover::after {
+    width: 100%;
+  }
+
+  @media (max-width: 600px) {
+    .footer-banner {
+      padding: 15px;
+      font-size: 0.8rem;
+      margin-top: 30px;
+    }
+  }
+</style>
 	
   </div>
   
@@ -367,5 +424,8 @@
       if (e.target === lightbox) lightbox.classList.remove("active");
     });
   </script>
+  	
+	
+	
 </body>
 </html>
