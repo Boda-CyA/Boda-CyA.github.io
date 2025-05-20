@@ -1,522 +1,290 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boda Carmen & Alfredo</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Playfair Display', serif;
-            background: #f8f8f0;
-            color: #4a4a4a;
-            line-height: 1.8;
-            overflow-x: hidden;
-            font-size: 1.1rem;
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: linear-gradient(
-                to bottom right,
-                rgba(139, 128, 98, 0.02) 0%,
-                rgba(255, 255, 255, 0.02) 100%
-            );
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .leaves {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .leaf {
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%238a7463" d="M12 2c-.96 0-1.88.23-2.7.64l-1.46-1.46-1.42 1.42 1.38 1.38C3.38 5.4 2 8.6 2 12c0 5.52 4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zM7.6 19.6l-1.2-1.2c.78.78 1.72 1.38 2.74 1.68l.66-1.9c-.66-.24-1.28-.56-1.86-.98z"/></svg>') no-repeat;
-            animation: fall linear infinite;
-            opacity: 0.7;
-        }
-
-        @keyframes fall {
-            0% { transform: translate(-10vw, -10vh) rotate(0deg); opacity: 1; }
-            100% { transform: translate(10vw, 110vh) rotate(360deg); opacity: 0.3; }
-        }
-
-        header {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            position: relative;
-            background: linear-gradient(45deg, rgba(251, 247, 237, 0.9) 0%, rgba(245, 245, 220, 0.9) 100%);
-            z-index: 2;
-        }
-
-        h1 {
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(4rem, 12vw, 8rem);
-            color: #6b4e3d;
-            margin-bottom: 1.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            line-height: 1.1;
-        }
-
-        h2 {
-            font-size: 2.2rem;
-            color: #8a7463;
-            font-weight: 600;
-            text-align: center;
-            margin-bottom: 2rem;
-            position: relative;
-            padding-bottom: 0.8rem;
-        }
-
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: #d8b38e;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 30px 20px;
-            background: rgba(255, 255, 255, 0.98);
-            position: relative;
-            z-index: 3;
-        }
-
-        section {
-            background: rgba(255,255,255,0.95);
-            padding: 30px;
-            margin: 25px 0;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(107, 78, 61, 0.08);
-        }
-
-        section p {
-            margin: 1.5rem 0;
-            text-align: center;
-            font-size: 1.2rem;
-            line-height: 1.8;
-            color: #5a5a5a;
-        }
-
-        .countdown {
-            background: rgba(255,255,255,0.92);
-            padding: 25px;
-            border-radius: 15px;
-            margin: 25px 0;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            text-align: center;
-        }
-
-        .countdown-number {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3.5rem;
-            color: #6b4e3d;
-            margin-bottom: 0.5rem;
-        }
-
-        .map-container {
-            width: 100%;
-            padding: 20px 0;
-            margin: 1.5rem 0;
-        }
-
-        .map {
-            width: 100%;
-            height: 0;
-            padding-bottom: 56.25%;
-            position: relative;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .map iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin: 25px 0;
-        }
-
-        .gallery-img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 10px;
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
-
-        .button {
-            display: block;
-            padding: 18px 25px;
-            margin: 20px 0;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 30px;
-            transition: all 0.3s ease;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .whatsapp {
-            background: #25D366;
-            color: white;
-        }
-
-        .whatsapp:hover {
-            background: #128C7E;
-        }
-
-        .mega {
-            background: #d8b38e;
-            color: #4a4a4a;
-        }
-
-        .mega:hover {
-            background: #c19a7b;
-        }
-
-        .music-toggle {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            width: 60px;
-            height: 60px;
-            background: #d8b38e;
-            color: white;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        .lightbox {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 9999;
-            padding: 20px;
-            cursor: pointer;
-        }
-
-        .lightbox.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .lightbox-img {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-            border-radius: 5px;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 25px;
-            right: 35px;
-            color: white;
-            font-size: 45px;
-            cursor: pointer;
-            z-index: 10000;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        @media (min-width: 768px) {
-            .gallery {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            
-            h1 {
-                font-size: clamp(5rem, 12vw, 9rem);
-            }
-
-            h2 {
-                font-size: 2.5rem;
-            }
-
-            section p {
-                font-size: 1.3rem;
-            }
-
-            .button {
-                font-size: 1.2rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Boda Carmen & Alfredo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family:'Playfair Display', serif;
+      background:#f8f8f0;
+      color:#4a4a4a;
+      overflow-x:hidden;
+      line-height:1.8;
+      font-size:1.1rem;
+    }
+    body::after {
+      content:''; position:fixed; top:0; left:0;
+      width:100%; height:100%;
+      background-image:linear-gradient(to bottom right, rgba(139,128,98,0.02), rgba(255,255,255,0.02));
+      pointer-events:none; z-index:-1;
+    }
+    .leaves {
+      position:fixed; top:0; left:0;
+      width:100%; height:100%;
+      pointer-events:none; z-index:1;
+      overflow:hidden;
+    }
+    .leaf {
+      position:absolute;
+      width:30px; height:30px;
+      background:url('0a0f63cf-5ce0-4ba3-a5f7-648917b676ea.png') no-repeat center/contain;
+      animation:fall linear infinite;
+      opacity:0.8;
+    }
+    @keyframes fall {
+      0%   { transform:translate(-10vw,-10vh) rotate(0deg); opacity:1; }
+      100% { transform:translate(110vw,110vh) rotate(360deg); opacity:0.3; }
+    }
+    header {
+      height:100vh; display:flex; flex-direction:column;
+      justify-content:center; align-items:center;
+      text-align:center; padding:20px;
+      background:linear-gradient(45deg, rgba(251,247,237,0.9), rgba(245,245,220,0.9));
+      position:relative; z-index:2;
+    }
+    h1 {
+      font-family:'Great Vibes', cursive;
+      font-size:clamp(4rem,12vw,8rem);
+      color:#6b4e3d; margin-bottom:1.5rem;
+      text-shadow:2px 2px 4px rgba(0,0,0,0.1);
+    }
+    h2 {
+      font-size:2.2rem; color:#8a7463; font-weight:600;
+      margin-bottom:2rem; position:relative; padding-bottom:0.8rem;
+      text-align:center;
+    }
+    h2::after {
+      content:''; position:absolute; bottom:0; left:50%;
+      transform:translateX(-50%); width:80px; height:3px;
+      background:#d8b38e;
+    }
+    .container {
+      max-width:800px; margin:0 auto;
+      padding:30px 20px; background:rgba(255,255,255,0.98);
+      position:relative; z-index:3;
+    }
+    section {
+      background:rgba(255,255,255,0.95);
+      padding:30px; margin:25px 0;
+      border-radius:15px; box-shadow:0 4px 20px rgba(107,78,61,0.08);
+    }
+    section p {
+      text-align:center; font-size:1.2rem; line-height:1.8; color:#5a5a5a;
+    }
+    .countdown {
+      display:grid; grid-template-columns:repeat(4,1fr);
+      gap:15px; text-align:center;
+      background:rgba(255,255,255,0.92);
+      padding:25px; border-radius:15px; margin-bottom:30px;
+    }
+    .countdown-number {
+      font-family:'Great Vibes', cursive;
+      font-size:3.5rem; color:#6b4e3d;
+      margin-bottom:0.3rem;
+    }
+    .map-container { margin:1.5rem 0; }
+    .map {
+      width:100%; height:0; padding-bottom:56.25%;
+      position:relative; border-radius:15px; overflow:hidden;
+      box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    }
+    .map iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:0; }
+    .gallery {
+      display:grid; grid-template-columns:repeat(2,1fr);
+      gap:15px; margin:25px 0;
+    }
+    .gallery-img {
+      width:100%; height:250px; object-fit:cover;
+      border-radius:10px; cursor:pointer; transition:transform .3s ease;
+    }
+    .button {
+      display:block; padding:18px 25px; margin:20px 0;
+      text-align:center; text-decoration:none; border-radius:30px;
+      font-weight:600; transition:all .3s ease;
+    }
+    .whatsapp { background:#25D366; color:#fff; }
+    .whatsapp:hover { background:#128C7E; }
+    .mega { background:#d8b38e; color:#4a4a4a; }
+    .mega:hover { background:#c19a7b; }
+    .music-toggle {
+      position:fixed; bottom:25px; left:25px;
+      width:60px; height:60px; background:#d8b38e; color:#fff;
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+      box-shadow:0 4px 15px rgba(0,0,0,0.2); cursor:pointer; z-index:1000;
+    }
+    .music-alert {
+      position:fixed; bottom:95px; left:25px;
+      background:rgba(0,0,0,0.7); color:#fff; padding:10px 15px;
+      border-radius:5px; display:none; z-index:1000;
+    }
+    .lightbox {
+      display:none; position:fixed; top:0; left:0;
+      width:100%; height:100%; background:rgba(0,0,0,0.9);
+      align-items:center; justify-content:center; z-index:10000;
+    }
+    .lightbox.active { display:flex; }
+    .lightbox-img {
+      max-width:90%; max-height:90%; border-radius:5px;
+    }
+    .close-btn {
+      position:absolute; top:20px; right:20px;
+      font-size:2rem; color:#fff; cursor:pointer;
+    }
+    @media(min-width:768px){
+      .gallery { grid-template-columns:repeat(4,1fr); }
+      h1 { font-size:clamp(5rem,12vw,9rem); }
+      h2 { font-size:2.5rem; }
+      section p { font-size:1.3rem; }
+    }
+  </style>
 </head>
 <body>
-    <div class="leaves" id="leaves"></div>
-    
-    <audio id="background-music" loop>
-        <source src="romantic-music.mp3" type="audio/mpeg">
-    </audio>
+  <div class="leaves" id="leaves"></div>
 
-    <div class="music-alert" id="musicAlert">¡Música activada! 🎶</div>
-    <div class="music-toggle" id="musicToggle">
-        <i class="fas fa-play"></i>
-    </div>
+  <audio id="bg-music" loop preload="none">
+    <source src="romantic-music.mp3" type="audio/mpeg"/>
+  </audio>
+  <div class="music-toggle" id="toggle-music"><i class="fas fa-play"></i></div>
+  <div class="music-alert" id="music-alert">¡Música activada! 🎶</div>
 
-    <header>
-        <h1>Carmen & Alfredo</h1>
-        <h2>¡Nos Casamos!</h2>
-    </header>
+  <header>
+    <h1>Carmen & Alfredo</h1>
+    <h2>¡Nos Casamos!</h2>
+  </header>
 
-    <div class="container">
-        <h2>8 de Noviembre de 2025, 13:00 Hrs.</h2>
-        <div class="countdown">
-            <div class="countdown-item">
-                <div class="countdown-number" id="days">00</div>
-                <div>Días</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="hours">00</div>
-                <div>Horas</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="minutes">00</div>
-                <div>Minutos</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="seconds">00</div>
-                <div>Segundos</div>
-            </div>
-        </div>
+  <div class="container">
+    <section>
+      <h2>8 de Noviembre de 2025, 13:00 Hrs.</h2>
+      <div class="countdown">
+        <div><div class="countdown-number" id="days">00</div><div>Días</div></div>
+        <div><div class="countdown-number" id="hours">00</div><div>Horas</div></div>
+        <div><div class="countdown-number" id="minutes">00</div><div>Minutos</div></div>
+        <div><div class="countdown-number" id="seconds">00</div><div>Segundos</div></div>
+      </div>
+    </section>
 
-        <section>
-            <p>Estimados familiares y amigos:<br><br>
-            Con gran emoción tenemos el honor de invitarles a ser testigos de la formalización de nuestro compromiso.<br><br>
-            Después de un camino compartido, hemos decidido unir nuestras vidas en el marco de una ceremonia civil.<br><br>
-            Será un privilegio contar con su presencia, siendo su compañía el más valioso de los regalos.<br><br>
-            Les esperamos para compartir una velada honrando los valores del respeto, la igualdad y la unión libremente elegida.</p>
-        </section>
+    <section>
+      <p>Estimados familiares y amigos:<br><br>
+      Con gran emoción tenemos el honor de invitarles a ser testigos de la formalización de nuestro compromiso.<br><br>
+      Después de un camino compartido, hemos decidido unir nuestras vidas en el marco de una ceremonia civil.<br><br>
+      Será un privilegio contar con su presencia, siendo su compañía el más valioso de los regalos.<br><br>
+      Les esperamos para compartir una velada honrando los valores del respeto, la igualdad y la unión libremente elegida.</p>
+    </section>
 
-        <section>
-            <h2>Ubicación</h2>
-            <p>Villa La Perla, Reserva La Calixtina<br>
-            Paseo Luis y María, Calvillo, Aguascalientes</p>
-            
-            <div class="map-container">
-                <div class="map">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4394.026996501517!2d-102.7768482241435!3d21.807530560574897!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8429cb00636cc6c5%3A0x1845a654b7b07076!2sVilla%20la%20Perla!5e1!3m2!1ses-419!2smx!4v1747680802325!5m2!1ses-419!2smx" 
-                            allowfullscreen="" 
-                            loading="lazy" 
-                            referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
-                </div>
-            </div>
-        </section>
+    <section>
+      <h2>Ubicación</h2>
+      <p>Villa La Perla, Reserva La Calixtina<br>Calvillo, Aguascalientes</p>
+      <div class="map-container"><div class="map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18…"></iframe>
+      </div></div>
+    </section>
 
-        <section>
-            <h2>Itinerario</h2>
-            <p>1:00 p.m. – Recepción de invitados<br>
-            2:00 p.m. – Ceremonia civil<br>
-            3:30 p.m. – Comida y celebración</p>
-        </section>
+    <section>
+      <h2>Itinerario</h2>
+      <p>1:00 p.m. – Recepción de invitados<br>
+         2:00 p.m. – Ceremonia civil<br>
+         3:30 p.m. – Comida y celebración</p>
+    </section>
 
-        <section>
-            <h2>Nuestros Momentos</h2>
-            <div class="gallery">
-                <img src="images/Foto (1).jpg" class="gallery-img" alt="Momento 1">
-                <img src="images/Foto (2).jpg" class="gallery-img" alt="Momento 2">
-                <img src="images/Foto (3).jpg" class="gallery-img" alt="Momento 3">
-                <img src="images/Foto (4).jpg" class="gallery-img" alt="Momento 4">
-                <img src="images/Foto (5).jpg" class="gallery-img" alt="Momento 5">
-                <img src="images/Foto (6).jpg" class="gallery-img" alt="Momento 6">
-                <img src="images/Foto (7).jpg" class="gallery-img" alt="Momento 7">
-                <img src="images/Foto (8).jpg" class="gallery-img" alt="Momento 8">
-            </div>
-        </section>
+    <section>
+      <h2>Nuestros Momentos</h2>
+      <div class="gallery">
+        <img src="images/Foto (1).jpg" class="gallery-img" alt="Momento 1">
+        <img src="images/Foto (2).jpg" class="gallery-img" alt="Momento 2">
+        <img src="images/Foto (3).jpg" class="gallery-img" alt="Momento 3">
+        <img src="images/Foto (4).jpg" class="gallery-img" alt="Momento 4">
+        <img src="images/Foto (5).jpg" class="gallery-img" alt="Momento 5">
+        <img src="images/Foto (6).jpg" class="gallery-img" alt="Momento 6">
+        <img src="images/Foto (7).jpg" class="gallery-img" alt="Momento 7">
+        <img src="images/Foto (8).jpg" class="gallery-img" alt="Momento 8">
+      </div>
+    </section>
 
-        <section>
-            <h2>Código de Vestimenta</h2>
-            <p>Será un día agradable, cálido por la tarde y fresco al caer el sol.<br><br>
-            Te recomendamos un outfit cómodo y elegante.<br>
-            Lleva contigo algo ligero por si refresca por la tarde.<br><br>
-            ¡Lo más importante es que disfrutes al máximo!</p>
-        </section>
+    <section>
+      <h2>Código de Vestimenta</h2>
+      <p>Será un día agradable, cálido por la tarde y fresco al caer el sol.<br><br>
+      Te recomendamos un outfit cómodo y elegante.<br>
+      Lleva contigo algo ligero por si refresca por la tarde.<br><br>
+      ¡Lo más importante es que disfrutes al máximo!</p>
+    </section>
 
-        <section>
-            <h2>Confirmación de Asistencia</h2>
-            <p>Por favor confírmanos tu presencia antes del 15 de octubre<br><br>
-            ¡Esperamos contar contigo en este día tan especial!</p>
-            <a href="https://wa.me/524494336064" class="button whatsapp">Confirmar con el Novio</a>
-            <a href="https://wa.me/524491952828" class="button whatsapp">Confirmar con la Novia</a>
-        </section>
+    <section>
+      <h2>Comparte tus recuerdos con nosotros</h2>
+      <p>Queremos atesorar cada instante de este día mágico.<br><br>
+      Por favor comparte tus fotos y videos con nosotros a través del siguiente enlace.<br>
+      ¡Serán el mejor regalo y recuerdo de nuestra celebración!</p>
+      <a href="https://mega.nz/filerequest/QHyE53BPyTg" class="button mega">Subir Fotos/Videos</a>
+    </section>
+  </div>
 
-        <section>
-            <h2>Comparte tus recuerdos con nosotros</h2>
-            <p>Queremos atesorar cada instante de este día mágico.<br><br>
-            Por favor comparte tus fotos y videos con nosotros a través del siguiente enlace.<br>
-            ¡Serán el mejor regalo y recuerdo de nuestra celebración!</p>
-            <a href="https://mega.nz/filerequest/QHyE53BPyTg" class="button mega">Subir Fotos/Videos</a>
-        </section>
-    </div>
+  <div class="lightbox" id="lightbox">
+    <span class="close-btn" id="close-lightbox">&times;</span>
+    <img class="lightbox-img" id="lightbox-img" src="" alt=""/>
+  </div>
 
-    <div class="lightbox" id="lightbox">
-        <span class="close-btn">&times;</span>
-        <img src="" class="lightbox-img" id="lightbox-img">
-    </div>
+  <script>
+    // Countdown
+    const target = new Date("Nov 8, 2025 13:00:00").getTime();
+    setInterval(() => {
+      const now = Date.now(),
+            d = target - now;
+      if (d < 0) return;
+      document.getElementById("days").textContent    = Math.floor(d/86400000).toString().padStart(2,'0');
+      document.getElementById("hours").textContent   = Math.floor((d%86400000)/3600000).toString().padStart(2,'0');
+      document.getElementById("minutes").textContent = Math.floor((d%3600000)/60000).toString().padStart(2,'0');
+      document.getElementById("seconds").textContent = Math.floor((d%60000)/1000).toString().padStart(2,'0');
+    }, 1000);
 
-    <script>
-        // Contador regresivo
-        const countDownDate = new Date("Nov 8, 2025 13:00:00").getTime();
-        const countdownInterval = setInterval(updateCountdown, 1000);
+    // Leaves
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("leaves");
+      for (let i=0; i<20; i++){
+        const leaf = document.createElement("div");
+        leaf.className = "leaf";
+        leaf.style.left = Math.random()*100 + "vw";
+        leaf.style.animationDuration = (Math.random()*5+5) + "s";
+        leaf.style.animationDelay    = Math.random()*-5 + "s";
+        container.appendChild(leaf);
+      }
+    });
 
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = countDownDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("days").textContent = days.toString().padStart(2, '0');
-            document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
-            document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
-            document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
-
-            if (distance < 0) clearInterval(countdownInterval);
-        }
-
-        // Control de música
-        const music = document.getElementById('background-music');
-        const musicAlert = document.getElementById('musicAlert');
-        const musicToggle = document.getElementById('musicToggle');
-        let musicPlaying = false;
-
-        function toggleMusic() {
-            if (musicPlaying) {
-                music.pause();
-                musicToggle.innerHTML = '<i class="fas fa-play"></i>';
-            } else {
-                music.play().catch(error => console.log('Error al reproducir música:', error));
-                musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-            }
-            musicPlaying = !musicPlaying;
-        }
-
-        document.body.addEventListener('click', function initialPlay() {
-            if (!musicPlaying) {
-                toggleMusic();
-                musicAlert.style.display = 'block';
-                setTimeout(() => musicAlert.style.display = 'none', 3000);
-            }
-            document.body.removeEventListener('click', initialPlay);
+    // Music
+    const music = document.getElementById("bg-music"),
+          toggle = document.getElementById("toggle-music"),
+          alertBox = document.getElementById("music-alert");
+    toggle.addEventListener("click", e => {
+      e.stopPropagation();
+      if (music.paused) {
+        music.play().then(() => {
+          toggle.innerHTML = '<i class="fas fa-pause"></i>';
+          alertBox.style.display = "block";
+          setTimeout(() => alertBox.style.display = "none", 2000);
         });
+      } else {
+        music.pause();
+        toggle.innerHTML = '<i class="fas fa-play"></i>';
+      }
+    });
 
-        musicToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            toggleMusic();
-            if (musicPlaying) {
-                musicAlert.style.display = 'block';
-                setTimeout(() => musicAlert.style.display = 'none', 3000);
-            }
-        });
-
-        // Efecto de hojas
-        function createLeaves() {
-            const leavesContainer = document.getElementById('leaves');
-            const leafCount = 20;
-            
-            for(let i = 0; i < leafCount; i++) {
-                const leaf = document.createElement('div');
-                leaf.className = 'leaf';
-                leaf.style.left = Math.random() * 100 + 'vw';
-                leaf.style.animationDuration = (Math.random() * 5 + 8) + 's';
-                leaf.style.animationDelay = (Math.random() * -5) + 's';
-                leaf.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
-                leavesContainer.appendChild(leaf);
-            }
-        }
-        createLeaves();
-
-        // Lightbox
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        const galleryImgs = document.querySelectorAll('.gallery-img');
-        const closeBtn = document.querySelector('.close-btn');
-
-        galleryImgs.forEach(img => {
-            img.addEventListener('click', (e) => {
-                lightbox.classList.add('active');
-                lightboxImg.src = e.target.src;
-            });
-        });
-
-        closeBtn.addEventListener('click', () => {
-            lightbox.classList.remove('active');
-        });
-
-        lightbox.addEventListener('click', (e) => {
-            if(e.target !== lightboxImg) {
-                lightbox.classList.remove('active');
-            }
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if(e.key === 'Escape') {
-                lightbox.classList.remove('active');
-            }
-        });
-    </script>
+    // Lightbox
+    const lightbox = document.getElementById("lightbox"),
+          lbImg     = document.getElementById("lightbox-img");
+    document.querySelectorAll(".gallery-img").forEach(img => {
+      img.addEventListener("click", () => {
+        lbImg.src = img.src;
+        lightbox.classList.add("active");
+      });
+    });
+    document.getElementById("close-lightbox").addEventListener("click", () => {
+      lightbox.classList.remove("active");
+    });
+    lightbox.addEventListener("click", e => {
+      if (e.target === lightbox) lightbox.classList.remove("active");
+    });
+  </script>
 </body>
 </html>
