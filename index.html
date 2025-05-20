@@ -244,8 +244,57 @@
       ¡Serán el mejor regalo y recuerdo de nuestra celebración!</p>
       <a href="https://mega.nz/filerequest/QHyE53BPyTg" class="button mega">Subir Fotos/Videos</a>
     </section>
-  </div>
+	
+	<style>
+  /* Estilo base (ya existente en tu CSS) */
+  .button {
+    display: block;
+    padding: 18px 25px;
+    margin: 20px 0;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
 
+  /* Modificación específica para Spotify */
+  .button.spotify {
+    background: #1DB954;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+    border: 2px solid #14833A;
+  }
+
+  .button.spotify:hover {
+    background: #14833A;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
+  }
+
+  /* Icono ajustado al estilo MEGA */
+  .button.spotify i {
+    margin-right: 12px;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
+  }
+</style>
+
+	
+	<section>
+  <h2>¡Ayudanos a elegir la música!</h2>
+  <p>Tu canción podría ser la protagonista de nuestra boda:</p>
+  <a 
+    href="https://open.spotify.com/playlist/63zAMEqWJC75J3QffTC1n7?si=e6ec10527845474e&pt=4957dd73f5bc1c35cc2fcaa903d82925" 
+    class="button spotify" 
+    target="_blank"
+	>
+    <i class="fab fa-spotify"></i> Añadir Canción
+  </a>
+  
+</section>
+	
+  </div>
+  
   <div class="lightbox" id="lightbox">
     <span class="close-btn" id="close-lightbox">&times;</span>
     <img class="lightbox-img" id="lightbox-img" src="" alt=""/>
