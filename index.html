@@ -3,165 +3,173 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Boda Carmen & Alfredo</title>
+  <title>Boda de Carmen & Alfredo</title>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <style>
-    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family:'Playfair Display', serif;
-      background:#f8f8f0 url('pattern.png') repeat fixed;
-      color:#4a4a4a;
-      overflow-x:hidden;
-      line-height:1.8;
-      font-size:1.1rem;
+      font-family: 'Playfair Display', serif;
+      background: #f8f8f0 url('pattern.png') repeat fixed;
+      color: #4a4a4a;
+      overflow-x: hidden;
+      line-height: 1.8;
+      font-size: 1.1rem;
     }
     body::after {
-      content:'';
-      position:fixed; top:0; left:0;
-      width:100%; height:100%;
-      background-image:linear-gradient(
+      content: '';
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: linear-gradient(
         to bottom right,
         rgba(139,128,98,0.02),
         rgba(255,255,255,0.02)
       );
-      pointer-events:none; z-index:-1;
+      pointer-events: none;
+      z-index: -1;
     }
-    h1, h2 { text-align:center; }
+    h1, h2 { text-align: center; }
 
     .leaves {
-      position:fixed; top:0; left:0;
-      width:100%; height:100%;
-      pointer-events:none; z-index:1; overflow:hidden;
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 1; overflow: hidden;
     }
     .leaf {
-      position:absolute;
-      width:30px; height:30px;
-      background:url('0a0f63cf-5ce0-4ba3-a5f7-648917b676ea.png') no-repeat center/contain;
-      animation:fall linear infinite;
-      opacity:0.85;
+      position: absolute;
+      width: 30px; height: 30px;
+      background: url('0a0f63cf-5ce0-4ba3-a5f7-648917b676ea.png') no-repeat center/contain;
+      animation: fall linear infinite;
+      opacity: 0.85;
     }
     @keyframes fall {
-      0%   { transform:translate(-10vw,-10vh) rotate(0deg); opacity:1; }
-      100% { transform:translate(110vw,110vh) rotate(360deg); opacity:0.2; }
+      0%   { transform: translate(-10vw, -10vh) rotate(0deg); opacity: 1; }
+      100% { transform: translate(110vw, 110vh) rotate(360deg); opacity: 0.2; }
     }
 
     header {
-      height:100vh;
-      display:flex; flex-direction:column;
-      justify-content:center; align-items:center;
-      text-align:center; padding:20px;
+      height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      padding: 20px;
       background: linear-gradient(
         45deg,
         rgba(251,247,237,0),
         rgba(245,245,220,0)
       );
       backdrop-filter: saturate(100%) blur(0px);
-      box-shadow: inset 0 0 30px rgba(0,0,0,0), 0 8px 40px rgba(0,0,0,0);
-      position:relative; z-index:2;
+      
+      position: relative; z-index: 2;
     }
     h1 {
-      font-family:'Great Vibes', cursive;
-      font-size:clamp(4rem,12vw,8rem);
-      color:#6b4e3d; margin-bottom:1.5rem;
-      text-shadow:4px 4px 8px rgba(0,0,0,0.2);
+      font-family: 'Great Vibes', Cursive;
+      font-size: clamp(4rem,12vw,8rem);
+      color: #6b4e3d; margin-bottom: 1.5rem;
+      text-shadow: 4px 4px 8px rgba(0,0,0,0.5);
     }
     h2 {
-      font-size:2.2rem; color:#8a7463; font-weight:600;
-      margin-bottom:2rem; position:relative; padding-bottom:0.8rem;
+      font-size: 2.2rem; color: #8a7463; font-weight: 600;
+      margin-bottom: 2rem; position: relative; padding-bottom: 0.8rem;
     }
     h2::after {
-      content:''; position:absolute; bottom:0; left:50%;
-      transform:translateX(-50%); width:80px; height:3px; background:#d8b38e;
+      content: ''; position: absolute; bottom: 0; left: 50%;
+      transform: translateX(-50%); width: 80px; height: 3px;
+      background: #d8b38e;
     }
 
     .container {
-      max-width:800px; margin:0 auto;
-      padding:30px 20px; background:rgba(255,255,255,0.98);
-      position:relative; z-index:3;
+      max-width: 800px; margin: 0 auto;
+      padding: 30px 20px; background: rgba(255,255,255,0.98);
+      position: relative; z-index: 3;
     }
     section {
-      background:rgba(255,255,255,0.95);
-      padding:30px; margin:25px 0;
-      border-radius:15px;
-      box-shadow:0 4px 20px rgba(107,78,61,0.08);
+      background: rgba(255,255,255,0.95);
+      padding: 30px; margin: 25px 0;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(107,78,61,0.08);
     }
     section p {
-      text-align:center; font-size:1.2rem; line-height:1.8; color:#5a5a5a;
+      text-align: center; font-size: 1.2rem; line-height: 1.8; color: #5a5a5a;
     }
 
     .countdown {
-      display:grid; grid-template-columns:repeat(4,1fr);
-      gap:15px; text-align:center;
-      background:rgba(255,255,255,0.92);
-      padding:25px; border-radius:15px; margin-bottom:30px;
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 10px; justify-items: center; margin-bottom: 30px;
+    }
+    .countdown-item {
+      display: flex; flex-direction: column; align-items: center;
     }
     .countdown-number {
-      font-family:'Great Vibes', cursive;
-      font-size:3.5rem; color:#6b4e3d;
-      margin-bottom:0.3rem;
+      width: 80px; height: 80px; border-radius: 50%;
+      background: rgba(255,255,255,1);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Great Vibes', Cursive;
+      font-size: 3rem;
+      margin-bottom: 0.7rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     }
 
-    .map-container { margin:1.5rem 0; }
+    .map-container { margin: 1.5rem 0; }
     .map {
-      width:100%; height:0; padding-bottom:56.25%;
-      position:relative; border-radius:15px; overflow:hidden;
-      box-shadow:0 4px 15px rgba(0,0,0,0.1);
+      width: 100%; height: 0; padding-bottom: 56.25%;
+      position: relative; border-radius: 15px; overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
     .map iframe {
-      position:absolute; top:0; left:0; width:100%; height:100%; border:0;
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; border: 0;
     }
 
     .gallery {
-      display:grid; grid-template-columns:repeat(2,1fr);
-      gap:15px; margin:25px 0;
+      display: grid; grid-template-columns: repeat(2,1fr);
+      gap: 15px; margin: 25px 0;
     }
     .gallery-img {
-      width:100%; height:250px; object-fit:cover;
-      border-radius:10px; cursor:pointer; transition:transform .3s ease;
+      width: 100%; height: 250px; object-fit: cover;
+      border-radius: 10px; cursor: pointer; transition: transform .3s ease;
     }
 
     .button {
-      display:block; padding:18px 25px; margin:20px 0;
-      text-align:center; text-decoration:none; border-radius:30px;
-      font-weight:600; transition:all .3s ease;
+      display: block; padding: 18px 25px; margin: 20px 0;
+      text-align: center; text-decoration: none; border-radius: 30px;
+      font-weight: 600; transition: all .3s ease;
     }
-    .whatsapp { background:#25D366; color:#fff; }
-    .whatsapp:hover { background:#128C7E; }
-    .mega { background:#d8b38e; color:#4a4a4a; }
-    .mega:hover { background:#c19a7b; }
+    .whatsapp { background: #25D366; color: #fff; }
+    .whatsapp:hover { background: #128C7E; }
+    .mega { background: #d8b38e; color: #4a4a4a; }
+    .mega:hover { background: #c19a7b; }
 
     .music-toggle {
-      position:fixed; bottom:25px; left:25px;
-      width:60px; height:60px; background:#d8b38e; color:#fff;
-      border-radius:50%; display:flex; align-items:center; justify-content:center;
-      box-shadow:0 4px 15px rgba(0,0,0,0.2); cursor:pointer; z-index:1000;
+      position: fixed; bottom: 25px; left: 25px;
+      width: 60px; height: 60px; background: #d8b38e; color: #fff;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; z-index: 1000;
     }
     .music-alert {
-      position:fixed; bottom:95px; left:25px;
-      background:rgba(0,0,0,0.7); color:#fff; padding:10px 15px;
-      border-radius:5px; display:none; z-index:1000;
+      position: fixed; bottom: 95px; left: 25px;
+      background: rgba(0,0,0,0.7); color: #fff; padding: 10px 15px;
+      border-radius: 5px; display: none; z-index: 1000;
     }
 
     .lightbox {
-      display:none; position:fixed; top:0; left:0;
-      width:100%; height:100%; background:rgba(0,0,0,0.9);
-      align-items:center; justify-content:center; z-index:10000;
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.9);
+      align-items: center; justify-content: center; z-index: 10000;
     }
-    .lightbox.active { display:flex; }
+    .lightbox.active { display: flex; }
     .lightbox-img {
-      max-width:90%; max-height:90%; border-radius:5px;
+      max-width: 90%; max-height: 90%; border-radius: 5px;
     }
     .close-btn {
-      position:absolute; top:20px; right:20px;
-      font-size:2rem; color:#fff; cursor:pointer;
+      position: absolute; top: 20px; right: 20px;
+      font-size: 2rem; color: #fff; cursor: pointer;
     }
 
     @media(min-width:768px) {
-      .gallery { grid-template-columns:repeat(4,1fr); }
-      h1 { font-size:clamp(5rem,12vw,9rem); }
-      h2 { font-size:2.5rem; }
-      section p { font-size:1.3rem; }
+      .gallery { grid-template-columns: repeat(4,1fr); }
+      h1 { font-size: clamp(5rem,12vw,9rem); }
+      h2 { font-size: 2.5rem; }
+      section p { font-size: 1.3rem; }
     }
   </style>
 </head>
@@ -172,7 +180,7 @@
     <source src="romantic-music.mp3" type="audio/mpeg" />
   </audio>
   <div class="music-toggle" id="toggle-music"><i class="fas fa-play"></i></div>
-  <div class="music-alert" id="music-alert">¡Música activada! 🎶</div>
+  <div class="music-alert" id="music-alert">¡Música activada, Sube el Volumen!</div>
 
   <header>
     <h1>Carmen & Alfredo</h1>
@@ -183,10 +191,22 @@
     <section>
       <h2>8 de Noviembre de 2025, 13:00 Hrs.</h2>
       <div class="countdown">
-        <div><div class="countdown-number" id="days">00</div><div>Días</div></div>
-        <div><div class="countdown-number" id="hours">00</div><div>Horas</div></div>
-        <div><div class="countdown-number" id="minutes">00</div><div>Minutos</div></div>
-        <div><div class="countdown-number" id="seconds">00</div><div>Segundos</div></div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="days">00</div>
+          <div>Días</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="hours">00</div>
+          <div>Horas</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="minutes">00</div>
+          <div>Minutos</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="seconds">00</div>
+          <div>Segundos</div>
+        </div>
       </div>
     </section>
 
@@ -265,49 +285,49 @@
 
     // Hojas cayendo
     document.addEventListener("DOMContentLoaded", () => {
-      const leaves=document.getElementById("leaves");
-      for(let i=0;i<20;i++){
-        const leaf=document.createElement("div");
-        leaf.className="leaf";
-        leaf.style.left=Math.random()*100+"vw";
-        leaf.style.animationDuration=(Math.random()*5+5)+"s";
-        leaf.style.animationDelay=(Math.random()*-5)+"s";
+      const leaves = document.getElementById("leaves");
+      for (let i = 0; i < 20; i++) {
+        const leaf = document.createElement("div");
+        leaf.className = "leaf";
+        leaf.style.left = Math.random() * 100 + "vw";
+        leaf.style.animationDuration = (Math.random() * 5 + 5) + "s";
+        leaf.style.animationDelay = (Math.random() * -5) + "s";
         leaves.appendChild(leaf);
       }
     });
 
-    // Música
-    const music=document.getElementById("bg-music"),
-          btn=document.getElementById("toggle-music"),
-          alertBox=document.getElementById("music-alert");
-    btn.addEventListener("click",e=>{
+    // Música de fondo
+    const music = document.getElementById("bg-music"),
+          btn   = document.getElementById("toggle-music"),
+          alertBox = document.getElementById("music-alert");
+    btn.addEventListener("click", e => {
       e.stopPropagation();
-      if(music.paused){
-        music.play().then(()=>{
-          btn.innerHTML='<i class="fas fa-pause"></i>';
-          alertBox.style.display="block";
-          setTimeout(()=>alertBox.style.display="none",2000);
+      if (music.paused) {
+        music.play().then(() => {
+          btn.innerHTML = '<i class="fas fa-pause"></i>';
+          alertBox.style.display = "block";
+          setTimeout(() => alertBox.style.display = "none", 2000);
         });
       } else {
         music.pause();
-        btn.innerHTML='<i class="fas fa-play"></i>';
+        btn.innerHTML = '<i class="fas fa-play"></i>';
       }
     });
 
-    // Lightbox
-    const lightbox=document.getElementById("lightbox"),
-          lbImg=document.getElementById("lightbox-img");
-    document.querySelectorAll(".gallery-img").forEach(img=>{
-      img.addEventListener("click",()=>{
-        lbImg.src=img.src;
+    // Lightbox de galería
+    const lightbox = document.getElementById("lightbox"),
+          lbImg    = document.getElementById("lightbox-img");
+    document.querySelectorAll(".gallery-img").forEach(img => {
+      img.addEventListener("click", () => {
+        lbImg.src = img.src;
         lightbox.classList.add("active");
       });
     });
-    document.getElementById("close-lightbox").addEventListener("click",()=>{
+    document.getElementById("close-lightbox").addEventListener("click", () => {
       lightbox.classList.remove("active");
     });
-    lightbox.addEventListener("click",e=>{
-      if(e.target===lightbox) lightbox.classList.remove("active");
+    lightbox.addEventListener("click", e => {
+      if (e.target === lightbox) lightbox.classList.remove("active");
     });
   </script>
 </body>
