@@ -475,5 +475,111 @@
       }
     });
   </script>
+  
+  	
+
+
+	<!-- Agrega esto antes del cierre de </body> -->
+<div id="leaves-container"></div>
+
+<style>
+  @keyframes hiddenFall {
+    0% {
+      transform: 
+        translate(calc(-50% + var(--offsetX)), -120vh)
+        rotate(calc(var(--rotation) * 1deg))
+        scale(var(--startScale));
+      opacity: 0;
+      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    20% {
+      opacity: 0.8; /* Aparecen progresivamente al iniciar la caída */
+    }
+    100% {
+      transform: 
+        translate(calc(-50% + var(--finalX)), 100vh)
+        rotate(calc(var(--rotation) * 3deg))
+        scale(var(--endScale));
+      opacity: 0;
+    }
+  }
+
+  .leaf-particle {
+    position: fixed;
+    width: 35px;
+    height: auto;
+    z-index: 1;
+    pointer-events: none;
+    filter: drop-shadow(2px 2px 4px rgba(107, 78, 61, 0.2));
+    animation: hiddenFall linear infinite;
+    top: 0;
+    left: var(--startPosition);
+    visibility: hidden; /* Oculta inicialmente */
+    animation-fill-mode: backwards; /* Mantiene estado inicial antes de la animación */
+  }
+
+  #leaves-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+  }
+</style>
+
+<script>
+  function createHiddenLeaves() {
+    const container = document.getElementById('leaves-container');
+    const totalLeaves = 15;
+    
+    for(let i = 0; i < totalLeaves; i++) {
+      const leaf = document.createElement('img');
+      leaf.src = 'leaf.png';
+      leaf.className = 'leaf-particle';
+      
+      // Configuración aleatoria mejorada
+      const startPosition = Math.random() * 100;
+      const offsetX = (Math.random() - 0.5) * 200;
+      const finalX = (Math.random() - 0.5) * 300;
+      const duration = 12 + Math.random() * 6;
+      const rotation = Math.random() * 360;
+      const startScale = 0.6 + Math.random() * 0.4;
+      const endScale = 0.3 + Math.random() * 0.3;
+      const delay = Math.random() * 8;
+
+      leaf.style.cssText = `
+        --startPosition: ${startPosition}%;
+        --offsetX: ${offsetX}px;
+        --finalX: ${finalX}px;
+        --rotation: ${rotation};
+        --startScale: ${startScale};
+        --endScale: ${endScale};
+        animation-duration: ${duration}s;
+        animation-delay: ${delay}s;
+      `;
+
+      container.appendChild(leaf);
+    }
+  }
+
+  // Iniciar después de la carga para mejor rendimiento
+  window.addEventListener('load', () => {
+    createHiddenLeaves();
+    
+    // Forzar renderizado inicial
+    setTimeout(() => {
+      document.querySelectorAll('.leaf-particle').forEach(leaf => {
+        leaf.style.visibility = 'visible';
+      });
+    }, 100);
+  });
+</script>
+		
+
+
+  
 </body>
 </html>
