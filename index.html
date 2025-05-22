@@ -38,11 +38,10 @@
         45deg,
         rgba(251,247,237,0),
         rgba(245,245,220,0)
-		/* margin-bottom:2rem; Removed potential syntax error: needs comma or semicolon */
       );
       backdrop-filter:saturate(180%) blur(0px);
       position:relative; z-index:2;
-      margin-bottom: 2rem; /* Added correctly */
+      margin-bottom: 2rem;
     }
     h1 {
       font-family:'Great Vibes',cursive;
@@ -116,13 +115,13 @@
 
     .button {
 		display: flex;
-  		justify-content: center; /* centra horizontalmente */
-  		align-items: center;     /* centra verticalmente */
+  		justify-content: center; 
+  		align-items: center;     
 		
-      padding:18px 5px; margin:20px auto; /* Use auto for horizontal centering of block/flex */
+      padding:18px 25px; margin:20px auto; 
       text-align:center; text-decoration:none; border-radius:30px;
       font-weight:600; transition:all .3s ease;
-      max-width: 300px; /* Example max-width for better centering */
+      max-width: 300px; 
     }
     .whatsapp { background:#25D366; color:#fff; }
     .whatsapp:hover { background:#128C7E; }
@@ -155,23 +154,45 @@
       font-size:2rem; color:#fff; cursor:pointer;
     }
 
+    h1 .heart-icon { /* General style for heart, can be adjusted in media query if needed */
+        /* display: block; /* Already a div, so it's block by default */
+        margin-bottom: 0.2em; /* Add some space below the heart */
+    }
+
     @media(max-width:600px) {
-	  h1 .name-part,
+      /* MODIFIED STYLES FOR H1 ON MOBILE */
+      h1 .name-part,
       h1 .name-amp {
-        line-height: 0; /* Might be too aggressive, adjust if needed */
-        margin: 0px 0;
+        display: block;       /* Makes each span take a full line */
+        line-height: 1.1;     /* Adjust line height for readability with large fonts */
+        margin-top: 0.1em;    /* Small top margin for spacing between lines */
+        margin-bottom: 0.1em; /* Small bottom margin */
+        margin-left: auto;    /* Ensures centering if text-align on h1 isn't enough */
+        margin-right: auto;   /* Ensures centering */
       }
+
       h1 .name-amp {
-        font-size: 0.8em;
-        margin: -5px 0; /* Adjust for vertical alignment */
+        font-size: 0.8em;   /* Keeps the ampersand slightly smaller as intended */
+        /* Margins and line-height are inherited from the rule above,
+           can be fine-tuned here if '&' needs different spacing */
       }
+      /* END OF MODIFIED STYLES FOR H1 */
+
       .countdown-number {
         width:60px; height:60px; font-size:2rem;
       }
       .gallery-img { height:120px; }
+      
+      /* Styles for .footer-banner from previous version within this media query */
+      .footer-banner {
+        padding: 15px;
+        font-size: 0.8rem;
+        margin-top: 45px;
+      }
     }
   </style>
-</head><body>
+</head>
+<body>
 
   <audio id="bg-music" loop preload="none">
     <source src="romantic-music.mp3" type="audio/mpeg" />
@@ -180,14 +201,14 @@
   <div class="music-alert" id="music-alert">¡Música activada, sube el volumen!</div>
 
   <header>
-    <h1>
-      <div class="heart-icon">♡</div>
-      <span class="name-part">Carmen</span>
-      <span class="name-amp">&</span>
-      <span class="name-part">Alfredo</span>
-    </h1>
-    <h2>¡Nos Casamos!</h2>
-  </header>
+  <h1>
+    <div class="heart-icon">♡</div>
+    <span class="name-part">Carmen</span>
+    <span class="name-amp">&</span>
+    <span class="name-part">Alfredo</span>
+  </h1>
+  <h2>¡Nos Casamos!</h2>
+</header>
 
   <div class="container">
     <section>
@@ -213,13 +234,12 @@
     </section>
 
     <section>
-      <h2>Estimados familiares y amigos:</h2>
-	  <p>
-      Con gran emoción tenemos el honor de invitarles a ser testigos de la formalización de nuestro compromiso.<br/><br/>
-      Después de un camino compartido, hemos decidido unir nuestras vidas en el marco de una ceremonia civil.<br/><br/>
-      Será un privilegio contar con su presencia, siendo su compañía el más valioso de los regalos.<br/><br/>
-      Les esperamos para compartir una velada honrando los valores del respeto, la igualdad y la unión libremente elegida.</p>
-    </section>
+		<h2>Estimados familiares y amigos:</h2>
+    	  <p>Con gran emoción tenemos el honor de invitarles a ser testigos de la formalización de nuestro compromiso.<br/><br/>
+      		Después de un camino compartido, hemos decidido unir nuestras vidas en el marco de una ceremonia civil.<br/><br/>
+      		Será un privilegio contar con su presencia, siendo su compañía el más valioso de los regalos.<br/><br/>
+      		Les esperamos para compartir una velada honrando los valores del respeto, la igualdad y la unión libremente elegida.</p>
+	</section>
 
     <section>
       <h2>Ubicación</h2>
@@ -241,6 +261,7 @@
     <section>
       <h2>Nuestros Momentos</h2>
       <div class="gallery">
+
         <img src="images/Foto (1).jpg" class="gallery-img" alt="Cumpleaños de Carmen"/>
         <img src="images/Foto (2).jpg" class="gallery-img" alt="Asistiendo a una Boda"/>
         <img src="images/Foto (3).jpg" class="gallery-img" alt="En camino a un concierto"/>
@@ -269,36 +290,22 @@
     </section>
 	
 	<style>
-  /* Estilo base (ya existente en tu CSS) */
-  .button {
-    /* align:center; /* This is not a valid CSS property here. Use margin: auto or flexbox on parent */
-    padding: 18px 25px; /* Increased padding for better appearance */
-    /* margin: 20px 0; /* Adjusted above for auto horizontal centering */
-    text-align: center;
-    text-decoration: none;
-    border-radius: 30px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-  }
-
-  /* Modificación específica para Spotify */
   .button.spotify {
     background: #1DB954;
     color: #fff;
     box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
-    border: 2px solid #14833A; /* Adding a subtle border */
+    border: 2px solid #14833A; 
   }
 
   .button.spotify:hover {
     background: #14833A;
-    transform: translateY(-2px); /* Slight lift on hover */
-    box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4); /* Enhanced shadow on hover */
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4); 
   }
 
-  /* Icono ajustado al estilo MEGA (actually Spotify) */
   .button.spotify i {
-    margin-right: 12px; /* Increased spacing */
-    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1)); /* Subtle shadow for icon */
+    margin-right: 12px; 
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1)); 
   }
 </style>
 	
@@ -312,6 +319,7 @@
 	>
     <i class="fab fa-spotify"></i> Añadir Canción
   </a>
+  
 </section>
 
 <footer class="footer-banner">
@@ -324,49 +332,49 @@
 
 <style>
   .footer-banner {
-    background: rgba(219, 179, 142, 0.95); /* Slightly more opaque */
+    background: rgba(219, 179, 142, 0.95); 
     padding: 20px;
     text-align: center;
     font-size: 0.9rem;
-    color: #4a4a4a; /* Consistent text color */
-    margin-top: 0px; /* Ensure it's flush if desired, or add margin */
-    border-top: 2px solid #d8b38e; /* Slightly thicker border */
+    color: #4a4a4a; 
+    margin-top: 0px; 
+    border-top: 2px solid #d8b38e; 
   }
 
   .footer-banner a {
-    color: #6b4e3d; /* Darker, richer brown */
+    color: #6b4e3d; 
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
-    position: relative; /* For pseudo-element positioning */
+    position: relative; 
   }
 
   .footer-banner a:hover {
-    color: #8a7463; /* Lighter brown on hover */
+    color: #8a7463; 
   }
 
-  .footer-banner a::after { /* Underline effect on hover */
+  .footer-banner a::after { 
     content: '';
     position: absolute;
-    bottom: -2px; /* Position underline slightly below text */
+    bottom: -2px; 
     left: 0;
-    width: 0; /* Starts with no width */
-    height: 1px; /* Thickness of underline */
-    background: #8a7463; /* Color of underline */
-    transition: width 0.3s ease; /* Animate width on hover */
+    width: 0; 
+    height: 1px; 
+    background: #8a7463; 
+    transition: width 0.3s ease; 
   }
 
   .footer-banner a:hover::after {
-    width: 100%; /* Full width on hover */
+    width: 100%; 
   }
 
-  @media (max-width: 600px) {
+  /* @media (max-width: 600px) {
     .footer-banner {
       padding: 15px;
       font-size: 0.8rem;
-      margin-top: 45px; /* Keep or adjust as needed for spacing */
+      margin-top: 45px; 
     }
-  }
+  } */ /* This was already defined in the main media query block, removed duplicate */
 </style>
 	
   </div>
@@ -379,9 +387,9 @@
   <script>
     // --- Música de fondo ---
     const music = document.getElementById("bg-music");
-    const btnToggleMusic = document.getElementById("toggle-music"); // Renamed for clarity
-    const musicAlert = document.getElementById("music-alert");    // Renamed for clarity
-    let hasUserInitiatedMusicPlay = false; // Tracks if music has been started by any user interaction
+    const btnToggleMusic = document.getElementById("toggle-music"); 
+    const musicAlert = document.getElementById("music-alert");    
+    let hasUserInitiatedMusicPlay = false; 
 
     function playBackgroundMusic() {
       if (music.paused) {
@@ -394,8 +402,6 @@
           }
         }).catch(error => {
           console.error("Error playing music:", error);
-          // Optionally, reset icon if play fails due to browser restrictions
-          // btnToggleMusic.innerHTML = '<i class="fas fa-play"></i>';
         });
       }
     }
@@ -408,7 +414,7 @@
     }
 
     btnToggleMusic.addEventListener("click", (event) => {
-      event.stopPropagation(); // Important: Prevents the click from also triggering the document's first click listener
+      event.stopPropagation(); 
       if (music.paused) {
         playBackgroundMusic();
       } else {
@@ -416,18 +422,14 @@
       }
     });
 
-    // Event listener for the first click/touch anywhere on the page to start music
     function handleFirstPageInteraction() {
-      // Only attempt to play if music hasn't been started by any interaction yet AND music is currently paused.
       if (!hasUserInitiatedMusicPlay && music.paused) {
         playBackgroundMusic();
       }
-      // The listener is automatically removed after this first interaction thanks to { once: true }
     }
 
-    // Add event listeners that will run only once for the first interaction
     document.addEventListener('click', handleFirstPageInteraction, { once: true });
-    document.addEventListener('touchstart', handleFirstPageInteraction, { once: true }); // For touch devices
+    document.addEventListener('touchstart', handleFirstPageInteraction, { once: true }); 
 
     // --- Contador regresivo (Corrected and improved) ---
     const targetDate = new Date("Nov 8, 2025 13:00:00").getTime();
@@ -440,7 +442,7 @@
         document.getElementById('hours').textContent = '00';
         document.getElementById('minutes').textContent = '00';
         document.getElementById('seconds').textContent = '00';
-        clearInterval(countdownInterval); // Stop the interval when the date is reached
+        clearInterval(countdownInterval); 
         return;
       }
 
@@ -468,7 +470,7 @@
       lightbox.classList.remove("active");
     });
     lightbox.addEventListener("click", e => {
-      if (e.target === lightbox) { // Only close if the click is on the lightbox backdrop itself
+      if (e.target === lightbox) { 
         lightbox.classList.remove("active");
       }
     });
