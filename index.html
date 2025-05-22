@@ -7,30 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <style>
-  
-  	/* Efecto poderoso para el corazón */
-.heart-icon {
-  font-size: 6rem;
-  color: var(--red-soft);
-  display: inline-block;
-  animation: heartPop 1s ease-out forwards, heartSparkle 2s 0.6s infinite ease-in-out;
-  position: relative;
-}
-
-/* Pop inicial */
-@keyframes heartPop {
-  0%   { transform: scale(0); opacity: 0; }
-  70%  { transform: scale(2); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-/* Brillo y destellos suaves */
-@keyframes heartSparkle {
-  0%, 100% { text-shadow: 0 0 8px rgba(226,109,109,0.6), 0 0 16px rgba(226,109,109,0.4); }
-  50%      { text-shadow: 0 0 12px rgba(226,109,109,0.8), 0 0 24px rgba(226,109,109,0.6); }
-}
-
-  
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family:'Playfair Display', serif;
@@ -62,6 +38,7 @@
         45deg,
         rgba(251,247,237,0),
         rgba(245,245,220,0)
+		margin-bottom:2rem;
       );
       backdrop-filter:saturate(180%) blur(0px);
       position:relative; z-index:2;
@@ -74,7 +51,8 @@
     }
     h2 {
       font-size:2.2rem; color:#8a7463; font-weight:600;
-      margin-bottom:2rem; position:relative; padding-bottom:0.8rem;
+      margin-bottom:4rem; position:relative; padding-bottom:0.8rem;
+	  
     }
     h2::after {
       content:''; position:absolute; bottom:0; left:50%;
@@ -87,10 +65,11 @@
       position:relative; z-index:3;
     }
     section {
-      background:rgba(255,255,255,0.95);
-      padding:30px; margin:25px 0;
+      background:rgba(255,255,255,1);
+      padding:30px; margin:15px 0;
       border-radius:15px;
       box-shadow:0 4px 20px rgba(107,78,61,0.4);
+	  margin-bottom:5rem;
     }
     section p {
       text-align:center; font-size:1.2rem; line-height:1.8; color:#5a5a5a;
@@ -111,7 +90,7 @@
       background: rgba(255,255,255,0.95);
       display:flex; align-items:center; justify-content:center;
       font-family:'Great Vibes', cursive;
-      font-size:3rem; margin-bottom:0.5rem;
+      font-size:3rem; margin-bottom:1rem;
       box-shadow:0 4px 10px rgba(0,0,0,0.1);
     }
 
@@ -126,16 +105,21 @@
     }
 
     .gallery {
-      display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-      gap:15px; margin:25px 0;
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:15px; margin:50px 0;
     }
     .gallery-img {
       width:100%; height:150px; object-fit:cover;
-      border-radius:10px; cursor:pointer; transition:transform .3s ease;
+      border-radius:15px; cursor:pointer; transition:transform 1s ease;
     }
 
     .button {
-      display:block; padding:18px 25px; margin:20px 0;
+	
+		display: flex;
+  		justify-content: center; /* centra horizontalmente */
+  		align-items: center;     /* centra verticalmente */
+		
+      padding:18px 5px; margin:20px 0;
       text-align:center; text-decoration:none; border-radius:30px;
       font-weight:600; transition:all .3s ease;
     }
@@ -173,9 +157,9 @@
     @media(max-width:600px) {
 	h1 .name-part,
   h1 .name-amp {
-    display: block;
-    line-height: 0.9;
-    margin: 8px 0;
+
+    line-height: 0;
+    margin: 0px 0;
   }
 
   h1 .name-amp {
@@ -200,9 +184,9 @@
   <header>
   <h1>
   
-  	<div class="heart-icon">♡</div><br>
-
-  	<span class="name-part">Carmen</span>
+  <div class="heart-icon">♡</div>
+  
+    <span class="name-part">Carmen</span>
     <span class="name-amp">&</span>
     <span class="name-part">Alfredo</span>
   </h1>
@@ -252,19 +236,20 @@
 
     <section>
       <h2>Itinerario</h2>
-      <p>1:00 p.m. – Recepción de invitados<br/>
-         2:00 p.m. – Ceremonia civil<br/>
+      <p>1:00 p.m. – Recepción de invitados<br/><br/>
+         2:00 p.m. – Ceremonia civil<br/><br/>
          3:30 p.m. – Comida y celebración</p>
     </section>
 
     <section>
       <h2>Nuestros Momentos</h2>
       <div class="gallery">
+
         <img src="images/Foto (1).jpg" class="gallery-img" alt="Cumpleaños de Carmen"/>
         <img src="images/Foto (2).jpg" class="gallery-img" alt="Asistiendo a una Boda"/>
         <img src="images/Foto (3).jpg" class="gallery-img" alt="En camino a un concierto"/>
         <img src="images/Foto (4).jpg" class="gallery-img" alt="Navidad"/>
-        <img src="images/Foto (5).jpg" class="gallery-img" alt="San Miguel de Allende"/>
+		<img src="images/Foto (5).jpg" class="gallery-img" alt="San Miguel de Allende"/>
         <img src="images/Foto (6).jpg" class="gallery-img" alt="Una cheve pa´l calor"/>
         <img src="images/Foto (7).jpg" class="gallery-img" alt="Isla Mujeres"/>
         <img src="images/Foto (8).jpg" class="gallery-img" alt="Hacienda de Pabellón de Hidalgo"/>
@@ -290,7 +275,7 @@
 	<style>
   /* Estilo base (ya existente en tu CSS) */
   .button {
-    display: block;
+    align:center
     padding: 18px 25px;
     margin: 20px 0;
     text-align: center;
@@ -338,7 +323,7 @@
 <!-- Agrega esto antes del cierre del </body> -->
 <footer class="footer-banner">
   <p>
-    Elaborado con amor por 
+    Elaborado con amor por :
     <a href="https://fixtechpro.com.mx" target="_blank" rel="noopener noreferrer">Fix Tech Pro</a> 
     ♥
   </p>
@@ -352,7 +337,7 @@
     text-align: center;
     font-size: 0.9rem;
     color: #4a4a4a;
-    margin-top: 100px;
+    margin-top: 0px;
     border-top: 2px solid #d8b38e;
   }
 
