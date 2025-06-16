@@ -13,17 +13,18 @@
   position: fixed;
   bottom: 30px;
   left: 50%;
-  transform: translateX(-50%) translateY(200%); /* Inicia fuera de la pantalla */
+  transform: translateX(-50%) translateY(200%);
   background-color: rgba(30, 30, 30, 0.95);
   color: #fff;
   font-family: 'Lato', sans-serif;
   padding: 16px 25px;
-  border-radius: 30px; /* Forma de píldora */
+  border-radius: 30px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-  z-index: 10001; /* Asegura que esté por encima de todo */
+  z-index: 10001;
   opacity: 0;
   transition: transform 0.6s ease, opacity 0.6s ease;
-  pointer-events: none; /* Para no interferir con otros clics */
+  pointer-events: none;
+  white-space: nowrap; /* <-- Añade esta línea */
 }
 
 .audio-notification.show {
