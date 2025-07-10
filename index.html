@@ -129,14 +129,38 @@
       position:absolute; top:0; left:0; width:100%; height:100%; border:0;
     }
 
-    .gallery {
-      display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-      gap:15px; margin:50px 0;
+    .coverflow {
+      position: relative;
+      width: 100%;
+      height: 240px;
+      margin: 50px 0;
+      perspective: 1000px;
     }
-    .gallery-img {
-      width:100%; height:150px; object-fit:cover;
-      border-radius:15px; cursor:pointer; transition:transform 1s ease;
+    .coverflow-slide {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: transform 0.5s, opacity 0.5s;
     }
+    .coverflow-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(216,179,142,0.8);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      z-index: 5;
+    }
+    .coverflow-button.prev { left: 10px; }
+    .coverflow-button.next { right: 10px; }
 
     .button {
 		display: flex;
@@ -279,7 +303,10 @@
         }
         h1 .name-amp { font-size: 0.8em; }
         .countdown-number { width:60px; height:60px; font-size:2rem; }
-        .gallery-img { height:120px; }
+        .coverflow-slide {
+            width:150px;
+            height:150px;
+        }
         .footer-banner { padding: 15px; font-size: 0.8rem; margin-top: 45px; }
     }
   </style>
@@ -396,15 +423,17 @@
 
     <section>
       <h2>Nuestros Momentos</h2>
-      <div class="gallery">
-        <img src="images/Foto (1).jpg" class="gallery-img" alt="Cumpleaños de Carmen"/>
-        <img src="images/Foto (2).jpg" class="gallery-img" alt="Asistiendo a una Boda"/>
-        <img src="images/Foto (3).jpg" class="gallery-img" alt="En camino a un concierto"/>
-        <img src="images/Foto (4).jpg" class="gallery-img" alt="Navidad"/>
-		<img src="images/Foto (5).jpg" class="gallery-img" alt="San Miguel de Allende"/>
-        <img src="images/Foto (6).jpg" class="gallery-img" alt="Una cheve pa´l calor"/>
-        <img src="images/Foto (7).jpg" class="gallery-img" alt="Isla Mujeres"/>
-        <img src="images/Foto (8).jpg" class="gallery-img" alt="Hacienda de Pabellón de Hidalgo"/>
+      <div class="coverflow" id="coverflow">
+        <img src="images/Foto (1).jpg" class="coverflow-slide" alt="Cumpleaños de Carmen" />
+        <img src="images/Foto (2).jpg" class="coverflow-slide" alt="Asistiendo a una Boda" />
+        <img src="images/Foto (3).jpg" class="coverflow-slide" alt="En camino a un concierto" />
+        <img src="images/Foto (4).jpg" class="coverflow-slide" alt="Navidad" />
+        <img src="images/Foto (5).jpg" class="coverflow-slide" alt="San Miguel de Allende" />
+        <img src="images/Foto (6).jpg" class="coverflow-slide" alt="Una cheve pa´l calor" />
+        <img src="images/Foto (7).jpg" class="coverflow-slide" alt="Isla Mujeres" />
+        <img src="images/Foto (8).jpg" class="coverflow-slide" alt="Hacienda de Pabellón de Hidalgo" />
+        <button class="coverflow-button prev" id="prev-btn">&#10094;</button>
+        <button class="coverflow-button next" id="next-btn">&#10095;</button>
       </div>
     </section>
 
@@ -508,12 +537,42 @@
     // --- Lightbox de galería ---
     const lightbox = document.getElementById("lightbox");
     const lbImg    = document.getElementById("lightbox-img");
-    document.querySelectorAll(".gallery-img").forEach(img => {
-      img.addEventListener("click", () => {
+    const slides = Array.from(document.querySelectorAll(".coverflow-slide"));
+    let currentIndex = 0;
+    function updateCoverflow() {
+      slides.forEach((img, i) => {
+        const offset = i - currentIndex;
+        if (Math.abs(offset) > 3) {
+          img.style.opacity = '0';
+          img.style.pointerEvents = 'none';
+        } else {
+          const translate = offset * 120;
+          const rotate = -offset * 50;
+          const scale = 1 - Math.abs(offset) * 0.2;
+          img.style.opacity = '1';
+          img.style.pointerEvents = 'auto';
+          img.style.transform = `translate(-50%, -50%) translateX(${translate}px) scale(${scale}) rotateY(${rotate}deg)`;
+        }
+      });
+    }
+
+    document.getElementById('prev-btn').addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+      updateCoverflow();
+    });
+    document.getElementById('next-btn').addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % slides.length;
+      updateCoverflow();
+    });
+
+    slides.forEach(img => {
+      img.addEventListener('click', () => {
         lbImg.src = img.src;
-        lightbox.classList.add("active");
+        lightbox.classList.add('active');
       });
     });
+
+    updateCoverflow();
     document.getElementById("close-lightbox").addEventListener("click", () => {
       lightbox.classList.remove("active");
     });
