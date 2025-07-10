@@ -565,6 +565,15 @@
       updateCoverflow();
     });
 
+    // Avance automático e infinito del carrusel
+    setInterval(() => {
+      // Evitar avanzar si la imagen está en modo lightbox
+      if (!lightbox.classList.contains('active')) {
+        currentIndex = (currentIndex + 1) % slides.length;
+        updateCoverflow();
+      }
+    }, 3000); // cambia de imagen cada 3 segundos
+
     slides.forEach(img => {
       img.addEventListener('click', () => {
         lbImg.src = img.src;
