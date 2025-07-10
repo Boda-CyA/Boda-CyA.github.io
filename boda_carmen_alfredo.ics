@@ -1,0 +1,13 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Carmen y Alfredo//Boda//ES
+BEGIN:VEVENT
+UID:20251108T130000Z-carmen-alfredo@example.com
+DTSTAMP:20240601T120000Z
+DTSTART:20251108T190000Z
+DTEND:20251108T230000Z
+SUMMARY:Boda de Carmen y Alfredo
+LOCATION:Villa La Perla, Reserva La Calixtina, Calvillo, Aguascalientes
+DESCRIPTION:Ceremonia civil y celebración de la boda de Carmen y Alfredo.
+END:VEVENT
+END:VCALENDAR
