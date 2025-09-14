@@ -780,19 +780,16 @@ Si además desean tener un detalle, les agradeceremos que nos acompañen en la t
 </script>
 
 <script>
-  // Animaciones de entrada y salida para cada sección
+  // Animación de entrada para cada sección (sin efecto de salida)
   window.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('section');
-    sections.forEach(sec => sec.classList.add('animate__animated', 'animate__faster'));
 
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.remove('animate__zoomOut');
-          entry.target.classList.add('animate__zoomIn');
-        } else {
-          entry.target.classList.remove('animate__zoomIn');
-          entry.target.classList.add('animate__zoomOut');
+          entry.target.classList.add('animate__animated', 'animate__zoomIn', 'animate__faster');
+          entry.target.style.opacity = 1;
+          observer.unobserve(entry.target);
         }
       });
     }, { threshold: 0.25 });
