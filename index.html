@@ -6,6 +6,7 @@
   <title>Boda de Carmen & Alfredo</title>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&family=Lato:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <style>
   
   /* --- Estilo para la Notificación de Audio --- */
@@ -94,7 +95,8 @@
       padding:30px; margin:15px 0;
       border-radius:15px;
       box-shadow:0 4px 30px rgba(107,78,61,0.7);
-	  margin-bottom:5rem;
+          margin-bottom:5rem;
+          opacity:0;
     }
     section p {
       text-align:center; font-size:1.2rem; line-height:1.8; color:#5a5a5a;
@@ -775,6 +777,28 @@ Si además desean tener un detalle, les agradeceremos que nos acompañen en la t
   // Escuchar el primer clic o toque en cualquier parte del documento
   document.addEventListener('click', playAudioOnInteraction, { once: true });
   document.addEventListener('touchstart', playAudioOnInteraction, { once: true });
+</script>
+
+<script>
+  // Animaciones de entrada y salida para cada sección
+  window.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('section');
+    sections.forEach(sec => sec.classList.add('animate__animated', 'animate__faster'));
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove('animate__zoomOut');
+          entry.target.classList.add('animate__zoomIn');
+        } else {
+          entry.target.classList.remove('animate__zoomIn');
+          entry.target.classList.add('animate__zoomOut');
+        }
+      });
+    }, { threshold: 0.25 });
+
+    sections.forEach(sec => observer.observe(sec));
+  });
 </script>
 
 </body>
