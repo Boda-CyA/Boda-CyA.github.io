@@ -189,7 +189,7 @@
             </div>
             <div class="mt-6">
               <label for="audio-progress" class="block text-xs uppercase tracking-[0.35em] text-forest/60 text-center">Progreso</label>
-              <input id="audio-progress" type="range" min="0" max="100" value="0" class="mt-2 h-2 w-full cursor-pointer appearance-none rounded-full bg-white/70 accent-gold" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progreso de la canción" />
+              <input id="audio-progress" type="range" min="0" max="100" value="0" class="mt-2 w-full cursor-pointer" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progreso de la canción" />
             </div>
             <audio id="wedding-audio" preload="metadata" class="hidden">
               <source src="romantic-music.mp3" type="audio/mpeg" />
@@ -229,18 +229,33 @@
           <h2 class="text-2xl sm:text-3xl font-semibold text-center">Itinerario</h2>
           <div class="mt-8 grid grid-cols-1 gap-6">
             <article class="rounded-2xl bg-white/85 p-6 text-center shadow-lg shadow-forest/5 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-              <div class="inline-flex items-center justify-center gap-2 rounded-full bg-sage/25 px-3 py-1 text-sm font-semibold text-forest"><i class="fa-solid fa-people-roof"></i> 13:00 h</div>
-              <h3 class="mt-4 font-serif text-xl text-forest">Recepción</h3>
+              <div class="flex flex-col items-center gap-4">
+                <div class="flex h-16 w-16 items-center justify-center rounded-full bg-gold/15 text-gold text-3xl shadow-lg ring-2 ring-gold/40">
+                  <i class="fa-solid fa-people-roof" aria-hidden="true"></i>
+                </div>
+                <div class="inline-flex items-center justify-center rounded-full bg-sage/25 px-4 py-2 text-sm font-semibold text-forest">13:00 h</div>
+              </div>
+              <h3 class="mt-6 font-serif text-xl text-forest">Recepción</h3>
               <p class="mt-2 text-forest/75">Nos encontraremos para darnos la bienvenida con sonrisas, abrazos y la mejor energía.</p>
             </article>
             <article class="rounded-2xl bg-champagne/35 p-6 text-center shadow-lg shadow-forest/5 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-              <div class="inline-flex items-center justify-center gap-2 rounded-full bg-sage/25 px-3 py-1 text-sm font-semibold text-forest"><i class="fa-solid fa-ring"></i> 14:00 h</div>
-              <h3 class="mt-4 font-serif text-xl text-forest">Ceremonia civil</h3>
+              <div class="flex flex-col items-center gap-4">
+                <div class="flex h-16 w-16 items-center justify-center rounded-full bg-gold/15 text-gold text-3xl shadow-lg ring-2 ring-gold/40">
+                  <i class="fa-solid fa-ring" aria-hidden="true"></i>
+                </div>
+                <div class="inline-flex items-center justify-center rounded-full bg-sage/25 px-4 py-2 text-sm font-semibold text-forest">14:00 h</div>
+              </div>
+              <h3 class="mt-6 font-serif text-xl text-forest">Ceremonia civil</h3>
               <p class="mt-2 text-forest/75">Testigos de nuestras palabras de amor y del compromiso de caminar juntos toda la vida.</p>
             </article>
             <article class="rounded-2xl bg-white/85 p-6 text-center shadow-lg shadow-forest/5 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-              <div class="inline-flex items-center justify-center gap-2 rounded-full bg-sage/25 px-3 py-1 text-sm font-semibold text-forest"><i class="fa-solid fa-champagne-glasses"></i> 15:30 h</div>
-              <h3 class="mt-4 font-serif text-xl text-forest">Celebración</h3>
+              <div class="flex flex-col items-center gap-4">
+                <div class="flex h-16 w-16 items-center justify-center rounded-full bg-gold/15 text-gold text-3xl shadow-lg ring-2 ring-gold/40">
+                  <i class="fa-solid fa-champagne-glasses" aria-hidden="true"></i>
+                </div>
+                <div class="inline-flex items-center justify-center rounded-full bg-sage/25 px-4 py-2 text-sm font-semibold text-forest">15:30 h</div>
+              </div>
+              <h3 class="mt-6 font-serif text-xl text-forest">Celebración</h3>
               <p class="mt-2 text-forest/75">Brindaremos, bailaremos y seguiremos sumando memorias inolvidables con cada uno de ustedes.</p>
             </article>
           </div>
@@ -493,6 +508,13 @@
       const toggleButtons = document.querySelectorAll('[data-audio-toggle]');
       const progress = document.getElementById('audio-progress');
       const interactionEvents = ['click', 'keydown', 'touchstart'];
+      const setProgressVisual = value => {
+        if (!progress) return;
+        const percent = Math.max(0, Math.min(100, Number(value)));
+        progress.style.setProperty('--progress-percent', `${percent}%`);
+      };
+
+      setProgressVisual(0);
 
       const attachFirstInteractionListeners = () => {
         if (!audio) return;
@@ -536,6 +558,7 @@
         updateButtonState(false);
         progress.value = '0';
         progress.setAttribute('aria-valuenow', '0');
+        setProgressVisual(0);
       });
 
       audio.addEventListener('timeupdate', () => {
@@ -543,12 +566,14 @@
         const displayValue = value.toFixed(0);
         progress.value = displayValue;
         progress.setAttribute('aria-valuenow', displayValue);
+        setProgressVisual(value);
       });
 
       progress.addEventListener('input', event => {
         if (!audio.duration) return;
         const value = Number(event.target.value);
         audio.currentTime = (value / 100) * audio.duration;
+        setProgressVisual(value);
       });
 
       // Mobile sticky actions
