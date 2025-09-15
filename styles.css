@@ -21,6 +21,15 @@ body {
   color: var(--gold);
 }
 
+.section-card {
+  box-shadow: 0 38px 95px -28px rgba(47, 79, 79, 0.72), 0 22px 55px -32px rgba(47, 79, 79, 0.6);
+  transition: box-shadow 0.3s ease;
+}
+
+.section-card:hover {
+  box-shadow: 0 42px 105px -30px rgba(47, 79, 79, 0.75), 0 26px 60px -34px rgba(47, 79, 79, 0.65);
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(14px);
@@ -71,6 +80,16 @@ body {
   margin-top: 1.5rem;
   display: flex;
   gap: 1rem;
+}
+
+#lightbox .controls .button {
+  color: #ffffff;
+}
+
+#lightbox .controls .button i {
+  color: inherit;
+  font-size: 1.15rem;
+  filter: drop-shadow(0 0 6px rgba(15, 23, 42, 0.65));
 }
 
 #lightbox .lightbox-caption {
