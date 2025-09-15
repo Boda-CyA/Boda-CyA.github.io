@@ -114,28 +114,38 @@
             alt=""
             class="hero-floral pointer-events-none h-12 w-64 max-w-full text-gold opacity-0 translate-y-2 transition-all duration-700 ease-out sm:h-14 sm:w-80"
             aria-hidden="true"
+            data-hero-floral
           />
           <div class="flex flex-col items-center gap-4 sm:gap-5">
             <div class="hero-mobile-adornment">
-              <h1 class="text-[3.2rem] sm:text-[4.8rem] leading-none tracking-tight drop-shadow-sm flex flex-col items-center justify-center gap-1 sm:flex-row sm:gap-2">
+              <h1
+                class="text-[3.2rem] sm:text-[4.8rem] leading-none tracking-tight drop-shadow-sm flex flex-col items-center justify-center gap-1 sm:flex-row sm:gap-2 w-fit mx-auto"
+                data-hero-names
+              >
                 <span>Carmen</span>
                 <span>y</span>
                 <span>Alfredo</span>
               </h1>
             </div>
-            <div class="font-serif text-xl text-forest/80 text-center flex flex-col items-center gap-1 sm:hidden">
+            <div class="font-serif text-xl text-forest/80 text-center flex flex-col items-center gap-1 sm:hidden w-fit mx-auto">
               <span>8 de noviembre de 2025</span>
               <span>Villa La Perla</span>
               <span>Calvillo</span>
               <span>Aguascalientes</span>
             </div>
-            <p class="font-serif text-xl sm:text-2xl text-forest/80 text-center hidden sm:block">8 de noviembre de 2025 · Villa La Perla, Calvillo, Aguascalientes</p>
+            <p
+              class="font-serif text-xl sm:text-2xl text-forest/80 text-center hidden sm:block w-fit mx-auto"
+              data-hero-date
+            >
+              8 de noviembre de 2025 · Villa La Perla, Calvillo, Aguascalientes
+            </p>
           </div>
           <img
             src="adorno_abajo.png"
             alt=""
             class="hero-floral pointer-events-none h-12 w-64 max-w-full text-gold opacity-0 translate-y-2 transition-all duration-700 ease-out sm:h-14 sm:w-80 rotate-180"
             aria-hidden="true"
+            data-hero-floral
           />
         </div>
       </div>
@@ -393,6 +403,84 @@
         } else {
           requestAnimationFrame(activateHero);
         }
+      }
+
+      const heroNames = document.querySelector('[data-hero-names]');
+      const heroDate = document.querySelector('[data-hero-date]');
+      const heroFlorals = document.querySelectorAll('[data-hero-floral]');
+      const heroLayoutQuery = window.matchMedia('(min-width: 640px)');
+      let heroLayoutFrame;
+
+      const applyHeroLayout = () => {
+        if (!heroNames || !heroDate) return;
+
+        const isWide = heroLayoutQuery.matches;
+        heroNames.style.fontSize = '';
+
+        if (!isWide) {
+          heroFlorals.forEach(img => {
+            img.style.width = '';
+            img.style.height = '';
+          });
+          return;
+        }
+
+        const computedStyle = window.getComputedStyle(heroNames);
+        const baseFontSize = parseFloat(computedStyle.fontSize) || 0;
+        const gapValue = parseFloat(computedStyle.columnGap || computedStyle.gap || computedStyle.rowGap || '0') || 0;
+        const gapCount = Math.max(heroNames.children.length - 1, 0);
+        const totalGap = gapValue * gapCount;
+        const dateWidth = heroDate.offsetWidth;
+        const nameWidth = heroNames.scrollWidth;
+
+        if (!baseFontSize || !dateWidth || !nameWidth) {
+          heroFlorals.forEach(img => {
+            img.style.width = '';
+            img.style.height = '';
+          });
+          return;
+        }
+
+        const contentWidth = Math.max(nameWidth - totalGap, 1);
+        const targetContentWidth = Math.max(dateWidth - totalGap, 1);
+        const scale = targetContentWidth / contentWidth;
+        const clampedScale = Math.min(Math.max(scale, 0.9), 2);
+        heroNames.style.fontSize = `${baseFontSize * clampedScale}px`;
+
+        heroFlorals.forEach(img => {
+          img.style.width = `${dateWidth}px`;
+          img.style.height = 'auto';
+        });
+      };
+
+      const scheduleHeroLayout = () => {
+        cancelAnimationFrame(heroLayoutFrame);
+        heroLayoutFrame = requestAnimationFrame(applyHeroLayout);
+      };
+
+      if (heroNames && heroDate) {
+        scheduleHeroLayout();
+
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(scheduleHeroLayout);
+        } else {
+          window.addEventListener('load', scheduleHeroLayout, { once: true });
+        }
+
+        heroFlorals.forEach(img => {
+          if (img.complete) {
+            scheduleHeroLayout();
+          } else {
+            img.addEventListener('load', scheduleHeroLayout, { once: true });
+          }
+        });
+
+        if (typeof heroLayoutQuery.addEventListener === 'function') {
+          heroLayoutQuery.addEventListener('change', scheduleHeroLayout);
+        } else if (typeof heroLayoutQuery.addListener === 'function') {
+          heroLayoutQuery.addListener(scheduleHeroLayout);
+        }
+        window.addEventListener('resize', scheduleHeroLayout, { passive: true });
       }
 
       // Countdown
