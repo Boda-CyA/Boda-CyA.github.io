@@ -118,7 +118,7 @@
         <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
           <a href="boda_carmen_alfredo.ics" class="inline-flex items-center gap-2 rounded-full bg-forest px-8 py-3.5 text-base font-semibold uppercase tracking-[0.14em] text-white shadow-lg shadow-forest/20 transition hover:bg-forest/90 hover:shadow-xl hover:shadow-forest/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold" download="Boda_Carmen_Alfredo.ics">Guardar la fecha</a>
           <a href="#ubicacion" class="inline-flex items-center gap-2 rounded-full border border-gold/70 bg-white/80 px-8 py-3.5 text-base font-semibold uppercase tracking-[0.14em] text-forest shadow-md shadow-forest/10 transition hover:bg-champagne/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"><i class="fa-solid fa-location-dot text-gold"></i>¿Cómo llegar?</a>
-          <button data-audio-toggle aria-pressed="false" aria-label="Reproducir nuestra canción" class="inline-flex h-12 w-12 items-center justify-center rounded-full border border-gold/80 bg-white/70 text-gold transition hover:bg-champagne/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">
+          <button data-audio-toggle aria-pressed="false" aria-label="Reproducir nuestra canción" class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-forest text-white shadow-lg shadow-forest/30 transition hover:bg-forest/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">
             <i class="fa-solid fa-play"></i>
           </button>
         </div>
@@ -157,7 +157,7 @@
       <section id="mensaje" class="reveal">
         <div class="rounded-3xl border border-champagne/60 bg-white/70 p-8 sm:p-10 shadow-petal">
           <h2 class="text-2xl sm:text-3xl font-semibold text-center">Estimados familiares y amigos</h2>
-          <div class="prose prose-lg max-w-none text-justify mt-6">
+          <div class="prose prose-lg max-w-3xl mx-auto text-center mt-6">
             <p>Con gran emoción tenemos el honor de invitarles a ser testigos de la formalización de nuestro compromiso. Después de un camino compartido, hemos decidido unir nuestras vidas en el marco de una ceremonia civil.</p>
             <p>Será un privilegio contar con su presencia, siendo su compañía el más valioso de los regalos. Les esperamos para compartir una velada honrando los valores del respeto, la igualdad y la unión libremente elegida.</p>
           </div>
@@ -174,19 +174,19 @@
       </section>
 
       <section id="cancion" class="reveal">
-        <div class="grid gap-8 rounded-3xl border border-champagne/60 bg-white/80 p-8 sm:p-10 shadow-petal sm:grid-cols-[1fr_2fr]">
-          <div class="flex flex-col items-center sm:items-start text-center sm:text-left">
+        <div class="grid gap-8 rounded-3xl border border-champagne/60 bg-white/80 p-8 sm:p-10 shadow-petal sm:grid-cols-[1fr_2fr] text-center">
+          <div class="flex flex-col items-center text-center">
             <h2 class="text-2xl sm:text-3xl font-semibold">Nuestra canción</h2>
             <p class="mt-4 text-base sm:text-lg leading-8 text-forest/80">La letra de esta canción resume la promesa que nos hacemos: acompañarnos en cada paso del camino, hoy y siempre. Es el himno de nuestro compromiso.</p>
-            <div class="mt-6 flex flex-wrap items-center gap-3">
+            <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
               <a href="https://open.spotify.com/intl-es/track/5bEn5VKDd0sD1uL2ZRCM05?si=f7cd05fc9bf444b3" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full bg-[#1DB954] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1ed760]"><i class="fa-brands fa-spotify"></i> Spotify</a>
               <a href="https://music.apple.com/mx/song/hasta-mi-final/159707665" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full border border-black/70 px-4 py-2 text-sm font-semibold text-black transition hover:bg-black/80 hover:text-white"><i class="fa-brands fa-apple"></i> Apple Music</a>
             </div>
           </div>
-          <div class="flex flex-col justify-center rounded-3xl bg-champagne/40 p-6 shadow-inner">
-            <div class="flex items-center gap-5">
+          <div class="flex flex-col justify-center rounded-3xl bg-champagne/40 p-6 shadow-inner text-center">
+            <div class="flex flex-col items-center gap-5 sm:flex-row sm:items-center sm:justify-center">
               <img src="portada_cancion.png" alt="Portada del álbum Ancora de Il Divo" width="160" height="160" class="h-28 w-28 rounded-3xl object-cover shadow-lg shadow-forest/15" loading="lazy" decoding="async" />
-              <div class="space-y-2 text-left">
+              <div class="space-y-2 text-center">
                 <h3 class="font-serif text-xl text-forest">Hasta mi final</h3>
                 <p class="text-sm uppercase tracking-[0.35em] text-forest/60">Il Divo</p>
                 <button data-audio-toggle aria-pressed="false" aria-label="Reproducir o pausar 'Hasta mi final'" class="mt-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-forest text-white shadow-lg shadow-forest/30 transition hover:scale-[1.03] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">
@@ -195,7 +195,7 @@
               </div>
             </div>
             <div class="mt-6">
-              <label for="audio-progress" class="text-xs uppercase tracking-[0.35em] text-forest/60">Progreso</label>
+              <label for="audio-progress" class="block text-xs uppercase tracking-[0.35em] text-forest/60 text-center">Progreso</label>
               <input id="audio-progress" type="range" min="0" max="100" value="0" class="mt-2 h-2 w-full cursor-pointer appearance-none rounded-full bg-white/70 accent-gold" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progreso de la canción" />
             </div>
             <audio id="wedding-audio" preload="metadata" class="hidden">
@@ -207,11 +207,11 @@
       </section>
 
       <section id="ubicacion" class="reveal">
-        <div class="overflow-hidden rounded-3xl border border-champagne/70 bg-white/85 shadow-petal">
-          <div class="flex flex-col gap-6 p-8 sm:p-10">
-            <div class="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h2 class="text-2xl sm:text-3xl font-semibold flex items-center gap-3"><span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-sage/25 text-forest"><i class="fa-solid fa-map-location-dot"></i></span>Ubicación</h2>
+        <div class="overflow-hidden rounded-3xl border border-champagne/70 bg-white/85 shadow-petal text-center">
+          <div class="flex flex-col items-center gap-6 p-8 sm:p-10 text-center">
+            <div class="flex flex-col items-center gap-4">
+              <div class="text-center">
+                <h2 class="text-2xl sm:text-3xl font-semibold flex items-center justify-center gap-3"><span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-sage/25 text-forest"><i class="fa-solid fa-map-location-dot"></i></span>Ubicación</h2>
                 <p class="mt-2 text-base sm:text-lg text-forest/75">Villa La Perla · Reserva La Calixtina · Calvillo, Aguascalientes</p>
               </div>
               <img src="Logo_Villa_la_Perla.png" alt="Logotipo de Villa La Perla" width="160" height="80" class="h-16 w-auto rounded-xl border border-champagne/80 bg-white/70 p-2 shadow-inner" loading="lazy" decoding="async" />
@@ -221,30 +221,30 @@
                 <iframe title="Mapa de Villa La Perla" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4394.026996501516!2d-102.7768482241435!3d21.807530560574886!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8429cb00636cc6c5%3A0x1845a654b7b07076!2sVilla%20la%20Perla!5e1!3m2!1ses-419!2smx!4v1747757358727!5m2!1ses-419!2smx" class="h-full w-full border-0" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
               </div>
             </div>
-            <div class="flex flex-wrap gap-4">
-              <a href="https://maps.app.goo.gl/p1B1g3i3dF8QzE9s7" target="_blank" rel="noopener" class="inline-flex flex-1 min-w-[180px] items-center justify-center gap-2 rounded-full bg-forest px-4 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-white shadow-lg shadow-forest/20 transition hover:bg-forest/90"><i class="fa-brands fa-google"></i> Google Maps</a>
-              <a href="https://maps.apple.com/?q=Villa+La+Perla&ll=21.8075305,-102.7768482" target="_blank" rel="noopener" class="inline-flex flex-1 min-w-[180px] items-center justify-center gap-2 rounded-full border border-gold px-4 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-forest transition hover:bg-champagne/40"><i class="fa-brands fa-apple"></i> Apple Maps</a>
+            <div class="flex flex-wrap justify-center gap-4">
+              <a href="https://maps.app.goo.gl/p1B1g3i3dF8QzE9s7" target="_blank" rel="noopener" class="inline-flex min-w-[180px] items-center justify-center gap-2 rounded-full bg-forest px-4 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-white shadow-lg shadow-forest/20 transition hover:bg-forest/90"><i class="fa-brands fa-google"></i> Google Maps</a>
+              <a href="https://maps.apple.com/?q=Villa+La+Perla&ll=21.8075305,-102.7768482" target="_blank" rel="noopener" class="inline-flex min-w-[180px] items-center justify-center gap-2 rounded-full border border-gold px-4 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-forest transition hover:bg-champagne/40"><i class="fa-brands fa-apple"></i> Apple Maps</a>
             </div>
           </div>
         </div>
       </section>
 
       <section id="itinerario" class="reveal">
-        <div class="rounded-3xl border border-champagne/70 bg-white/80 p-8 sm:p-10 shadow-petal">
+        <div class="rounded-3xl border border-champagne/70 bg-white/80 p-8 sm:p-10 shadow-petal text-center">
           <h2 class="text-2xl sm:text-3xl font-semibold text-center">Itinerario</h2>
           <div class="mt-8 grid gap-6 sm:grid-cols-2">
-            <article class="rounded-2xl bg-white/85 p-6 shadow-lg shadow-forest/5 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-              <div class="inline-flex items-center gap-2 rounded-full bg-sage/25 px-3 py-1 text-sm font-semibold text-forest"><i class="fa-solid fa-people-roof"></i> 13:00 h</div>
+            <article class="rounded-2xl bg-white/85 p-6 text-center shadow-lg shadow-forest/5 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+              <div class="inline-flex items-center justify-center gap-2 rounded-full bg-sage/25 px-3 py-1 text-sm font-semibold text-forest"><i class="fa-solid fa-people-roof"></i> 13:00 h</div>
               <h3 class="mt-4 font-serif text-xl text-forest">Recepción</h3>
               <p class="mt-2 text-forest/75">Nos encontraremos para darnos la bienvenida con sonrisas, abrazos y la mejor energía.</p>
             </article>
-            <article class="rounded-2xl bg-champagne/35 p-6 shadow-lg shadow-forest/5 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-              <div class="inline-flex items-center gap-2 rounded-full bg-sage/25 px-3 py-1 text-sm font-semibold text-forest"><i class="fa-solid fa-ring"></i> 14:00 h</div>
+            <article class="rounded-2xl bg-champagne/35 p-6 text-center shadow-lg shadow-forest/5 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+              <div class="inline-flex items-center justify-center gap-2 rounded-full bg-sage/25 px-3 py-1 text-sm font-semibold text-forest"><i class="fa-solid fa-ring"></i> 14:00 h</div>
               <h3 class="mt-4 font-serif text-xl text-forest">Ceremonia civil</h3>
               <p class="mt-2 text-forest/75">Testigos de nuestras palabras de amor y del compromiso de caminar juntos toda la vida.</p>
             </article>
-            <article class="rounded-2xl bg-white/85 p-6 shadow-lg shadow-forest/5 transition duration-300 hover:-translate-y-1 hover:shadow-xl sm:col-span-2">
-              <div class="inline-flex items-center gap-2 rounded-full bg-sage/25 px-3 py-1 text-sm font-semibold text-forest"><i class="fa-solid fa-champagne-glasses"></i> 15:30 h</div>
+            <article class="rounded-2xl bg-white/85 p-6 text-center shadow-lg shadow-forest/5 transition duration-300 hover:-translate-y-1 hover:shadow-xl sm:col-span-2">
+              <div class="inline-flex items-center justify-center gap-2 rounded-full bg-sage/25 px-3 py-1 text-sm font-semibold text-forest"><i class="fa-solid fa-champagne-glasses"></i> 15:30 h</div>
               <h3 class="mt-4 font-serif text-xl text-forest">Celebración</h3>
               <p class="mt-2 text-forest/75">Brindaremos, bailaremos y seguiremos sumando memorias inolvidables con cada uno de ustedes.</p>
             </article>
@@ -300,8 +300,8 @@
       </section>
 
       <section id="lluvia" class="reveal">
-        <div class="rounded-3xl border border-champagne/70 bg-white/85 p-8 sm:p-10 shadow-petal text-justify">
-          <div class="flex items-center gap-4">
+        <div class="rounded-3xl border border-champagne/70 bg-white/85 p-8 sm:p-10 shadow-petal text-center">
+          <div class="flex flex-col items-center gap-4 text-center">
             <div class="flex h-16 w-16 items-center justify-center rounded-full bg-gold/20 text-gold">
               <i class="fa-solid fa-envelope-open-text text-2xl"></i>
             </div>
@@ -318,7 +318,7 @@
           <p class="mt-4 text-center text-base sm:text-lg text-forest/75">Queremos atesorar cada instante de este día mágico. Comparte tus fotos y videos con nosotros para revivirlos una y otra vez.</p>
           <div class="mt-8 flex flex-col items-center gap-6 sm:flex-row sm:justify-center">
             <canvas id="qr-canvas" width="180" height="180" class="rounded-2xl border border-gold/60 bg-white p-2 shadow-inner" aria-label="Código QR para compartir tus fotos"></canvas>
-            <div class="text-center sm:text-left">
+            <div class="text-center">
               <a href="https://mega.nz/filerequest/QHyE53BPyTg" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full bg-forest px-5 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-white shadow-lg shadow-forest/20 transition hover:bg-forest/90">Subir fotos y videos</a>
               <p class="mt-4 text-sm text-forest/60">El enlace y el código QR dirigen al mismo espacio en MEGA. Solo nosotros administraremos los archivos compartidos.</p>
             </div>
@@ -497,6 +497,23 @@
       const audio = document.getElementById('wedding-audio');
       const toggleButtons = document.querySelectorAll('[data-audio-toggle]');
       const progress = document.getElementById('audio-progress');
+      const interactionEvents = ['click', 'keydown', 'touchstart'];
+
+      const attachFirstInteractionListeners = () => {
+        if (!audio) return;
+        const handleFirstInteraction = () => {
+          interactionEvents.forEach(eventType => document.removeEventListener(eventType, handleFirstInteraction));
+          if (audio.paused) {
+            audio.play().catch(() => {
+              attachFirstInteractionListeners();
+            });
+          }
+        };
+
+        interactionEvents.forEach(eventType => document.addEventListener(eventType, handleFirstInteraction, { once: true }));
+      };
+
+      attachFirstInteractionListeners();
 
       const updateButtonState = isPlaying => {
         toggleButtons.forEach(button => {
