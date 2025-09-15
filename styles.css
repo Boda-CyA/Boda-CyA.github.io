@@ -73,25 +73,6 @@ body {
   gap: 1rem;
 }
 
-#lightbox button {
-  background: rgba(250, 247, 242, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  border-radius: 999px;
-  padding: 0.65rem 1.2rem;
-  color: #ffffff;
-  font-size: 0.95rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  transition: background 0.3s ease, border-color 0.3s ease;
-}
-
-#lightbox button:hover,
-#lightbox button:focus {
-  background: rgba(255, 255, 255, 0.32);
-  border-color: rgba(255, 255, 255, 0.6);
-  outline: none;
-}
-
 #lightbox .lightbox-caption {
   margin-top: 1.5rem;
   text-align: center;
@@ -149,4 +130,161 @@ body {
   .blur-up {
     transition: none;
   }
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.6rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: var(--forest);
+  font-weight: 600;
+  font-size: 0.85rem;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  box-shadow: 0 20px 38px -30px rgba(47, 79, 79, 0.85);
+  transition: background-color 0.25s ease, color 0.25s ease,
+    border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.button i {
+  font-size: 0.95rem;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 24px 44px -28px rgba(47, 79, 79, 0.7);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.button--lg {
+  padding: 0.95rem 2.4rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.16em;
+}
+
+.button--sm {
+  padding: 0.6rem 1.3rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+}
+
+.button--block {
+  width: 100%;
+}
+
+.button--responsive {
+  width: 100%;
+}
+
+.button--wide {
+  min-width: 180px;
+}
+
+@media (min-width: 640px) {
+  .button--responsive {
+    width: auto;
+  }
+}
+
+.button--primary {
+  background-color: var(--forest);
+  border-color: var(--forest);
+  color: #ffffff;
+  box-shadow: 0 18px 34px -20px rgba(47, 79, 79, 0.6);
+}
+
+.button--primary:hover {
+  background-color: rgba(47, 79, 79, 0.92);
+  border-color: rgba(47, 79, 79, 0.92);
+}
+
+.button--outline {
+  background-color: rgba(255, 255, 255, 0.88);
+  border-color: rgba(194, 166, 117, 0.65);
+  color: var(--forest);
+  box-shadow: 0 18px 32px -26px rgba(47, 79, 79, 0.55);
+}
+
+.button--outline:hover {
+  background-color: rgba(231, 216, 201, 0.45);
+}
+
+.button--spotify {
+  background-color: #1db954;
+  border-color: #1db954;
+  color: #ffffff;
+  box-shadow: 0 18px 32px -26px rgba(29, 185, 84, 0.45);
+}
+
+.button--spotify:hover {
+  background-color: #1ed760;
+  border-color: #1ed760;
+}
+
+.button--apple {
+  background-color: rgba(17, 17, 17, 0.9);
+  border-color: rgba(17, 17, 17, 0.9);
+  color: #ffffff;
+  box-shadow: 0 18px 32px -26px rgba(17, 17, 17, 0.55);
+}
+
+.button--apple:hover {
+  background-color: rgba(17, 17, 17, 0.75);
+  border-color: rgba(17, 17, 17, 0.75);
+}
+
+.button--no-transform {
+  text-transform: none;
+  letter-spacing: 0.08em;
+}
+
+.button--icon {
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border-radius: 999px;
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: 1rem;
+  gap: 0;
+  box-shadow: 0 18px 34px -22px rgba(47, 79, 79, 0.6);
+}
+
+.button--icon i {
+  font-size: 1rem;
+}
+
+.button--overlay {
+  background-color: rgba(250, 247, 242, 0.16);
+  border-color: rgba(255, 255, 255, 0.45);
+  color: #ffffff;
+  box-shadow: 0 22px 45px -30px rgba(15, 23, 42, 0.65);
+  text-transform: none;
+  letter-spacing: 0.08em;
+  font-size: 0.85rem;
+}
+
+.button--overlay:hover,
+.button--overlay:focus {
+  background-color: rgba(255, 255, 255, 0.32);
+  border-color: rgba(255, 255, 255, 0.6);
+  color: var(--forest);
+}
+
+.mobile-action-bar .button {
+  flex: 1;
+}
+
+.button__icon-gold {
+  color: var(--gold);
 }
