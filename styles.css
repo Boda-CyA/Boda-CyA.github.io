@@ -150,6 +150,36 @@ body {
   transform: scale(1);
 }
 
+.hero-mobile-adornment {
+  position: relative;
+  width: min(90vw, 340px);
+  aspect-ratio: 1 / 1;
+  background-image: url('adorno.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 3.5rem 2.25rem;
+  gap: 0.75rem;
+}
+
+@media (max-width: 639px) {
+  .hero-mobile-adornment h1 {
+    font-size: clamp(2.6rem, 8vw + 1rem, 3.1rem);
+  }
+
+  .hero-mobile-adornment .font-serif {
+    font-size: 1.05rem;
+    letter-spacing: 0.05em;
+    line-height: 1.4;
+  }
+}
+
 [data-hero].is-active .hero-floral {
   opacity: 1;
   --tw-translate-y: 0;
@@ -160,6 +190,16 @@ body {
     opacity: 1;
     --tw-translate-y: 0;
     transition-duration: 0ms;
+  }
+}
+
+@media (min-width: 640px) {
+  .hero-mobile-adornment {
+    width: auto;
+    aspect-ratio: auto;
+    background-image: none;
+    padding: 0;
+    gap: 0;
   }
 }
 
