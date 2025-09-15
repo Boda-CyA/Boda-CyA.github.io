@@ -168,6 +168,14 @@ body {
   gap: 0.75rem;
 }
 
+[data-hero-names] {
+  font-family: 'Great Vibes', cursive;
+}
+
+[data-hero-names] span {
+  font-family: inherit;
+}
+
 @media (max-width: 639px) {
   .hero-mobile-adornment h1 {
     font-size: clamp(2.6rem, 8vw + 1rem, 3.1rem);
