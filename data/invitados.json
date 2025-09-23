@@ -1,28 +1,170 @@
 [
   {
-    "slug": "familia-guzman-cuellar",
-    "displayName": "Familia Guzmán Cuéllar",
-    "seats": 4,
-    "note": "Nos hará muy felices contar con su presencia.",
-    "whatsapp": "+524491234567"
-  },
-  {
-    "slug": "maria-y-luis",
-    "displayName": "María & Luis",
+    "slug": "sergio-armando-berumen-arriola",
+    "displayName": "Sergio Armando Berumen Arriola",
     "seats": 2,
-    "whatsapp": "+524492223344"
+    "whatsapp": "+524491050752"
   },
   {
-    "slug": "familia-ramirez-ortega-9k7a",
-    "displayName": "Familia Ramírez Ortega",
+    "slug": "jose-julian-berumen-rodriguez",
+    "displayName": "Jose Julian Berumen Rodriguez",
+    "seats": 2,
+    "whatsapp": "+524491071025"
+  },
+  {
+    "slug": "familia-cuellar-piedra",
+    "displayName": "Familia Cuellar Piedra",
     "seats": 5,
-    "note": "Favor de llegar unos minutos antes para la foto familiar.",
-    "whatsapp": "+524491112233"
+    "whatsapp": "+524492796634"
   },
   {
-    "slug": "amigos-ana-y-paco",
-    "displayName": "Ana & Paco",
+    "slug": "jose-manuel-yanez-saucedo",
+    "displayName": "Jose Manuel Yanez Saucedo",
     "seats": 2,
-    "note": "Si necesitan transporte, escríbannos para coordinarlo."
+    "whatsapp": "+524499078497"
+  },
+  {
+    "slug": "samuel-medina-zarate",
+    "displayName": "Samuel Medina Zarate",
+    "seats": 2,
+    "whatsapp": "+524491119760"
+  },
+  {
+    "slug": "leticia-cuellar-ramos",
+    "displayName": "Leticia Cuellar Ramos",
+    "seats": 2,
+    "whatsapp": "+524423320734"
+  },
+  {
+    "slug": "ulises-morales-espino",
+    "displayName": "Ulises Morales Espino",
+    "seats": 2,
+    "whatsapp": "+524499045420"
+  },
+  {
+    "slug": "octavio-jimenez-macias",
+    "displayName": "Octavio Jimenez Macias",
+    "seats": 2,
+    "whatsapp": "+524491123981"
+  },
+  {
+    "slug": "guadalupe-vizcaino-perez",
+    "displayName": "Guadalupe Vizcaino Perez",
+    "seats": 2,
+    "whatsapp": "+524491426011"
+  },
+  {
+    "slug": "fatima-santos-romero",
+    "displayName": "Fatima Santos Romero",
+    "seats": 2,
+    "whatsapp": "+524491111828"
+  },
+  {
+    "slug": "dayana-carvajal-villanueva",
+    "displayName": "Dayana Carvajal Villanueva",
+    "seats": 2,
+    "whatsapp": "+524491092996"
+  },
+  {
+    "slug": "ericka-cardona-martinez",
+    "displayName": "Ericka Cardona Martinez",
+    "seats": 2,
+    "whatsapp": "+524494139765"
+  },
+  {
+    "slug": "salvador-del-valle",
+    "displayName": "Salvador Del Valle",
+    "seats": 2,
+    "whatsapp": "+524492061068"
+  },
+  {
+    "slug": "salvador-flores-ruiz",
+    "displayName": "Salvador Flores Ruiz",
+    "seats": 2,
+    "whatsapp": "+524494663323"
+  },
+  {
+    "slug": "maria-elena-cuellar-ramos",
+    "displayName": "Maria Elena Cuellar Ramos",
+    "seats": 2,
+    "whatsapp": "+524428501343"
+  },
+  {
+    "slug": "jose-de-jesus-flores-hernandez",
+    "displayName": "Jose De Jesus Flores Hernandez",
+    "seats": 2,
+    "whatsapp": "+524492231272"
+  },
+  {
+    "slug": "jose-alberto-flores-hernandez",
+    "displayName": "Jose Alberto Flores Hernandez",
+    "seats": 2,
+    "whatsapp": "+524491866334"
+  },
+  {
+    "slug": "imelda-chavez",
+    "displayName": "Imelda Chavez",
+    "seats": 2,
+    "whatsapp": "+525510516248"
+  },
+  {
+    "slug": "familia-piedra",
+    "displayName": "Familia Piedra",
+    "seats": 3,
+    "whatsapp": "+525518511516"
+  },
+  {
+    "slug": "oralia-piedra-toledo",
+    "displayName": "Oralia Piedra Toledo",
+    "seats": 1,
+    "whatsapp": "+525545668860"
+  },
+  {
+    "slug": "familia-piedra-toledo",
+    "displayName": "Familia Piedra Toledo",
+    "seats": 4,
+    "whatsapp": "+525532039707"
+  },
+  {
+    "slug": "dagoberto-piedra-toledo",
+    "displayName": "Dagoberto Piedra Toledo",
+    "seats": 1,
+    "whatsapp": "+525520969348"
+  },
+  {
+    "slug": "maria-piedra-toledo",
+    "displayName": "Maria Piedra Toledo",
+    "seats": 1,
+    "whatsapp": "+527772102917"
+  },
+  {
+    "slug": "familia-escobar-cuellar",
+    "displayName": "Familia Escobar Cuellar",
+    "seats": 4,
+    "whatsapp": "+524425957892"
+  },
+  {
+    "slug": "familia-guzman-cuellar",
+    "displayName": "Familia Guzman Cuellar",
+    "seats": 4,
+    "whatsapp": "+524421092905"
+  },
+  {
+    "slug": "hugo-escobar-cuellar",
+    "displayName": "Hugo Escobar Cuellar",
+    "seats": 2,
+    "whatsapp": "+524423692328"
+  },
+  {
+    "slug": "luis-escobar-cuellar",
+    "displayName": "Luis Escobar Cuellar",
+    "seats": 2,
+    "whatsapp": "+524421272558"
+  },
+  {
+    "slug": "suhey-guzman-cuellar",
+    "displayName": "Suhey Guzman Cuellar",
+    "seats": 2,
+    "whatsapp": "+521321231234"
   }
 ]
