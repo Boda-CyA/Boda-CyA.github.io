@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin de invitados – Slugs & WhatsApp</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      background: #f8f9fb;
+      color: #1f2933;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: white;
+      padding: 1.5rem 1rem 1rem;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    h1 {
+      margin: 0 0 1rem;
+      font-size: 1.5rem;
+      color: #0f172a;
+    }
+
+    .controls-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.9rem;
+      gap: 0.35rem;
+      color: #475569;
+    }
+
+    input[type="url"],
+    input[type="text"],
+    textarea,
+    select {
+      padding: 0.6rem 0.7rem;
+      border: 1px solid #cbd5f5;
+      border-radius: 0.6rem;
+      font-size: 0.95rem;
+      color: inherit;
+      background: #f8fafc;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      resize: vertical;
+    }
+
+    textarea {
+      min-height: 6rem;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+      background: #fff;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    button {
+      appearance: none;
+      border: none;
+      border-radius: 0.6rem;
+      padding: 0.6rem 1rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      background: #1d4ed8;
+      color: white;
+    }
+
+    button.secondary {
+      background: #334155;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    button:focus-visible {
+      outline: 3px solid rgba(37, 99, 235, 0.35);
+      outline-offset: 2px;
+    }
+
+    button:hover:not(:disabled) {
+      background: #1e40af;
+    }
+
+    button.secondary:hover:not(:disabled) {
+      background: #1f2937;
+    }
+
+    .status-bar {
+      font-size: 0.9rem;
+      color: #475569;
+      min-height: 1.2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .status-bar.error {
+      color: #b91c1c;
+    }
+
+    .status-bar.success {
+      color: #047857;
+    }
+
+    .counters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.95rem;
+      color: #1f2937;
+    }
+
+    .counters span {
+      background: #e2e8f0;
+      padding: 0.4rem 0.7rem;
+      border-radius: 999px;
+    }
+
+    main {
+      flex: 1;
+      padding: 1rem;
+    }
+
+    .table-wrapper {
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 320px;
+    }
+
+    thead {
+      background: #eff3f8;
+      color: #1e293b;
+    }
+
+    thead th {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-weight: 700;
+      position: sticky;
+      top: calc(0px + 0px);
+      z-index: 5;
+    }
+
+    tbody tr {
+      border-top: 1px solid #e2e8f0;
+      transition: background 0.15s;
+    }
+
+    tbody tr:hover {
+      background: rgba(37, 99, 235, 0.05);
+    }
+
+    tbody td {
+      padding: 0.9rem 1rem;
+      vertical-align: top;
+      font-size: 0.95rem;
+    }
+
+    tbody td.actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .name {
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .note {
+      display: block;
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-top: 0.25rem;
+    }
+
+    code {
+      background: #f1f5f9;
+      padding: 0.2rem 0.35rem;
+      border-radius: 0.35rem;
+      font-size: 0.85rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.35rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
+    .badge.ok {
+      background: rgba(22, 163, 74, 0.12);
+      color: #15803d;
+    }
+
+    .badge.warning {
+      background: rgba(249, 115, 22, 0.15);
+      color: #c2410c;
+    }
+
+    .copy-feedback {
+      font-size: 0.8rem;
+      color: #047857;
+      margin-left: 0.35rem;
+    }
+
+    .table-empty {
+      text-align: center;
+      color: #64748b;
+      font-style: italic;
+    }
+
+    .chip {
+      display: inline-block;
+      background: #f1f5f9;
+      border-radius: 999px;
+      padding: 0.15rem 0.5rem;
+      font-size: 0.8rem;
+      margin-top: 0.35rem;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    @media (max-width: 640px) {
+      header {
+        padding: 1.25rem 0.75rem;
+      }
+
+      main {
+        padding: 0.75rem;
+      }
+
+      button {
+        flex: 1 1 140px;
+      }
+
+      thead th,
+      tbody td {
+        padding: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Admin de invitados – Slugs & WhatsApp</h1>
+    <div class="controls-grid">
+      <label for="base-url-input">Base URL del sitio
+        <input id="base-url-input" type="url" value="https://boda-cya.github.io/" placeholder="https://ejemplo.com/">
+      </label>
+      <label for="json-path-input">Ruta del JSON
+        <input id="json-path-input" type="text" value="./data/invitados.json" placeholder="./data/invitados.json">
+      </label>
+      <label for="search-input">Búsqueda
+        <input id="search-input" type="text" placeholder="Buscar por nombre, slug o WhatsApp">
+      </label>
+      <label for="filter-select">Filtro
+        <select id="filter-select">
+          <option value="all">Todos</option>
+          <option value="with">Con WhatsApp</option>
+          <option value="without">Sin WhatsApp</option>
+        </select>
+      </label>
+      <label for="template-input" style="grid-column: 1 / -1;">
+        Plantilla de WhatsApp
+        <textarea id="template-input">Hola {name} 🌸
+Estamos muy felices de invitarte a nuestra boda.
+Fecha: 18 de noviembre · Villa la Perla.
+Por favor confirma tu asistencia y lugares ({seats}).
+Tu invitación: {url}</textarea>
+      </label>
+    </div>
+    <div class="actions">
+      <button id="fetch-button" type="button">Cargar JSON</button>
+      <button id="file-button" type="button" class="secondary">Cargar archivo…</button>
+      <input id="file-input" type="file" accept="application/json" style="display:none">
+    </div>
+    <div class="status-bar" id="status-text">Listo.</div>
+    <div class="counters">
+      <span>Total: <strong id="total-count">0</strong></span>
+      <span>Con WhatsApp: <strong id="with-whatsapp-count">0</strong></span>
+      <span>Sin WhatsApp: <strong id="without-whatsapp-count">0</strong></span>
+    </div>
+  </header>
+  <main>
+    <div class="table-wrapper">
+      <table id="guest-table" aria-live="polite">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Slug</th>
+            <th scope="col">Lugares</th>
+            <th scope="col">WhatsApp</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="guest-table-body">
+          <tr>
+            <td class="table-empty" colspan="5">Sin datos. Carga el JSON.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+  <script>
+    // --- Estado global ---
+    const state = {
+      guests: [],
+      baseUrl: document.getElementById('base-url-input').value.trim(),
+      jsonPath: document.getElementById('json-path-input').value.trim(),
+      template: document.getElementById('template-input').value,
+      searchTerm: '',
+      filter: 'all'
+    };
+
+    // --- Utilidades ---
+    const statusText = document.getElementById('status-text');
+    const tableBody = document.getElementById('guest-table-body');
+
+    function setStatus(message, type = '') {
+      statusText.textContent = message;
+      statusText.className = 'status-bar';
+      if (type) {
+        statusText.classList.add(type);
+      }
+    }
+
+    function ensureTrailingSlash(url) {
+      if (!url) return '';
+      return url.endsWith('/') ? url : url + '/';
+    }
+
+    function buildGuestUrl(baseUrl, slug) {
+      const safeSlug = (slug || '').replace(/^\/+/, '');
+      const base = ensureTrailingSlash(baseUrl.trim());
+      return base + safeSlug;
+    }
+
+    function normalizeWhatsapp(raw) {
+      if (!raw) return null;
+      const digits = String(raw).replace(/\D/g, '');
+      if (digits.length < 10) return null;
+      const last10 = digits.slice(-10);
+      const e164 = '+52' + last10;
+      const wa = '52' + last10;
+      const displayLocal = last10.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
+      return {
+        e164,
+        wa,
+        display: '+52 ' + displayLocal,
+        digits: last10
+      };
+    }
+
+    function replacePlaceholders(template, placeholders) {
+      let result = template;
+      Object.keys(placeholders).forEach((key) => {
+        const value = placeholders[key];
+        result = result.split(key).join(value);
+      });
+      return result;
+    }
+
+    function getTemplateMessage(guest, url) {
+      const seatsValue = typeof guest.seats === 'number' ? String(guest.seats) : '';
+      return replacePlaceholders(state.template, {
+        '{name}': guest.displayName || '',
+        '{url}': url,
+        '{seats}': seatsValue
+      });
+    }
+
+    function updateCounters() {
+      const total = state.guests.length;
+      const withWhatsapp = state.guests.filter((g) => Boolean(g.normalizedWhatsapp)).length;
+      const withoutWhatsapp = total - withWhatsapp;
+      document.getElementById('total-count').textContent = total;
+      document.getElementById('with-whatsapp-count').textContent = withWhatsapp;
+      document.getElementById('without-whatsapp-count').textContent = withoutWhatsapp;
+    }
+
+    function getFilteredGuests() {
+      const term = state.searchTerm.trim().toLowerCase();
+      return state.guests.filter((guest) => {
+        if (state.filter === 'with' && !guest.normalizedWhatsapp) {
+          return false;
+        }
+        if (state.filter === 'without' && guest.normalizedWhatsapp) {
+          return false;
+        }
+        if (!term) {
+          return true;
+        }
+        const haystack = [
+          guest.displayName || '',
+          guest.slug || '',
+          guest.whatsapp || '',
+          guest.normalizedWhatsapp ? guest.normalizedWhatsapp.e164 : '',
+          guest.normalizedWhatsapp ? guest.normalizedWhatsapp.digits : ''
+        ].join(' ').toLowerCase();
+        return haystack.includes(term);
+      });
+    }
+
+    function renderTable() {
+      const guests = getFilteredGuests();
+      tableBody.innerHTML = '';
+
+      if (state.guests.length === 0) {
+        const row = document.createElement('tr');
+        row.innerHTML = '<td class="table-empty" colspan="5">Sin datos. Carga el JSON.</td>';
+        tableBody.appendChild(row);
+        updateCounters();
+        return;
+      }
+
+      if (guests.length === 0) {
+        const row = document.createElement('tr');
+        row.innerHTML = '<td class="table-empty" colspan="5">Sin coincidencias.</td>';
+        tableBody.appendChild(row);
+        updateCounters();
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+      guests.forEach((guest) => {
+        const url = buildGuestUrl(state.baseUrl, guest.slug);
+        const row = document.createElement('tr');
+        row.dataset.slug = guest.slug;
+
+        const seatsContent = Number.isFinite(guest.seats) ? guest.seats : '—';
+        const whatsappCell = guest.normalizedWhatsapp
+          ? `<div>${guest.normalizedWhatsapp.display}</div><span class="badge ok">ok</span>`
+          : '<span class="badge warning">Sin número</span>';
+
+        const noteHtml = guest.note ? `<span class="note">${escapeHtml(guest.note)}</span>` : '';
+
+        row.innerHTML = `
+          <td>
+            <span class="name">${escapeHtml(guest.displayName || '—')}</span>
+            ${noteHtml}
+          </td>
+          <td><code>${escapeHtml(guest.slug || '')}</code></td>
+          <td>${seatsContent}</td>
+          <td>${whatsappCell}</td>
+          <td class="actions">
+            <button type="button" class="secondary" data-action="open" data-slug="${encodeURIComponent(guest.slug)}">Abrir</button>
+            <button type="button" data-action="copy" data-slug="${encodeURIComponent(guest.slug)}">Copiar enlace</button>
+            <button type="button" data-action="whatsapp" data-slug="${encodeURIComponent(guest.slug)}" ${guest.normalizedWhatsapp ? '' : 'disabled'}>WhatsApp</button>
+          </td>
+        `;
+        fragment.appendChild(row);
+      });
+
+      tableBody.appendChild(fragment);
+      updateCounters();
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    async function copyToClipboard(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+      const temp = document.createElement('textarea');
+      temp.value = text;
+      temp.setAttribute('readonly', '');
+      temp.style.position = 'absolute';
+      temp.style.left = '-9999px';
+      document.body.appendChild(temp);
+      temp.select();
+      const success = document.execCommand('copy');
+      document.body.removeChild(temp);
+      return success;
+    }
+
+    // --- Carga de datos ---
+    async function fetchGuests(path) {
+      try {
+        setStatus('Cargando invitad@s…');
+        const response = await fetch(path, { cache: 'no-store' });
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        const data = await response.json();
+        if (!Array.isArray(data)) {
+          throw new Error('El JSON debe ser un arreglo de invitados.');
+        }
+        applyGuests(data);
+        setStatus('Datos cargados desde el servidor.', 'success');
+      } catch (error) {
+        console.error(error);
+        setStatus('Error al cargar JSON. Revisa la ruta o intenta con "Cargar archivo…"', 'error');
+      }
+    }
+
+    function applyGuests(data) {
+      state.guests = data.map((guest) => {
+        const normalized = normalizeWhatsapp(guest.whatsapp);
+        return {
+          slug: guest.slug || '',
+          displayName: guest.displayName || '',
+          seats: typeof guest.seats === 'number' ? guest.seats : Number.isFinite(Number(guest.seats)) ? Number(guest.seats) : undefined,
+          whatsapp: guest.whatsapp || '',
+          note: guest.note || '',
+          normalizedWhatsapp: normalized
+        };
+      });
+      renderTable();
+    }
+
+    function loadFromFile(file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const text = event.target.result;
+          const data = JSON.parse(text);
+          if (!Array.isArray(data)) {
+            throw new Error('El JSON debe ser un arreglo de invitados.');
+          }
+          applyGuests(data);
+          setStatus(`Datos cargados desde archivo: ${file.name}`, 'success');
+        } catch (error) {
+          console.error(error);
+          setStatus('No se pudo leer el archivo seleccionado.', 'error');
+        }
+      };
+      reader.onerror = () => {
+        setStatus('Error al leer el archivo.', 'error');
+      };
+      reader.readAsText(file);
+    }
+
+    // --- Eventos UI ---
+    document.getElementById('fetch-button').addEventListener('click', () => {
+      state.jsonPath = document.getElementById('json-path-input').value.trim();
+      if (!state.jsonPath) {
+        setStatus('Ingresa la ruta del JSON.', 'error');
+        return;
+      }
+      fetchGuests(state.jsonPath);
+    });
+
+    document.getElementById('file-button').addEventListener('click', () => {
+      document.getElementById('file-input').click();
+    });
+
+    document.getElementById('file-input').addEventListener('change', (event) => {
+      const file = event.target.files && event.target.files[0];
+      if (file) {
+        loadFromFile(file);
+      }
+      event.target.value = '';
+    });
+
+    document.getElementById('base-url-input').addEventListener('input', (event) => {
+      state.baseUrl = event.target.value.trim();
+      renderTable();
+    });
+
+    document.getElementById('json-path-input').addEventListener('input', (event) => {
+      state.jsonPath = event.target.value.trim();
+    });
+
+    document.getElementById('template-input').addEventListener('input', (event) => {
+      state.template = event.target.value;
+      renderTable();
+    });
+
+    document.getElementById('search-input').addEventListener('input', (event) => {
+      state.searchTerm = event.target.value;
+      renderTable();
+    });
+
+    document.getElementById('filter-select').addEventListener('change', (event) => {
+      state.filter = event.target.value;
+      renderTable();
+    });
+
+    tableBody.addEventListener('click', async (event) => {
+      const button = event.target.closest('button[data-action]');
+      if (!button) {
+        return;
+      }
+      const slug = decodeURIComponent(button.dataset.slug || '');
+      const guest = state.guests.find((g) => g.slug === slug);
+      if (!guest) {
+        return;
+      }
+      const url = buildGuestUrl(state.baseUrl, guest.slug);
+
+      switch (button.dataset.action) {
+        case 'open':
+          window.open(url, '_blank');
+          break;
+        case 'copy':
+          try {
+            const copied = await copyToClipboard(url);
+            if (copied) {
+              const originalLabel = button.textContent;
+              button.textContent = 'Copiado ✓';
+              button.disabled = true;
+              setTimeout(() => {
+                button.textContent = originalLabel;
+                button.disabled = false;
+              }, 1500);
+              setStatus('Enlace copiado al portapapeles.', 'success');
+            } else {
+              setStatus('No se pudo copiar el enlace. Copia manualmente.', 'error');
+            }
+          } catch (error) {
+            console.error(error);
+            setStatus('No se pudo copiar el enlace. Copia manualmente.', 'error');
+          }
+          break;
+        case 'whatsapp':
+          if (!guest.normalizedWhatsapp) {
+            return;
+          }
+          const message = getTemplateMessage(guest, url);
+          const whatsappUrl = `https://wa.me/${guest.normalizedWhatsapp.wa}?text=${encodeURIComponent(message)}`;
+          window.open(whatsappUrl, '_blank');
+          break;
+        default:
+          break;
+      }
+    });
+
+    // --- Inicialización ---
+    renderTable();
+    fetchGuests(state.jsonPath);
+  </script>
+</body>
+</html>
