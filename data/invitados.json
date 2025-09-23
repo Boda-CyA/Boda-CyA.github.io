@@ -10,7 +10,19 @@
     "slug": "maria-y-luis",
     "displayName": "María & Luis",
     "seats": 2,
-    "note": "Traje formal. Estacionamiento en el acceso principal.",
     "whatsapp": "+524492223344"
+  },
+  {
+    "slug": "familia-ramirez-ortega-9k7a",
+    "displayName": "Familia Ramírez Ortega",
+    "seats": 5,
+    "note": "Favor de llegar unos minutos antes para la foto familiar.",
+    "whatsapp": "+524491112233"
+  },
+  {
+    "slug": "amigos-ana-y-paco",
+    "displayName": "Ana & Paco",
+    "seats": 2,
+    "note": "Si necesitan transporte, escríbannos para coordinarlo."
   }
 ]
