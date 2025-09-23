@@ -159,6 +159,162 @@
       overflow: hidden;
     }
 
+    .layout {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 1080px) {
+      .layout {
+        grid-template-columns: minmax(0, 3fr) minmax(280px, 2fr);
+      }
+    }
+
+    .preview-card {
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      min-height: 100%;
+    }
+
+    .preview-card h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #0f172a;
+    }
+
+    .preview-empty {
+      font-size: 0.9rem;
+      color: #64748b;
+      background: #f8fafc;
+      border-radius: 0.8rem;
+      padding: 1rem 1.1rem;
+      line-height: 1.45;
+    }
+
+    .preview-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .preview-heading {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin: 0;
+    }
+
+    .preview-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .preview-body {
+      background: #f8fafc;
+      border-radius: 0.9rem;
+      padding: 0.85rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      color: #1f2937;
+    }
+
+    .preview-body p {
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .preview-note {
+      font-size: 0.9rem;
+      color: #475569;
+    }
+
+    .preview-summary {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+      color: #1f2937;
+    }
+
+    .preview-summary li {
+      word-break: break-word;
+    }
+
+    .preview-helper {
+      font-size: 0.85rem;
+      color: #475569;
+      margin: 0.35rem 0 0;
+    }
+
+    .preview-label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      color: #475569;
+    }
+
+    .preview-label textarea,
+    .preview-label input[type="text"] {
+      font-family: inherit;
+      font-size: 0.9rem;
+      padding: 0.55rem 0.65rem;
+      border: 1px solid #cbd5f5;
+      border-radius: 0.6rem;
+      background: #f8fafc;
+      color: inherit;
+      resize: vertical;
+    }
+
+    .preview-label textarea {
+      min-height: 8rem;
+    }
+
+    .preview-link {
+      color: #1d4ed8;
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    .preview-link:hover {
+      text-decoration: underline;
+    }
+
+    .preview-link.disabled {
+      color: #94a3b8;
+      pointer-events: none;
+      text-decoration: none;
+    }
+
+    .chip.hidden {
+      display: none;
+    }
+
+    .chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.35rem;
+    }
+
+    tbody tr.selected {
+      background: rgba(37, 99, 235, 0.08);
+    }
+
+    tbody tr.selected:hover {
+      background: rgba(37, 99, 235, 0.12);
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -310,11 +466,11 @@
       </label>
       <label for="template-input" style="grid-column: 1 / -1;">
         Plantilla de WhatsApp
-        <textarea id="template-input">Hola {name} 🌸
-Estamos muy felices de invitarte a nuestra boda.
-Fecha: 18 de noviembre · Villa la Perla.
-Por favor confirma tu asistencia y lugares ({seats}).
-Tu invitación: {url}</textarea>
+        <textarea id="template-input">{greeting}
+
+{body}
+
+Confirma tu asistencia aquí: {url}</textarea>
       </label>
     </div>
     <div class="actions">
@@ -330,8 +486,9 @@ Tu invitación: {url}</textarea>
     </div>
   </header>
   <main>
-    <div class="table-wrapper">
-      <table id="guest-table" aria-live="polite">
+    <div class="layout">
+      <div class="table-wrapper">
+        <table id="guest-table" aria-live="polite">
         <thead>
           <tr>
             <th scope="col">Nombre</th>
@@ -348,21 +505,71 @@ Tu invitación: {url}</textarea>
         </tbody>
       </table>
     </div>
-  </main>
+    <aside class="preview-card" aria-live="polite">
+      <h2>Vista previa del mensaje</h2>
+      <div class="preview-empty" data-preview-empty>
+        Selecciona un invitado para ver el mensaje personalizado.
+      </div>
+      <div class="preview-content hidden" data-preview-content>
+        <p class="preview-heading" data-preview-heading></p>
+        <div class="preview-tags">
+          <span class="chip hidden" data-preview-relation></span>
+          <span class="chip hidden" data-preview-treatment></span>
+        </div>
+        <div class="preview-body" data-preview-body-container>
+          <p class="preview-greeting" data-preview-greeting></p>
+          <div data-preview-body class="preview-text"></div>
+          <p class="preview-note hidden" data-preview-note></p>
+        </div>
+        <ul class="preview-summary">
+          <li><strong>Lugares:</strong> <span data-preview-seats>—</span></li>
+          <li><strong>WhatsApp:</strong> <span data-preview-whatsapp-display>—</span></li>
+          <li><strong>URL:</strong> <a href="#" target="_blank" rel="noopener" class="preview-link disabled" data-preview-url>—</a></li>
+        </ul>
+        <p class="preview-helper hidden" data-preview-helper></p>
+        <label class="preview-label">Mensaje de WhatsApp
+          <textarea data-preview-whatsapp readonly></textarea>
+        </label>
+        <label class="preview-label">Enlace wa.me
+          <input type="text" data-preview-whatsapp-url readonly>
+        </label>
+      </div>
+    </aside>
+  </div>
+</main>
+  <script src="scripts/message-utils.js"></script>
   <script>
-    // --- Estado global ---
+    const messaging = window.InvitationMessaging || {};
+
     const state = {
       guests: [],
       baseUrl: document.getElementById('base-url-input').value.trim(),
       jsonPath: document.getElementById('json-path-input').value.trim(),
       template: document.getElementById('template-input').value,
       searchTerm: '',
-      filter: 'all'
+      filter: 'all',
+      selectedSlug: ''
     };
 
-    // --- Utilidades ---
     const statusText = document.getElementById('status-text');
     const tableBody = document.getElementById('guest-table-body');
+
+    const previewElements = {
+      content: document.querySelector('[data-preview-content]'),
+      empty: document.querySelector('[data-preview-empty]'),
+      heading: document.querySelector('[data-preview-heading]'),
+      relation: document.querySelector('[data-preview-relation]'),
+      treatment: document.querySelector('[data-preview-treatment]'),
+      greeting: document.querySelector('[data-preview-greeting]'),
+      body: document.querySelector('[data-preview-body]'),
+      note: document.querySelector('[data-preview-note]'),
+      seats: document.querySelector('[data-preview-seats]'),
+      helper: document.querySelector('[data-preview-helper]'),
+      url: document.querySelector('[data-preview-url]'),
+      whatsappDisplay: document.querySelector('[data-preview-whatsapp-display]'),
+      whatsappMessage: document.querySelector('[data-preview-whatsapp]'),
+      whatsappUrl: document.querySelector('[data-preview-whatsapp-url]')
+    };
 
     function setStatus(message, type = '') {
       statusText.textContent = message;
@@ -372,54 +579,77 @@ Tu invitación: {url}</textarea>
       }
     }
 
-    function ensureTrailingSlash(url) {
-      if (!url) return '';
-      return url.endsWith('/') ? url : url + '/';
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
     }
 
-    function buildGuestUrl(baseUrl, slug) {
-      const safeSlug = (slug || '').replace(/^\/+/, '');
-      const base = ensureTrailingSlash(baseUrl.trim());
-      return base + safeSlug;
+    function normalizeBaseUrl(value) {
+      if (messaging.normalizeBaseUrl) {
+        return messaging.normalizeBaseUrl(value);
+      }
+      if (!value) return '';
+      return value.trim().replace(/\/+$/g, '');
     }
 
-    function normalizeWhatsapp(raw) {
+    function normalizeWhatsappFallback(raw) {
       if (!raw) return null;
       const digits = String(raw).replace(/\D/g, '');
       if (digits.length < 10) return null;
-      const last10 = digits.slice(-10);
-      const e164 = '+52' + last10;
-      const wa = '52' + last10;
-      const displayLocal = last10.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
+      const local = digits.slice(-10);
+      const country = '52';
       return {
-        e164,
-        wa,
-        display: '+52 ' + displayLocal,
-        digits: last10
+        wa: `${country}${local}`,
+        e164: `+${country}${local}`,
+        display: `+${country} ${local.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3')}`,
+        digits: `${country}${local}`
       };
     }
 
-    function replacePlaceholders(template, placeholders) {
-      let result = template;
-      Object.keys(placeholders).forEach((key) => {
-        const value = placeholders[key];
-        result = result.split(key).join(value);
-      });
-      return result;
+    function sanitizeGuest(entry) {
+      if (!entry || typeof entry !== 'object') return null;
+      const slug = typeof entry.slug === 'string' ? entry.slug.trim() : '';
+      if (!slug) return null;
+
+      const seatsNumber = Number(entry.seats);
+      const relation = messaging.normalizeRelation
+        ? messaging.normalizeRelation(entry.relation)
+        : (String(entry.relation || '').trim().toLowerCase() === 'familia' ? 'familia' : 'amigo');
+      const rawTreatment = messaging.normalizeTreatment
+        ? messaging.normalizeTreatment(entry.treatment)
+        : String(entry.treatment || '').trim().toLowerCase();
+      const treatment = rawTreatment === 'grupal' || rawTreatment === 'acompanado' || rawTreatment === 'individual'
+        ? rawTreatment
+        : 'individual';
+      const normalizedWhatsapp = messaging.normalizeWhatsapp
+        ? messaging.normalizeWhatsapp(entry.whatsapp)
+        : normalizeWhatsappFallback(entry.whatsapp);
+
+      return {
+        slug,
+        displayName: typeof entry.displayName === 'string' ? entry.displayName.trim() : '',
+        relation,
+        treatment,
+        seats: Number.isFinite(seatsNumber) && seatsNumber > 0 ? seatsNumber : null,
+        note: typeof entry.note === 'string' ? entry.note.trim() : '',
+        whatsapp: typeof entry.whatsapp === 'string' ? entry.whatsapp.trim() : '',
+        normalizedWhatsapp
+      };
     }
 
-    function getTemplateMessage(guest, url) {
-      const seatsValue = typeof guest.seats === 'number' ? String(guest.seats) : '';
-      return replacePlaceholders(state.template, {
-        '{name}': guest.displayName || '',
-        '{url}': url,
-        '{seats}': seatsValue
-      });
+    function applyGuests(data) {
+      state.guests = data.map(sanitizeGuest).filter(Boolean);
+      state.selectedSlug = state.guests.length ? state.guests[0].slug : '';
+      renderTable();
     }
 
     function updateCounters() {
       const total = state.guests.length;
-      const withWhatsapp = state.guests.filter((g) => Boolean(g.normalizedWhatsapp)).length;
+      const withWhatsapp = state.guests.filter((guest) => Boolean(guest.normalizedWhatsapp)).length;
       const withoutWhatsapp = total - withWhatsapp;
       document.getElementById('total-count').textContent = total;
       document.getElementById('with-whatsapp-count').textContent = withWhatsapp;
@@ -443,48 +673,217 @@ Tu invitación: {url}</textarea>
           guest.slug || '',
           guest.whatsapp || '',
           guest.normalizedWhatsapp ? guest.normalizedWhatsapp.e164 : '',
-          guest.normalizedWhatsapp ? guest.normalizedWhatsapp.digits : ''
+          guest.normalizedWhatsapp ? guest.normalizedWhatsapp.digits : '',
+          guest.relation || '',
+          guest.treatment || ''
         ].join(' ').toLowerCase();
         return haystack.includes(term);
       });
+    }
+
+    function formatRelation(value) {
+      if (!value) return '';
+      return value === 'familia' ? 'Familia' : 'Amigo';
+    }
+
+    function formatTreatment(value) {
+      const labels = {
+        grupal: 'Grupal',
+        acompanado: 'Acompañado',
+        individual: 'Individual'
+      };
+      return labels[value] || '';
+    }
+
+    function getBaseUrl() {
+      return normalizeBaseUrl(state.baseUrl);
+    }
+
+    function getMessageForGuest(guest) {
+      if (!guest || typeof messaging.buildInviteMessage !== 'function') {
+        return null;
+      }
+      try {
+        return messaging.buildInviteMessage(guest, {
+          baseUrl: getBaseUrl(),
+          whatsappTemplate: state.template
+        });
+      } catch (error) {
+        console.error('Error generando el mensaje para', guest.slug, error);
+        return null;
+      }
+    }
+
+    function highlightSelectedRow() {
+      tableBody.querySelectorAll('tr[data-slug]').forEach((row) => {
+        row.classList.toggle('selected', row.dataset.slug === state.selectedSlug);
+      });
+    }
+
+    function selectGuest(slug) {
+      if (!slug) return;
+      state.selectedSlug = slug;
+      highlightSelectedRow();
+      updatePreview();
+    }
+
+    function setChip(element, label) {
+      if (!element) return;
+      if (label) {
+        element.textContent = label;
+        element.classList.remove('hidden');
+      } else {
+        element.textContent = '';
+        element.classList.add('hidden');
+      }
+    }
+
+    function setPreviewLink(url) {
+      if (!previewElements.url) return;
+      if (url) {
+        previewElements.url.textContent = url;
+        previewElements.url.href = url;
+        previewElements.url.classList.remove('disabled');
+      } else {
+        previewElements.url.textContent = '—';
+        previewElements.url.removeAttribute('href');
+        previewElements.url.classList.add('disabled');
+      }
+    }
+
+    function updatePreview() {
+      if (!previewElements.content || !previewElements.empty) return;
+      const guest = state.guests.find((item) => item.slug === state.selectedSlug);
+      if (!guest) {
+        previewElements.content.classList.add('hidden');
+        previewElements.empty.classList.remove('hidden');
+        return;
+      }
+
+      const message = getMessageForGuest(guest);
+      if (!message) {
+        previewElements.content.classList.add('hidden');
+        previewElements.empty.classList.remove('hidden');
+        return;
+      }
+
+      previewElements.empty.classList.add('hidden');
+      previewElements.content.classList.remove('hidden');
+
+      const heading = message.heading || (guest.displayName ? `Invitación para ${guest.displayName}` : 'Invitación personalizada');
+      if (previewElements.heading) {
+        previewElements.heading.textContent = heading;
+      }
+
+      setChip(previewElements.relation, formatRelation(message.relation || guest.relation));
+      setChip(previewElements.treatment, formatTreatment(message.treatment || guest.treatment));
+
+      if (previewElements.greeting) {
+        previewElements.greeting.textContent = message.greeting || '';
+      }
+
+      if (previewElements.body) {
+        previewElements.body.innerHTML = '';
+        if (Array.isArray(message.body)) {
+          message.body.forEach((paragraph) => {
+            const p = document.createElement('p');
+            p.textContent = paragraph;
+            previewElements.body.appendChild(p);
+          });
+        }
+      }
+
+      if (previewElements.note) {
+        if (guest.note) {
+          previewElements.note.textContent = guest.note;
+          previewElements.note.classList.remove('hidden');
+        } else {
+          previewElements.note.textContent = '';
+          previewElements.note.classList.add('hidden');
+        }
+      }
+
+      if (previewElements.seats) {
+        previewElements.seats.textContent = Number.isFinite(guest.seats) ? String(guest.seats) : '—';
+      }
+
+      if (previewElements.helper) {
+        if (message.helperText) {
+          previewElements.helper.textContent = message.helperText;
+          previewElements.helper.classList.remove('hidden');
+        } else {
+          previewElements.helper.textContent = '';
+          previewElements.helper.classList.add('hidden');
+        }
+      }
+
+      if (previewElements.whatsappDisplay) {
+        previewElements.whatsappDisplay.textContent = guest.normalizedWhatsapp
+          ? guest.normalizedWhatsapp.display
+          : '—';
+      }
+
+      if (previewElements.whatsappMessage) {
+        previewElements.whatsappMessage.value = message.whatsappMessage || '';
+      }
+
+      if (previewElements.whatsappUrl) {
+        previewElements.whatsappUrl.value = message.whatsappLink || '';
+      }
+
+      setPreviewLink(message.url);
     }
 
     function renderTable() {
       const guests = getFilteredGuests();
       tableBody.innerHTML = '';
 
-      if (state.guests.length === 0) {
+      if (!state.guests.length) {
         const row = document.createElement('tr');
         row.innerHTML = '<td class="table-empty" colspan="5">Sin datos. Carga el JSON.</td>';
         tableBody.appendChild(row);
+        state.selectedSlug = '';
         updateCounters();
+        updatePreview();
         return;
       }
 
-      if (guests.length === 0) {
+      if (!guests.length) {
         const row = document.createElement('tr');
         row.innerHTML = '<td class="table-empty" colspan="5">Sin coincidencias.</td>';
         tableBody.appendChild(row);
         updateCounters();
+        updatePreview();
         return;
       }
 
+      if (state.selectedSlug && !guests.some((guest) => guest.slug === state.selectedSlug)) {
+        state.selectedSlug = guests[0].slug;
+      } else if (!state.selectedSlug) {
+        state.selectedSlug = guests[0].slug;
+      }
+
       const fragment = document.createDocumentFragment();
+
       guests.forEach((guest) => {
-        const url = buildGuestUrl(state.baseUrl, guest.slug);
+        const message = getMessageForGuest(guest) || {};
         const row = document.createElement('tr');
         row.dataset.slug = guest.slug;
 
-        const seatsContent = Number.isFinite(guest.seats) ? guest.seats : '—';
-        const whatsappCell = guest.normalizedWhatsapp
-          ? `<div>${guest.normalizedWhatsapp.display}</div><span class="badge ok">ok</span>`
-          : '<span class="badge warning">Sin número</span>';
+        const relationChip = guest.relation ? `<span class="chip">${escapeHtml(formatRelation(guest.relation))}</span>` : '';
+        const treatmentChip = guest.treatment ? `<span class="chip">${escapeHtml(formatTreatment(guest.treatment))}</span>` : '';
+        const chipsHtml = relationChip || treatmentChip ? `<div class="chip-group">${relationChip} ${treatmentChip}</div>` : '';
 
         const noteHtml = guest.note ? `<span class="note">${escapeHtml(guest.note)}</span>` : '';
+        const seatsContent = Number.isFinite(guest.seats) ? guest.seats : '—';
+        const whatsappCell = guest.normalizedWhatsapp
+          ? `<div>${escapeHtml(guest.normalizedWhatsapp.display)}</div><span class="badge ok">ok</span>`
+          : '<span class="badge warning">Sin número</span>';
 
         row.innerHTML = `
           <td>
-            <span class="name">${escapeHtml(guest.displayName || '—')}</span>
+            <span class="name">${escapeHtml(guest.displayName || 'Invitad@')}</span>
+            ${chipsHtml}
             ${noteHtml}
           </td>
           <td><code>${escapeHtml(guest.slug || '')}</code></td>
@@ -493,7 +892,7 @@ Tu invitación: {url}</textarea>
           <td class="actions">
             <button type="button" class="secondary" data-action="open" data-slug="${encodeURIComponent(guest.slug)}">Abrir</button>
             <button type="button" data-action="copy" data-slug="${encodeURIComponent(guest.slug)}">Copiar enlace</button>
-            <button type="button" data-action="whatsapp" data-slug="${encodeURIComponent(guest.slug)}" ${guest.normalizedWhatsapp ? '' : 'disabled'}>WhatsApp</button>
+            <button type="button" data-action="whatsapp" data-slug="${encodeURIComponent(guest.slug)}" ${message.whatsappLink ? '' : 'disabled'}>WhatsApp</button>
           </td>
         `;
         fragment.appendChild(row);
@@ -501,15 +900,8 @@ Tu invitación: {url}</textarea>
 
       tableBody.appendChild(fragment);
       updateCounters();
-    }
-
-    function escapeHtml(text) {
-      return String(text)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
+      highlightSelectedRow();
+      updatePreview();
     }
 
     async function copyToClipboard(text) {
@@ -524,12 +916,16 @@ Tu invitación: {url}</textarea>
       temp.style.left = '-9999px';
       document.body.appendChild(temp);
       temp.select();
-      const success = document.execCommand('copy');
+      let success = false;
+      try {
+        success = document.execCommand('copy');
+      } catch (error) {
+        success = false;
+      }
       document.body.removeChild(temp);
       return success;
     }
 
-    // --- Carga de datos ---
     async function fetchGuests(path) {
       try {
         setStatus('Cargando invitad@s…');
@@ -547,21 +943,6 @@ Tu invitación: {url}</textarea>
         console.error(error);
         setStatus('Error al cargar JSON. Revisa la ruta o intenta con "Cargar archivo…"', 'error');
       }
-    }
-
-    function applyGuests(data) {
-      state.guests = data.map((guest) => {
-        const normalized = normalizeWhatsapp(guest.whatsapp);
-        return {
-          slug: guest.slug || '',
-          displayName: guest.displayName || '',
-          seats: typeof guest.seats === 'number' ? guest.seats : Number.isFinite(Number(guest.seats)) ? Number(guest.seats) : undefined,
-          whatsapp: guest.whatsapp || '',
-          note: guest.note || '',
-          normalizedWhatsapp: normalized
-        };
-      });
-      renderTable();
     }
 
     function loadFromFile(file) {
@@ -586,7 +967,6 @@ Tu invitación: {url}</textarea>
       reader.readAsText(file);
     }
 
-    // --- Eventos UI ---
     document.getElementById('fetch-button').addEventListener('click', () => {
       state.jsonPath = document.getElementById('json-path-input').value.trim();
       if (!state.jsonPath) {
@@ -633,22 +1013,43 @@ Tu invitación: {url}</textarea>
     });
 
     tableBody.addEventListener('click', async (event) => {
+      const row = event.target.closest('tr[data-slug]');
       const button = event.target.closest('button[data-action]');
+      if (row && !button) {
+        selectGuest(decodeURIComponent(row.dataset.slug || ''));
+        return;
+      }
       if (!button) {
         return;
       }
       const slug = decodeURIComponent(button.dataset.slug || '');
-      const guest = state.guests.find((g) => g.slug === slug);
+      if (!slug) {
+        return;
+      }
+      selectGuest(slug);
+
+      const guest = state.guests.find((item) => item.slug === slug);
       if (!guest) {
         return;
       }
-      const url = buildGuestUrl(state.baseUrl, guest.slug);
+      const message = getMessageForGuest(guest) || {};
+      const url = message.url || (typeof messaging.buildInviteUrl === 'function'
+        ? messaging.buildInviteUrl(getBaseUrl(), slug)
+        : '');
 
       switch (button.dataset.action) {
         case 'open':
-          window.open(url, '_blank');
+          if (url) {
+            window.open(url, '_blank');
+          } else {
+            setStatus('No hay un enlace disponible para este invitado.', 'error');
+          }
           break;
         case 'copy':
+          if (!url) {
+            setStatus('No hay un enlace disponible para copiar.', 'error');
+            return;
+          }
           try {
             const copied = await copyToClipboard(url);
             if (copied) {
@@ -669,21 +1070,21 @@ Tu invitación: {url}</textarea>
           }
           break;
         case 'whatsapp':
-          if (!guest.normalizedWhatsapp) {
-            return;
+          if (message.whatsappLink) {
+            window.open(message.whatsappLink, '_blank');
+          } else {
+            setStatus('No hay un número de WhatsApp disponible.', 'error');
           }
-          const message = getTemplateMessage(guest, url);
-          const whatsappUrl = `https://wa.me/${guest.normalizedWhatsapp.wa}?text=${encodeURIComponent(message)}`;
-          window.open(whatsappUrl, '_blank');
           break;
         default:
           break;
       }
     });
 
-    // --- Inicialización ---
     renderTable();
-    fetchGuests(state.jsonPath);
+    if (state.jsonPath) {
+      fetchGuests(state.jsonPath);
+    }
   </script>
 </body>
 </html>
