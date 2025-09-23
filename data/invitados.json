@@ -2,168 +2,224 @@
   {
     "slug": "sergio-armando-berumen-arriola",
     "displayName": "Sergio Armando Berumen Arriola",
+    "relation": "amigo",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+524491050752"
   },
   {
     "slug": "jose-julian-berumen-rodriguez",
     "displayName": "Jose Julian Berumen Rodriguez",
+    "relation": "amigo",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+524491071025"
   },
   {
     "slug": "familia-cuellar-piedra",
     "displayName": "Familia Cuellar Piedra",
+    "relation": "familia",
+    "treatment": "grupal",
     "seats": 5,
     "whatsapp": "+524492796634"
   },
   {
     "slug": "jose-manuel-yanez-saucedo",
     "displayName": "Jose Manuel Yanez Saucedo",
+    "relation": "amigo",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+524499078497"
   },
   {
     "slug": "samuel-medina-zarate",
     "displayName": "Samuel Medina Zarate",
+    "relation": "amigo",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+524491119760"
   },
   {
     "slug": "leticia-cuellar-ramos",
     "displayName": "Leticia Cuellar Ramos",
+    "relation": "familia",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+524423320734"
   },
   {
     "slug": "ulises-morales-espino",
     "displayName": "Ulises Morales Espino",
+    "relation": "amigo",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+524499045420"
   },
   {
     "slug": "octavio-jimenez-macias",
     "displayName": "Octavio Jimenez Macias",
+    "relation": "amigo",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+524491123981"
   },
   {
     "slug": "guadalupe-vizcaino-perez",
     "displayName": "Guadalupe Vizcaino Perez",
+    "relation": "amigo",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+524491426011"
   },
   {
     "slug": "fatima-santos-romero",
     "displayName": "Fatima Santos Romero",
+    "relation": "familia",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+524491111828"
   },
   {
     "slug": "dayana-carvajal-villanueva",
     "displayName": "Dayana Carvajal Villanueva",
+    "relation": "amigo",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+524491092996"
   },
   {
     "slug": "ericka-cardona-martinez",
     "displayName": "Ericka Cardona Martinez",
+    "relation": "amigo",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+524494139765"
   },
   {
     "slug": "salvador-del-valle",
     "displayName": "Salvador Del Valle",
+    "relation": "amigo",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+524492061068"
   },
   {
     "slug": "salvador-flores-ruiz",
     "displayName": "Salvador Flores Ruiz",
+    "relation": "amigo",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+524494663323"
   },
   {
     "slug": "maria-elena-cuellar-ramos",
     "displayName": "Maria Elena Cuellar Ramos",
+    "relation": "familia",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+524428501343"
   },
   {
     "slug": "jose-de-jesus-flores-hernandez",
     "displayName": "Jose De Jesus Flores Hernandez",
+    "relation": "amigo",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+524492231272"
   },
   {
     "slug": "jose-alberto-flores-hernandez",
     "displayName": "Jose Alberto Flores Hernandez",
+    "relation": "amigo",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+524491866334"
   },
   {
     "slug": "imelda-chavez",
     "displayName": "Imelda Chavez",
+    "relation": "familia",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+525510516248"
   },
   {
     "slug": "familia-piedra",
     "displayName": "Familia Piedra",
+    "relation": "familia",
+    "treatment": "grupal",
     "seats": 3,
     "whatsapp": "+525518511516"
   },
   {
     "slug": "oralia-piedra-toledo",
     "displayName": "Oralia Piedra Toledo",
+    "relation": "familia",
+    "treatment": "individual",
     "seats": 1,
     "whatsapp": "+525545668860"
   },
   {
     "slug": "familia-piedra-toledo",
     "displayName": "Familia Piedra Toledo",
+    "relation": "familia",
+    "treatment": "grupal",
     "seats": 4,
     "whatsapp": "+525532039707"
   },
   {
     "slug": "dagoberto-piedra-toledo",
     "displayName": "Dagoberto Piedra Toledo",
+    "relation": "familia",
+    "treatment": "individual",
     "seats": 1,
     "whatsapp": "+525520969348"
   },
   {
     "slug": "maria-piedra-toledo",
     "displayName": "Maria Piedra Toledo",
+    "relation": "familia",
+    "treatment": "individual",
     "seats": 1,
     "whatsapp": "+527772102917"
   },
   {
     "slug": "familia-escobar-cuellar",
     "displayName": "Familia Escobar Cuellar",
+    "relation": "familia",
+    "treatment": "grupal",
     "seats": 4,
     "whatsapp": "+524425957892"
   },
   {
     "slug": "familia-guzman-cuellar",
     "displayName": "Familia Guzman Cuellar",
+    "relation": "familia",
+    "treatment": "grupal",
     "seats": 4,
     "whatsapp": "+524421092905"
   },
   {
     "slug": "hugo-escobar-cuellar",
     "displayName": "Hugo Escobar Cuellar",
+    "relation": "familia",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+524423692328"
   },
   {
     "slug": "luis-escobar-cuellar",
     "displayName": "Luis Escobar Cuellar",
+    "relation": "familia",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+524421272558"
   },
   {
     "slug": "suhey-guzman-cuellar",
     "displayName": "Suhey Guzman Cuellar",
+    "relation": "familia",
+    "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+521321231234"
   }
