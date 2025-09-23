@@ -193,22 +193,33 @@
           </div>
           <div class="prose prose-lg max-w-3xl mx-auto mt-6 hidden text-center" data-invitee-personalized aria-live="polite">
             <p data-invitee-greeting class="text-forest"></p>
+            <div data-invitee-body class="text-forest/85"></div>
             <p data-invitee-note class="text-forest/80 hidden"></p>
-            <p data-invitee-seats class="font-semibold text-forest"></p>
           </div>
-          <div class="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center hidden" data-invitee-actions>
-            <a
-              class="button button--primary button--sm button--responsive"
-              data-invitee-whatsapp
-              href="#"
-              target="_blank"
-              rel="noopener"
-              role="button"
-              aria-label="Confirmar asistencia por WhatsApp"
-            >
-              <i class="fa-brands fa-whatsapp"></i>
-              Confirmar por WhatsApp
-            </a>
+          <div class="mt-8 flex flex-col items-center gap-4 hidden" data-invitee-actions>
+            <div class="flex w-full flex-col items-center gap-3 sm:flex-row sm:justify-center" data-invitee-buttons>
+              <a
+                class="button button--primary button--sm button--responsive"
+                data-invitee-whatsapp
+                href="#"
+                target="_blank"
+                rel="noopener"
+                role="button"
+                aria-label="Confirmar asistencia por WhatsApp"
+              >
+                <i class="fa-brands fa-whatsapp"></i>
+                Confirmar por WhatsApp
+              </a>
+              <button
+                type="button"
+                class="button button--outline button--sm button--responsive"
+                data-invitee-copy
+              >
+                <i class="fa-solid fa-link"></i>
+                Copiar enlace
+              </button>
+            </div>
+            <p class="text-center text-sm text-forest/70 hidden" data-invitee-cta-text></p>
           </div>
         </div>
       </section>
@@ -416,6 +427,7 @@
     <a href="#ubicacion" class="button button--outline button--sm"><i class="fa-solid fa-map-pin button__icon-gold"></i>¿Cómo llegar?</a>
   </nav>
 
+  <script src="scripts/message-utils.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -443,13 +455,18 @@
         generic: document.querySelector('[data-invitee-generic]'),
         personalized: document.querySelector('[data-invitee-personalized]'),
         greeting: document.querySelector('[data-invitee-greeting]'),
+        body: document.querySelector('[data-invitee-body]'),
         note: document.querySelector('[data-invitee-note]'),
-        seats: document.querySelector('[data-invitee-seats]'),
         actions: document.querySelector('[data-invitee-actions]'),
         whatsapp: document.querySelector('[data-invitee-whatsapp]'),
+        copy: document.querySelector('[data-invitee-copy]'),
+        ctaText: document.querySelector('[data-invitee-cta-text]'),
         loading: document.querySelector('[data-invitee-loading]'),
         brand: document.querySelector('[data-site-brand]')
       };
+
+      let currentInviteData = null;
+      let copyFeedbackTimeout = null;
 
       const restoreSpaPath = () => {
         try {
@@ -484,6 +501,84 @@
         element.classList.toggle('hidden', Boolean(shouldHide));
       };
 
+      const setCtaMessage = message => {
+        if (!invitationElements.ctaText) return;
+        invitationElements.ctaText.textContent = message || '';
+        toggleHidden(invitationElements.ctaText, !message);
+      };
+
+      const clearCopyFeedback = () => {
+        if (copyFeedbackTimeout) {
+          window.clearTimeout(copyFeedbackTimeout);
+          copyFeedbackTimeout = null;
+        }
+      };
+
+      const copyTextToClipboard = async text => {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+          return true;
+        }
+
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.top = '0';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+
+        let succeeded = false;
+        try {
+          succeeded = document.execCommand('copy');
+        } catch (error) {
+          succeeded = false;
+        }
+
+        document.body.removeChild(textarea);
+        return succeeded;
+      };
+
+      if (invitationElements.copy) {
+        invitationElements.copy.addEventListener('click', async event => {
+          event.preventDefault();
+          if (!currentInviteData || !currentInviteData.url) {
+            setCtaMessage('No hay un enlace personalizado disponible por ahora.');
+            return;
+          }
+
+          invitationElements.copy.disabled = true;
+          invitationElements.copy.setAttribute('aria-disabled', 'true');
+
+          try {
+            const copied = await copyTextToClipboard(currentInviteData.url);
+            if (copied) {
+              clearCopyFeedback();
+              setCtaMessage('Enlace copiado al portapapeles. 🥂');
+              copyFeedbackTimeout = window.setTimeout(() => {
+                const helper = currentInviteData ? currentInviteData.helperText : '';
+                setCtaMessage(helper || '');
+              }, 3200);
+            } else {
+              setCtaMessage('No se pudo copiar el enlace. Copia manualmente, por favor.');
+            }
+          } catch (error) {
+            console.error('No se pudo copiar el enlace personalizado.', error);
+            setCtaMessage('No se pudo copiar el enlace. Copia manualmente, por favor.');
+          } finally {
+            window.setTimeout(() => {
+              if (invitationElements.copy) {
+                const canCopy = currentInviteData && currentInviteData.url;
+                invitationElements.copy.disabled = !canCopy;
+                invitationElements.copy.setAttribute('aria-disabled', canCopy ? 'false' : 'true');
+              }
+            }, 350);
+          }
+        });
+      }
+
       const setCardState = state => {
         if (!invitationElements.card) return;
         if (state) {
@@ -498,25 +593,37 @@
           invitationElements.card.setAttribute('aria-busy', String(Boolean(isLoading)));
         }
         toggleHidden(invitationElements.loading, !isLoading);
+        if (isLoading) {
+          toggleHidden(invitationElements.actions, true);
+          setCtaMessage('');
+        }
       };
 
       const resetPersonalizedFields = () => {
         if (invitationElements.greeting) {
           invitationElements.greeting.textContent = '';
         }
+        if (invitationElements.body) {
+          invitationElements.body.innerHTML = '';
+        }
         if (invitationElements.note) {
           invitationElements.note.textContent = '';
           invitationElements.note.classList.add('hidden');
-        }
-        if (invitationElements.seats) {
-          invitationElements.seats.textContent = '';
-          invitationElements.seats.classList.add('hidden');
         }
         if (invitationElements.whatsapp) {
           invitationElements.whatsapp.href = '#';
           invitationElements.whatsapp.setAttribute('aria-label', 'Confirmar asistencia por WhatsApp');
           invitationElements.whatsapp.classList.add('hidden');
         }
+        if (invitationElements.copy) {
+          invitationElements.copy.disabled = true;
+          invitationElements.copy.setAttribute('aria-disabled', 'true');
+          invitationElements.copy.classList.add('hidden');
+        }
+        toggleHidden(invitationElements.actions, true);
+        setCtaMessage('');
+        clearCopyFeedback();
+        currentInviteData = null;
       };
 
       const showGenericView = () => {
@@ -534,64 +641,64 @@
         setCardState('generic');
       };
 
-      const formatSeatsText = seatsValue => {
-        const seatsNumber = Number(seatsValue);
-        if (!Number.isFinite(seatsNumber) || seatsNumber <= 0) return '';
-        if (seatsNumber === 1) {
-          return 'Tenemos 1 lugar reservado especialmente para ti.';
-        }
-        return `Hemos reservado ${seatsNumber} lugares para ustedes.`;
-      };
-
-      const formatWhatsappLink = (phone, displayName, seatsValue) => {
-        if (typeof phone !== 'string' || !phone.trim()) return '';
-        const sanitized = phone.replace(/[^\d+]/g, '');
-        const normalized = sanitized.replace(/^\+/, '');
-        if (!normalized) return '';
-        const seatsNumber = Number(seatsValue);
-        const seatLabel = Number.isFinite(seatsNumber) && seatsNumber > 0
-          ? (seatsNumber === 1 ? '1 persona' : `${seatsNumber} personas`)
-          : 'nuestra invitación';
-        const message = `Hola Carmen y Alfredo, somos ${displayName} y confirmamos nuestra asistencia (${seatLabel}).`;
-        return `https://wa.me/${normalized}?text=${encodeURIComponent(message)}`;
-      };
-
       const showPersonalizedView = invitee => {
         if (!invitee) return;
-        const { displayName, seats, note, whatsapp } = invitee;
-        const headingText = `Invitación para ${displayName}`;
-        const greetingText = `Querida ${displayName}`;
-        const seatsText = formatSeatsText(seats);
-        const whatsappLink = formatWhatsappLink(whatsapp, displayName, seats);
+        if (!window.InvitationMessaging || typeof window.InvitationMessaging.buildInviteMessage !== 'function') {
+          console.warn('El módulo de personalización no está disponible.');
+          showGenericView();
+          return;
+        }
+
+        let messageData;
+        try {
+          const siteBaseUrl = `${window.location.origin}${invitationConfig.basePath || ''}`;
+          messageData = window.InvitationMessaging.buildInviteMessage(invitee, {
+            baseUrl: window.InvitationMessaging.normalizeBaseUrl
+              ? window.InvitationMessaging.normalizeBaseUrl(siteBaseUrl)
+              : siteBaseUrl
+          });
+        } catch (error) {
+          console.error('No fue posible componer el mensaje personalizado.', error);
+          showGenericView();
+          return;
+        }
+
+        if (!messageData) return;
+
+        const { name, heading, greeting, body, helperText, whatsappLink, url } = messageData;
+        const note = typeof invitee.note === 'string' ? invitee.note.trim() : '';
+        const hasWhatsapp = Boolean(whatsappLink);
+        const hasCopy = Boolean(url);
 
         if (invitationElements.heading) {
-          invitationElements.heading.textContent = headingText;
+          invitationElements.heading.textContent = heading || `Invitación para ${name}`;
         }
         if (invitationElements.greeting) {
-          invitationElements.greeting.textContent = `${greetingText}:`;
+          invitationElements.greeting.textContent = greeting || '';
+        }
+        if (invitationElements.body) {
+          invitationElements.body.innerHTML = '';
+          if (Array.isArray(body) && body.length) {
+            body.forEach(paragraph => {
+              const p = document.createElement('p');
+              p.textContent = paragraph;
+              invitationElements.body.appendChild(p);
+            });
+          }
         }
         if (invitationElements.note) {
-          if (note && note.trim()) {
-            invitationElements.note.textContent = note.trim();
+          if (note) {
+            invitationElements.note.textContent = note;
             invitationElements.note.classList.remove('hidden');
           } else {
             invitationElements.note.textContent = '';
             invitationElements.note.classList.add('hidden');
           }
         }
-        if (invitationElements.seats) {
-          if (seatsText) {
-            invitationElements.seats.textContent = seatsText;
-            invitationElements.seats.classList.remove('hidden');
-          } else {
-            invitationElements.seats.textContent = '';
-            invitationElements.seats.classList.add('hidden');
-          }
-        }
         if (invitationElements.whatsapp) {
-          if (whatsappLink) {
+          if (hasWhatsapp) {
             invitationElements.whatsapp.href = whatsappLink;
-            invitationElements.whatsapp.setAttribute('aria-label', `Confirmar asistencia por WhatsApp para ${displayName}`);
+            invitationElements.whatsapp.setAttribute('aria-label', `Confirmar asistencia por WhatsApp para ${name}`);
             invitationElements.whatsapp.classList.remove('hidden');
           } else {
             invitationElements.whatsapp.href = '#';
@@ -599,14 +706,40 @@
             invitationElements.whatsapp.classList.add('hidden');
           }
         }
-        toggleHidden(invitationElements.actions, !whatsappLink);
+        if (invitationElements.copy) {
+          invitationElements.copy.disabled = !hasCopy;
+          invitationElements.copy.setAttribute('aria-disabled', hasCopy ? 'false' : 'true');
+          if (hasCopy) {
+            invitationElements.copy.setAttribute('aria-label', `Copiar enlace personalizado para ${name}`);
+            invitationElements.copy.classList.remove('hidden');
+          } else {
+            invitationElements.copy.removeAttribute('aria-label');
+            invitationElements.copy.classList.add('hidden');
+          }
+        }
+
+        const shouldShowActions = hasCopy || hasWhatsapp;
+        toggleHidden(invitationElements.actions, !shouldShowActions);
+        clearCopyFeedback();
+        setCtaMessage(shouldShowActions ? helperText : '');
+
         toggleHidden(invitationElements.generic, true);
         toggleHidden(invitationElements.personalized, false);
         if (invitationElements.brand) {
-          invitationElements.brand.setAttribute('title', headingText);
+          if (heading) {
+            invitationElements.brand.setAttribute('title', heading);
+          } else {
+            invitationElements.brand.removeAttribute('title');
+          }
         }
-        document.title = `${headingText} · ${originalTitle}`;
+        document.title = heading ? `${heading} · ${originalTitle}` : originalTitle;
         setCardState('personalized');
+
+        currentInviteData = {
+          url: url || '',
+          helperText: helperText || '',
+          name
+        };
       };
 
       const getSlugFromPath = (pathname, basePath) => {
@@ -650,12 +783,13 @@
       const sanitizeInvitee = entry => {
         if (!entry || typeof entry !== 'object') return null;
         const slug = typeof entry.slug === 'string' ? entry.slug.trim() : '';
-        const displayName = typeof entry.displayName === 'string' ? entry.displayName.trim() : '';
-        if (!slug || !displayName) return null;
+        if (!slug) return null;
         const seats = Number(entry.seats);
         return {
           slug,
-          displayName,
+          displayName: typeof entry.displayName === 'string' ? entry.displayName.trim() : '',
+          relation: typeof entry.relation === 'string' ? entry.relation.trim() : '',
+          treatment: typeof entry.treatment === 'string' ? entry.treatment.trim() : '',
           seats: Number.isFinite(seats) ? seats : null,
           note: typeof entry.note === 'string' ? entry.note.trim() : '',
           whatsapp: typeof entry.whatsapp === 'string' ? entry.whatsapp.trim() : '',
