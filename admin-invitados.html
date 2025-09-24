@@ -517,8 +517,8 @@ Confirma tu asistencia aquí: {url}</textarea>
           <span class="chip hidden" data-preview-treatment></span>
         </div>
         <div class="preview-body" data-preview-body-container>
-          <p class="preview-greeting" data-preview-greeting></p>
-          <div data-preview-body class="preview-text"></div>
+          <p class="preview-general" data-preview-general></p>
+          <p class="preview-seats" data-preview-seats-message></p>
           <p class="preview-note hidden" data-preview-note></p>
         </div>
         <ul class="preview-summary">
@@ -564,8 +564,8 @@ Confirma tu asistencia aquí: {url}</textarea>
       heading: document.querySelector('[data-preview-heading]'),
       relation: document.querySelector('[data-preview-relation]'),
       treatment: document.querySelector('[data-preview-treatment]'),
-      greeting: document.querySelector('[data-preview-greeting]'),
-      body: document.querySelector('[data-preview-body]'),
+      general: document.querySelector('[data-preview-general]'),
+      seatsMessage: document.querySelector('[data-preview-seats-message]'),
       note: document.querySelector('[data-preview-note]'),
       seats: document.querySelector('[data-preview-seats]'),
       helper: document.querySelector('[data-preview-helper]'),
@@ -783,19 +783,14 @@ Confirma tu asistencia aquí: {url}</textarea>
       setChip(previewElements.relation, formatRelation(message.relation || guest.relation));
       setChip(previewElements.treatment, formatTreatment(message.treatment || guest.treatment));
 
-      if (previewElements.greeting) {
-        previewElements.greeting.textContent = message.greeting || '';
+      if (previewElements.general) {
+        previewElements.general.textContent = message.generalMessage || '';
+        previewElements.general.classList.toggle('hidden', !message.generalMessage);
       }
 
-      if (previewElements.body) {
-        previewElements.body.innerHTML = '';
-        if (Array.isArray(message.body)) {
-          message.body.forEach((paragraph) => {
-            const p = document.createElement('p');
-            p.textContent = paragraph;
-            previewElements.body.appendChild(p);
-          });
-        }
+      if (previewElements.seatsMessage) {
+        previewElements.seatsMessage.textContent = message.seatsMessage || '';
+        previewElements.seatsMessage.classList.toggle('hidden', !message.seatsMessage);
       }
 
       if (previewElements.note) {

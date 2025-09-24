@@ -179,8 +179,15 @@
       </section>
 
       <section id="mensaje" class="reveal">
-        <div class="section-card rounded-3xl border border-champagne/60 bg-white/70 p-8 sm:p-10 shadow-petal" data-invitee-card>
-          <h2 class="text-2xl sm:text-3xl font-semibold text-center" data-invitee-heading>Estimados familiares y amigos</h2>
+        <div class="section-card rounded-3xl border border-champagne/60 bg-ivory/90 p-8 sm:p-10 shadow-petal" data-invitee-card>
+          <h2 class="text-center font-serif text-3xl sm:text-4xl tracking-tight text-forest" data-invitee-heading>
+            Estimados familiares y amigos
+          </h2>
+          <div class="mt-5 flex justify-center" aria-hidden="true">
+            <span class="inline-flex h-12 w-12 items-center justify-center rounded-full border border-gold/40 bg-champagne/40 text-2xl text-gold">
+              <i class="fa-solid fa-ring"></i>
+            </span>
+          </div>
           <div class="mt-6 hidden text-center" data-invitee-loading role="status" aria-live="polite">
             <span class="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-sm font-medium text-forest/60 shadow-inner">
               <span class="h-2 w-2 animate-pulse rounded-full bg-gold/70" aria-hidden="true"></span>
@@ -191,10 +198,14 @@
             <p>Con gran emoción tenemos el honor de invitarles a ser testigos de la formalización de nuestro compromiso. Después de un camino compartido, hemos decidido unir nuestras vidas en el marco de una ceremonia civil.</p>
             <p>Será un privilegio contar con su presencia, siendo su compañía el más valioso de los regalos. Les esperamos para compartir una velada honrando los valores del respeto, la igualdad y la unión libremente elegida.</p>
           </div>
-          <div class="prose prose-lg max-w-3xl mx-auto mt-6 hidden text-center" data-invitee-personalized aria-live="polite">
-            <p data-invitee-greeting class="text-forest"></p>
-            <div data-invitee-body class="text-forest/85"></div>
-            <p data-invitee-note class="text-forest/80 hidden"></p>
+          <div
+            class="mx-auto mt-8 hidden max-w-2xl flex flex-col items-center gap-6 rounded-3xl border border-champagne/60 bg-ivory px-6 py-8 text-center shadow-[0_24px_60px_-34px_rgba(47,79,79,0.6)]"
+            data-invitee-personalized
+            aria-live="polite"
+          >
+            <p data-invitee-general class="text-lg sm:text-xl leading-relaxed text-forest/95"></p>
+            <p data-invitee-seats class="text-base sm:text-lg font-semibold text-forest"></p>
+            <p data-invitee-note class="text-sm sm:text-base text-forest/80 hidden"></p>
           </div>
           <div class="mt-8 flex flex-col items-center gap-4 hidden" data-invitee-actions>
             <div class="flex w-full flex-col items-center gap-3 sm:flex-row sm:justify-center" data-invitee-buttons>
@@ -458,8 +469,8 @@
         heading: document.querySelector('[data-invitee-heading]'),
         generic: document.querySelector('[data-invitee-generic]'),
         personalized: document.querySelector('[data-invitee-personalized]'),
-        greeting: document.querySelector('[data-invitee-greeting]'),
-        body: document.querySelector('[data-invitee-body]'),
+        generalMessage: document.querySelector('[data-invitee-general]'),
+        seatsMessage: document.querySelector('[data-invitee-seats]'),
         note: document.querySelector('[data-invitee-note]'),
         actions: document.querySelector('[data-invitee-actions]'),
         whatsappGroom: document.querySelector('[data-invitee-whatsapp-groom]'),
@@ -529,11 +540,12 @@
       };
 
       const resetPersonalizedFields = () => {
-        if (invitationElements.greeting) {
-          invitationElements.greeting.textContent = '';
+        if (invitationElements.generalMessage) {
+          invitationElements.generalMessage.textContent = '';
         }
-        if (invitationElements.body) {
-          invitationElements.body.innerHTML = '';
+        if (invitationElements.seatsMessage) {
+          invitationElements.seatsMessage.textContent = '';
+          toggleHidden(invitationElements.seatsMessage, true);
         }
         if (invitationElements.note) {
           invitationElements.note.textContent = '';
@@ -595,8 +607,8 @@
         const {
           name,
           heading,
-          greeting,
-          body,
+          generalMessage,
+          seatsMessage,
           helperText,
           groomWhatsappLink,
           brideWhatsappLink,
@@ -610,18 +622,12 @@
         if (invitationElements.heading) {
           invitationElements.heading.textContent = heading || `Invitación para ${name}`;
         }
-        if (invitationElements.greeting) {
-          invitationElements.greeting.textContent = greeting || '';
+        if (invitationElements.generalMessage) {
+          invitationElements.generalMessage.textContent = generalMessage || '';
         }
-        if (invitationElements.body) {
-          invitationElements.body.innerHTML = '';
-          if (Array.isArray(body) && body.length) {
-            body.forEach(paragraph => {
-              const p = document.createElement('p');
-              p.textContent = paragraph;
-              invitationElements.body.appendChild(p);
-            });
-          }
+        if (invitationElements.seatsMessage) {
+          invitationElements.seatsMessage.textContent = seatsMessage || '';
+          toggleHidden(invitationElements.seatsMessage, !seatsMessage);
         }
         if (invitationElements.note) {
           if (note) {
