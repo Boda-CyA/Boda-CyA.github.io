@@ -112,7 +112,7 @@
           <img
             src="adorno_arriba.png"
             alt=""
-            class="hero-floral pointer-events-none hidden h-12 w-64 max-w-full text-gold opacity-0 translate-y-2 transition-all duration-700 ease-out sm:block sm:h-14 sm:w-80"
+            class="hero-floral pointer-events-none hidden h-12 w-64 max-w-full text-gold sm:block sm:h-14 sm:w-80"
             aria-hidden="true"
             data-hero-floral
           />
@@ -144,7 +144,7 @@
           <img
             src="adorno_abajo.png"
             alt=""
-            class="hero-floral pointer-events-none hidden h-12 w-64 max-w-full text-gold opacity-0 translate-y-2 transition-all duration-700 ease-out sm:block sm:h-14 sm:w-80"
+            class="hero-floral pointer-events-none hidden h-12 w-64 max-w-full text-gold sm:block sm:h-14 sm:w-80"
             aria-hidden="true"
             data-hero-floral
           />
@@ -841,16 +841,6 @@
       runPersonalization();
 
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      const hero = document.querySelector('[data-hero]');
-      if (hero) {
-        const activateHero = () => hero.classList.add('is-active');
-        if (prefersReducedMotion) {
-          activateHero();
-        } else {
-          requestAnimationFrame(activateHero);
-        }
-      }
 
       const heroNames = document.querySelector('[data-hero-names]');
       const heroDate = document.querySelector('[data-hero-date]');

@@ -201,15 +201,8 @@ body {
   }
 }
 
-[data-hero].is-active .hero-floral {
-  opacity: 1;
-  --tw-translate-y: 0;
-}
-
 @media (prefers-reduced-motion: reduce) {
   [data-hero] .hero-floral {
-    opacity: 1;
-    --tw-translate-y: 0;
     transition-duration: 0ms;
   }
 }
