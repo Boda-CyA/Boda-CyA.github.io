@@ -523,15 +523,26 @@ Confirma tu asistencia aquí: {url}</textarea>
         </div>
         <ul class="preview-summary">
           <li><strong>Lugares:</strong> <span data-preview-seats>—</span></li>
-          <li><strong>WhatsApp:</strong> <span data-preview-whatsapp-display>—</span></li>
+          <li><strong>WhatsApp invitad@:</strong> <span data-preview-whatsapp-display>—</span></li>
+          <li>
+            <strong data-preview-whatsapp-groom-label>Confirmar con Alfredo:</strong>
+            <span data-preview-whatsapp-groom>—</span>
+          </li>
+          <li>
+            <strong data-preview-whatsapp-bride-label>Confirmar con Carmen:</strong>
+            <span data-preview-whatsapp-bride>—</span>
+          </li>
           <li><strong>URL:</strong> <a href="#" target="_blank" rel="noopener" class="preview-link disabled" data-preview-url>—</a></li>
         </ul>
         <p class="preview-helper hidden" data-preview-helper></p>
         <label class="preview-label">Mensaje de WhatsApp
           <textarea data-preview-whatsapp readonly></textarea>
         </label>
-        <label class="preview-label">Enlace wa.me
-          <input type="text" data-preview-whatsapp-url readonly>
+        <label class="preview-label" data-preview-whatsapp-groom-link-label>Enlace Alfredo (wa.me)
+          <input type="text" data-preview-whatsapp-url-groom readonly>
+        </label>
+        <label class="preview-label" data-preview-whatsapp-bride-link-label>Enlace Carmen (wa.me)
+          <input type="text" data-preview-whatsapp-url-bride readonly>
         </label>
       </div>
     </aside>
@@ -567,8 +578,15 @@ Confirma tu asistencia aquí: {url}</textarea>
       helper: document.querySelector('[data-preview-helper]'),
       url: document.querySelector('[data-preview-url]'),
       whatsappDisplay: document.querySelector('[data-preview-whatsapp-display]'),
+      whatsappGroom: document.querySelector('[data-preview-whatsapp-groom]'),
+      whatsappBride: document.querySelector('[data-preview-whatsapp-bride]'),
+      whatsappGroomLabel: document.querySelector('[data-preview-whatsapp-groom-label]'),
+      whatsappBrideLabel: document.querySelector('[data-preview-whatsapp-bride-label]'),
       whatsappMessage: document.querySelector('[data-preview-whatsapp]'),
-      whatsappUrl: document.querySelector('[data-preview-whatsapp-url]')
+      whatsappGroomUrl: document.querySelector('[data-preview-whatsapp-url-groom]'),
+      whatsappBrideUrl: document.querySelector('[data-preview-whatsapp-url-bride]'),
+      whatsappGroomLinkLabel: document.querySelector('[data-preview-whatsapp-groom-link-label]'),
+      whatsappBrideLinkLabel: document.querySelector('[data-preview-whatsapp-bride-link-label]')
     };
 
     function setStatus(message, type = '') {
@@ -823,12 +841,37 @@ Confirma tu asistencia aquí: {url}</textarea>
           : '—';
       }
 
+      const groomName = message.groomContactName || 'Alfredo';
+      const brideName = message.brideContactName || 'Carmen';
+
+      if (previewElements.whatsappGroomLabel) {
+        previewElements.whatsappGroomLabel.textContent = `Confirmar con ${groomName}:`;
+      }
+      if (previewElements.whatsappBrideLabel) {
+        previewElements.whatsappBrideLabel.textContent = `Confirmar con ${brideName}:`;
+      }
+      if (previewElements.whatsappGroom) {
+        previewElements.whatsappGroom.textContent = message.groomWhatsappDisplay || '—';
+      }
+      if (previewElements.whatsappBride) {
+        previewElements.whatsappBride.textContent = message.brideWhatsappDisplay || '—';
+      }
+
       if (previewElements.whatsappMessage) {
         previewElements.whatsappMessage.value = message.whatsappMessage || '';
       }
 
-      if (previewElements.whatsappUrl) {
-        previewElements.whatsappUrl.value = message.whatsappLink || '';
+      if (previewElements.whatsappGroomLinkLabel) {
+        previewElements.whatsappGroomLinkLabel.textContent = `Enlace ${groomName} (wa.me)`;
+      }
+      if (previewElements.whatsappBrideLinkLabel) {
+        previewElements.whatsappBrideLinkLabel.textContent = `Enlace ${brideName} (wa.me)`;
+      }
+      if (previewElements.whatsappGroomUrl) {
+        previewElements.whatsappGroomUrl.value = message.groomWhatsappLink || '';
+      }
+      if (previewElements.whatsappBrideUrl) {
+        previewElements.whatsappBrideUrl.value = message.brideWhatsappLink || '';
       }
 
       setPreviewLink(message.url);
@@ -870,6 +913,11 @@ Confirma tu asistencia aquí: {url}</textarea>
         const row = document.createElement('tr');
         row.dataset.slug = guest.slug;
 
+        const groomName = message.groomContactName || 'Alfredo';
+        const brideName = message.brideContactName || 'Carmen';
+        const groomWhatsappLink = message.groomWhatsappLink || '';
+        const brideWhatsappLink = message.brideWhatsappLink || '';
+
         const relationChip = guest.relation ? `<span class="chip">${escapeHtml(formatRelation(guest.relation))}</span>` : '';
         const treatmentChip = guest.treatment ? `<span class="chip">${escapeHtml(formatTreatment(guest.treatment))}</span>` : '';
         const chipsHtml = relationChip || treatmentChip ? `<div class="chip-group">${relationChip} ${treatmentChip}</div>` : '';
@@ -892,7 +940,8 @@ Confirma tu asistencia aquí: {url}</textarea>
           <td class="actions">
             <button type="button" class="secondary" data-action="open" data-slug="${encodeURIComponent(guest.slug)}">Abrir</button>
             <button type="button" data-action="copy" data-slug="${encodeURIComponent(guest.slug)}">Copiar enlace</button>
-            <button type="button" data-action="whatsapp" data-slug="${encodeURIComponent(guest.slug)}" ${message.whatsappLink ? '' : 'disabled'}>WhatsApp</button>
+            <button type="button" data-action="whatsapp-groom" data-slug="${encodeURIComponent(guest.slug)}" ${groomWhatsappLink ? '' : 'disabled'}>WhatsApp ${escapeHtml(groomName)}</button>
+            <button type="button" data-action="whatsapp-bride" data-slug="${encodeURIComponent(guest.slug)}" ${brideWhatsappLink ? '' : 'disabled'}>WhatsApp ${escapeHtml(brideName)}</button>
           </td>
         `;
         fragment.appendChild(row);
@@ -1069,11 +1118,18 @@ Confirma tu asistencia aquí: {url}</textarea>
             setStatus('No se pudo copiar el enlace. Copia manualmente.', 'error');
           }
           break;
-        case 'whatsapp':
-          if (message.whatsappLink) {
-            window.open(message.whatsappLink, '_blank');
+        case 'whatsapp-groom':
+          if (message.groomWhatsappLink) {
+            window.open(message.groomWhatsappLink, '_blank');
           } else {
-            setStatus('No hay un número de WhatsApp disponible.', 'error');
+            setStatus('No hay un número de WhatsApp disponible para el Novio.', 'error');
+          }
+          break;
+        case 'whatsapp-bride':
+          if (message.brideWhatsappLink) {
+            window.open(message.brideWhatsappLink, '_blank');
+          } else {
+            setStatus('No hay un número de WhatsApp disponible para la Novia.', 'error');
           }
           break;
         default:
