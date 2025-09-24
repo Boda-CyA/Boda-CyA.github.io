@@ -264,6 +264,26 @@
     const toneContext = getToneContext(relation, treatment);
     const isAnonymousInvitee = name === 'Invitad@';
 
+    const celebrationLine = toneContext.plural
+      ? 'Nos llena de alegría invitarles a la celebración civil de nuestra boda.'
+      : 'Nos llena de alegría invitarte a la celebración civil de nuestra boda.';
+    const honorLine = toneContext.plural
+      ? 'Será un honor compartir este momento con ustedes.'
+      : 'Será un honor compartir este momento contigo.';
+    const generalMessage = `${celebrationLine} ${honorLine}`.trim();
+
+    let seatsMessage = '';
+    if (hasSeatsValue(seats)) {
+      seatsMessage =
+        seats === 1
+          ? 'Tu invitación es personal; cuentas con 1 lugar reservado.'
+          : `Tu invitación es para ${seats} personas; cuentas con ${seats} lugares reservados.`;
+    } else {
+      seatsMessage = toneContext.plural
+        ? 'Tu invitación está abierta; contáctanos para definir los lugares reservados.'
+        : 'Tu invitación está abierta; contáctanos para definir tu lugar reservado.';
+    }
+
     const replacements = {
       name,
       fecha: EVENT_DATE,
@@ -366,6 +386,8 @@
       url,
       greeting,
       body,
+      generalMessage,
+      seatsMessage,
       heading,
       helperText,
       whatsappMessage,
