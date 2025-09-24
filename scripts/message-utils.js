@@ -4,11 +4,14 @@
   const DEFAULT_EMOJI = '💍';
 
   const DEFAULT_WHATSAPP_TEMPLATE = [
-    '{greeting}',
+    '{guestIntro}',
     '',
-    '{body}',
+    '{confirmationLine}',
+    '{seatsLine}',
     '',
-    'Confirma tu asistencia aquí: {url}'
+    'Gracias por la invitación. {emoji}',
+    '',
+    '{urlLine}'
   ].join('\n');
 
   function sanitizeName(value) {
@@ -258,17 +261,57 @@
     const baseUrl = typeof options.baseUrl === 'string' ? options.baseUrl : '';
     const url = slug ? buildInviteUrl(baseUrl, slug) : '';
 
+    const toneContext = getToneContext(relation, treatment);
+    const isAnonymousInvitee = name === 'Invitad@';
+
     const replacements = {
       name,
       fecha: EVENT_DATE,
       lugar: EVENT_LOCATION,
       url,
       seats: seats ? String(seats) : '',
-      emoji: DEFAULT_EMOJI
+      emoji: DEFAULT_EMOJI,
+      guestIntro: '',
+      confirmationLine: '',
+      seatsLine: '',
+      urlLine: ''
     };
 
+    const guestIntro = toneContext.plural
+      ? isAnonymousInvitee
+        ? 'Hola!'
+        : `Hola, somos ${name}!`
+      : isAnonymousInvitee
+        ? 'Hola!'
+        : `Hola, soy ${name}!`;
+
+    const confirmationLine = toneContext.plural
+      ? 'Confirmamos nuestra asistencia a la celebración civil de su boda.'
+      : 'Confirmo mi asistencia a la celebración civil de su boda.';
+
+    let seatsLine = '';
+    if (hasSeatsValue(seats)) {
+      if (toneContext.plural) {
+        seatsLine =
+          seats === 1
+            ? 'Asistiremos en el lugar reservado para nosotros.'
+            : `Asistiremos ${seats} personas conforme a los lugares reservados.`;
+      } else {
+        seatsLine =
+          seats === 1
+            ? 'Asistiré en el lugar reservado para mí.'
+            : `Contamos con ${seats} lugares reservados y asistiremos conforme a la invitación.`;
+      }
+    }
+
+    const urlLine = url ? `Mi invitación: ${url}` : '';
+
+    replacements.guestIntro = guestIntro;
+    replacements.confirmationLine = confirmationLine;
+    replacements.seatsLine = seatsLine;
+    replacements.urlLine = urlLine;
+
     const greetingTemplate = buildGreetingTemplate(name, relation, treatment);
-    const toneContext = getToneContext(relation, treatment);
     const bodyTemplates = buildBodyTemplates(toneContext, seats);
 
     const greeting = replacePlaceholders(greetingTemplate, replacements);
