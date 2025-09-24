@@ -176,6 +176,19 @@
       .trim();
   }
 
+  function formatNamesWithOr(names) {
+    if (!Array.isArray(names)) return '';
+    const filtered = names
+      .map(name => (typeof name === 'string' ? name.trim() : ''))
+      .filter(Boolean);
+    if (!filtered.length) return '';
+    if (filtered.length === 1) return filtered[0];
+    if (filtered.length === 2) return `${filtered[0]} o ${filtered[1]}`;
+    const head = filtered.slice(0, -1).join(', ');
+    const tail = filtered[filtered.length - 1];
+    return `${head} o ${tail}`;
+  }
+
   function formatWhatsappDisplay(countryCode, localNumber) {
     if (!localNumber) return '';
     const match = localNumber.match(/(\d{3})(\d{3})(\d{4})/);
@@ -200,6 +213,22 @@
       display: formatWhatsappDisplay(countryCode, localNumber)
     };
   }
+
+  const GROOM_CONTACT = {
+    name: 'Alfredo',
+    role: 'Novio',
+    label: 'Confirmar asistencia con Alfredo por WhatsApp',
+    whatsapp: normalizeWhatsapp('4494336064')
+  };
+
+  const BRIDE_CONTACT = {
+    name: 'Carmen',
+    role: 'Novia',
+    label: 'Confirmar asistencia con Carmen por WhatsApp',
+    whatsapp: normalizeWhatsapp('4491952828')
+  };
+
+  const WHATSAPP_CONTACTS = [GROOM_CONTACT, BRIDE_CONTACT];
 
   function normalizeBaseUrl(value) {
     if (!value || typeof value !== 'string') return '';
@@ -260,16 +289,30 @@
       body: bodyText
     };
     const whatsappMessage = collapseBlankLines(replacePlaceholders(whatsappTemplate, whatsappReplacements));
-    const normalizedWhatsapp = normalizeWhatsapp(invitee && invitee.whatsapp);
     const encodedWhatsappMessage = whatsappMessage ? encodeURIComponent(whatsappMessage) : '';
-    const whatsappLink =
-      normalizedWhatsapp && whatsappMessage
-        ? `https://wa.me/${normalizedWhatsapp.wa}?text=${encodedWhatsappMessage}`
-        : '';
 
-    const helperText = normalizedWhatsapp
-      ? 'Confírmanos por WhatsApp y comparte tu enlace si deseas reenviarlo.'
-      : 'Copia tu enlace personalizado y envíanos tu número para contactarnos. 🙏';
+    const buildWhatsappLink = contact => {
+      if (!contact || !contact.whatsapp || !contact.whatsapp.wa || !encodedWhatsappMessage) {
+        return '';
+      }
+      return `https://wa.me/${contact.whatsapp.wa}?text=${encodedWhatsappMessage}`;
+    };
+
+    const groomWhatsappLink = buildWhatsappLink(GROOM_CONTACT);
+    const brideWhatsappLink = buildWhatsappLink(BRIDE_CONTACT);
+
+    const availableContacts = WHATSAPP_CONTACTS.filter(contact => contact.whatsapp && contact.whatsapp.wa);
+    const contactSummaries = availableContacts
+      .map(contact =>
+        contact.whatsapp && contact.whatsapp.display ? `${contact.name}: ${contact.whatsapp.display}` : ''
+      )
+      .filter(Boolean);
+    let helperText = 'Confírmanos por WhatsApp. 🥂';
+    if (availableContacts.length) {
+      const namesList = formatNamesWithOr(availableContacts.map(contact => contact.name));
+      const details = contactSummaries.length ? ` ${contactSummaries.join(' · ')}` : '';
+      helperText = `Confírmanos por WhatsApp con ${namesList}.${details} 🥂`.trim();
+    }
 
     return {
       name,
@@ -284,10 +327,14 @@
       helperText,
       whatsappMessage,
       encodedWhatsappMessage,
-      whatsappLink,
-      normalizedWhatsapp,
-      whatsappLabel: 'Confirmar por WhatsApp',
-      copyLabel: 'Copiar enlace'
+      groomWhatsappLink,
+      brideWhatsappLink,
+      groomWhatsappLabel: GROOM_CONTACT.label,
+      brideWhatsappLabel: BRIDE_CONTACT.label,
+      groomWhatsappDisplay: GROOM_CONTACT.whatsapp ? GROOM_CONTACT.whatsapp.display : '',
+      brideWhatsappDisplay: BRIDE_CONTACT.whatsapp ? BRIDE_CONTACT.whatsapp.display : '',
+      groomContactName: GROOM_CONTACT.name,
+      brideContactName: BRIDE_CONTACT.name
     };
   }
 

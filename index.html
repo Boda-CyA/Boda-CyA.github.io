@@ -200,24 +200,28 @@
             <div class="flex w-full flex-col items-center gap-3 sm:flex-row sm:justify-center" data-invitee-buttons>
               <a
                 class="button button--primary button--sm button--responsive"
-                data-invitee-whatsapp
+                data-invitee-whatsapp-groom
                 href="#"
                 target="_blank"
                 rel="noopener"
                 role="button"
-                aria-label="Confirmar asistencia por WhatsApp"
+                aria-label="Confirmar asistencia con Alfredo por WhatsApp"
               >
                 <i class="fa-brands fa-whatsapp"></i>
-                Confirmar por WhatsApp
+                Confirmar con el Novio
               </a>
-              <button
-                type="button"
+              <a
                 class="button button--outline button--sm button--responsive"
-                data-invitee-copy
+                data-invitee-whatsapp-bride
+                href="#"
+                target="_blank"
+                rel="noopener"
+                role="button"
+                aria-label="Confirmar asistencia con Carmen por WhatsApp"
               >
-                <i class="fa-solid fa-link"></i>
-                Copiar enlace
-              </button>
+                <i class="fa-brands fa-whatsapp"></i>
+                Confirmar con la Novia
+              </a>
             </div>
             <p class="text-center text-sm text-forest/70 hidden" data-invitee-cta-text></p>
           </div>
@@ -458,15 +462,12 @@
         body: document.querySelector('[data-invitee-body]'),
         note: document.querySelector('[data-invitee-note]'),
         actions: document.querySelector('[data-invitee-actions]'),
-        whatsapp: document.querySelector('[data-invitee-whatsapp]'),
-        copy: document.querySelector('[data-invitee-copy]'),
+        whatsappGroom: document.querySelector('[data-invitee-whatsapp-groom]'),
+        whatsappBride: document.querySelector('[data-invitee-whatsapp-bride]'),
         ctaText: document.querySelector('[data-invitee-cta-text]'),
         loading: document.querySelector('[data-invitee-loading]'),
         brand: document.querySelector('[data-site-brand]')
       };
-
-      let currentInviteData = null;
-      let copyFeedbackTimeout = null;
 
       const restoreSpaPath = () => {
         try {
@@ -507,78 +508,6 @@
         toggleHidden(invitationElements.ctaText, !message);
       };
 
-      const clearCopyFeedback = () => {
-        if (copyFeedbackTimeout) {
-          window.clearTimeout(copyFeedbackTimeout);
-          copyFeedbackTimeout = null;
-        }
-      };
-
-      const copyTextToClipboard = async text => {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          await navigator.clipboard.writeText(text);
-          return true;
-        }
-
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        textarea.setAttribute('readonly', '');
-        textarea.style.position = 'fixed';
-        textarea.style.top = '0';
-        textarea.style.opacity = '0';
-        document.body.appendChild(textarea);
-        textarea.focus();
-        textarea.select();
-
-        let succeeded = false;
-        try {
-          succeeded = document.execCommand('copy');
-        } catch (error) {
-          succeeded = false;
-        }
-
-        document.body.removeChild(textarea);
-        return succeeded;
-      };
-
-      if (invitationElements.copy) {
-        invitationElements.copy.addEventListener('click', async event => {
-          event.preventDefault();
-          if (!currentInviteData || !currentInviteData.url) {
-            setCtaMessage('No hay un enlace personalizado disponible por ahora.');
-            return;
-          }
-
-          invitationElements.copy.disabled = true;
-          invitationElements.copy.setAttribute('aria-disabled', 'true');
-
-          try {
-            const copied = await copyTextToClipboard(currentInviteData.url);
-            if (copied) {
-              clearCopyFeedback();
-              setCtaMessage('Enlace copiado al portapapeles. 🥂');
-              copyFeedbackTimeout = window.setTimeout(() => {
-                const helper = currentInviteData ? currentInviteData.helperText : '';
-                setCtaMessage(helper || '');
-              }, 3200);
-            } else {
-              setCtaMessage('No se pudo copiar el enlace. Copia manualmente, por favor.');
-            }
-          } catch (error) {
-            console.error('No se pudo copiar el enlace personalizado.', error);
-            setCtaMessage('No se pudo copiar el enlace. Copia manualmente, por favor.');
-          } finally {
-            window.setTimeout(() => {
-              if (invitationElements.copy) {
-                const canCopy = currentInviteData && currentInviteData.url;
-                invitationElements.copy.disabled = !canCopy;
-                invitationElements.copy.setAttribute('aria-disabled', canCopy ? 'false' : 'true');
-              }
-            }, 350);
-          }
-        });
-      }
-
       const setCardState = state => {
         if (!invitationElements.card) return;
         if (state) {
@@ -610,20 +539,18 @@
           invitationElements.note.textContent = '';
           invitationElements.note.classList.add('hidden');
         }
-        if (invitationElements.whatsapp) {
-          invitationElements.whatsapp.href = '#';
-          invitationElements.whatsapp.setAttribute('aria-label', 'Confirmar asistencia por WhatsApp');
-          invitationElements.whatsapp.classList.add('hidden');
+        if (invitationElements.whatsappGroom) {
+          invitationElements.whatsappGroom.href = '#';
+          invitationElements.whatsappGroom.setAttribute('aria-label', 'Confirmar asistencia con Alfredo por WhatsApp');
+          invitationElements.whatsappGroom.classList.add('hidden');
         }
-        if (invitationElements.copy) {
-          invitationElements.copy.disabled = true;
-          invitationElements.copy.setAttribute('aria-disabled', 'true');
-          invitationElements.copy.classList.add('hidden');
+        if (invitationElements.whatsappBride) {
+          invitationElements.whatsappBride.href = '#';
+          invitationElements.whatsappBride.setAttribute('aria-label', 'Confirmar asistencia con Carmen por WhatsApp');
+          invitationElements.whatsappBride.classList.add('hidden');
         }
         toggleHidden(invitationElements.actions, true);
         setCtaMessage('');
-        clearCopyFeedback();
-        currentInviteData = null;
       };
 
       const showGenericView = () => {
@@ -665,10 +592,20 @@
 
         if (!messageData) return;
 
-        const { name, heading, greeting, body, helperText, whatsappLink, url } = messageData;
+        const {
+          name,
+          heading,
+          greeting,
+          body,
+          helperText,
+          groomWhatsappLink,
+          brideWhatsappLink,
+          groomWhatsappLabel,
+          brideWhatsappLabel
+        } = messageData;
         const note = typeof invitee.note === 'string' ? invitee.note.trim() : '';
-        const hasWhatsapp = Boolean(whatsappLink);
-        const hasCopy = Boolean(url);
+        const hasGroomWhatsapp = Boolean(groomWhatsappLink);
+        const hasBrideWhatsapp = Boolean(brideWhatsappLink);
 
         if (invitationElements.heading) {
           invitationElements.heading.textContent = heading || `Invitación para ${name}`;
@@ -695,32 +632,43 @@
             invitationElements.note.classList.add('hidden');
           }
         }
-        if (invitationElements.whatsapp) {
-          if (hasWhatsapp) {
-            invitationElements.whatsapp.href = whatsappLink;
-            invitationElements.whatsapp.setAttribute('aria-label', `Confirmar asistencia por WhatsApp para ${name}`);
-            invitationElements.whatsapp.classList.remove('hidden');
+        if (invitationElements.whatsappGroom) {
+          if (hasGroomWhatsapp) {
+            invitationElements.whatsappGroom.href = groomWhatsappLink;
+            const label = groomWhatsappLabel
+              ? `${groomWhatsappLabel}${name ? ` para ${name}` : ''}`
+              : `Confirmar asistencia con Alfredo por WhatsApp${name ? ` para ${name}` : ''}`;
+            invitationElements.whatsappGroom.setAttribute('aria-label', label);
+            invitationElements.whatsappGroom.classList.remove('hidden');
           } else {
-            invitationElements.whatsapp.href = '#';
-            invitationElements.whatsapp.setAttribute('aria-label', 'Confirmar asistencia por WhatsApp');
-            invitationElements.whatsapp.classList.add('hidden');
+            invitationElements.whatsappGroom.href = '#';
+            invitationElements.whatsappGroom.setAttribute(
+              'aria-label',
+              'Confirmar asistencia con Alfredo por WhatsApp'
+            );
+            invitationElements.whatsappGroom.classList.add('hidden');
           }
         }
-        if (invitationElements.copy) {
-          invitationElements.copy.disabled = !hasCopy;
-          invitationElements.copy.setAttribute('aria-disabled', hasCopy ? 'false' : 'true');
-          if (hasCopy) {
-            invitationElements.copy.setAttribute('aria-label', `Copiar enlace personalizado para ${name}`);
-            invitationElements.copy.classList.remove('hidden');
+        if (invitationElements.whatsappBride) {
+          if (hasBrideWhatsapp) {
+            invitationElements.whatsappBride.href = brideWhatsappLink;
+            const label = brideWhatsappLabel
+              ? `${brideWhatsappLabel}${name ? ` para ${name}` : ''}`
+              : `Confirmar asistencia con Carmen por WhatsApp${name ? ` para ${name}` : ''}`;
+            invitationElements.whatsappBride.setAttribute('aria-label', label);
+            invitationElements.whatsappBride.classList.remove('hidden');
           } else {
-            invitationElements.copy.removeAttribute('aria-label');
-            invitationElements.copy.classList.add('hidden');
+            invitationElements.whatsappBride.href = '#';
+            invitationElements.whatsappBride.setAttribute(
+              'aria-label',
+              'Confirmar asistencia con Carmen por WhatsApp'
+            );
+            invitationElements.whatsappBride.classList.add('hidden');
           }
         }
 
-        const shouldShowActions = hasCopy || hasWhatsapp;
+        const shouldShowActions = hasGroomWhatsapp || hasBrideWhatsapp;
         toggleHidden(invitationElements.actions, !shouldShowActions);
-        clearCopyFeedback();
         setCtaMessage(shouldShowActions ? helperText : '');
 
         toggleHidden(invitationElements.generic, true);
@@ -735,11 +683,6 @@
         document.title = heading ? `${heading} · ${originalTitle}` : originalTitle;
         setCardState('personalized');
 
-        currentInviteData = {
-          url: url || '',
-          helperText: helperText || '',
-          name
-        };
       };
 
       const getSlugFromPath = (pathname, basePath) => {
