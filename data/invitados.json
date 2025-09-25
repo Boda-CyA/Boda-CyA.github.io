@@ -92,7 +92,7 @@
     "displayName": "DAYANA CARVAJAL VILLANUEVA",
     "relation": "amigo",
     "treatment": "acompanado",
-    "seats": 2,
+    "seats": 4,
     "whatsapp": "+524491092996"
   },
   {
@@ -248,7 +248,7 @@
     "whatsapp": "+521321231234"
   },
   {
-    "slug": "mar-lomeli",
+    "slug": "marnay-garcia",
     "displayName": "MARNAY GARCÍA",
     "relation": "amigo",
     "treatment": "acompanado",
@@ -262,5 +262,341 @@
     "treatment": "acompanado",
     "seats": 2,
     "whatsapp": "+524493443354"
+  },
+  {
+    "slug": "irma-nunez-briones",
+    "displayName": "IRMA NUÑEZ BRIONES",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 1,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "eloisa-briones-reyes",
+    "displayName": "ELOÍSA BRIONES REYES",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 1,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "alfredo-cruz-nunez",
+    "displayName": "ALFREDO CRUZ NÚÑEZ",
+    "relation": "familia",
+    "treatment": "acompanado",
+    "seats": 2,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "familia-cruz-medina",
+    "displayName": "FAMILIA CRUZ MEDINA",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 8,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "sergio-cruz-nunez",
+    "displayName": "SERGIO CRUZ NÚÑEZ",
+    "relation": "familia",
+    "treatment": "acompanado",
+    "seats": 2,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "familia-briones-esparza",
+    "displayName": "FAMILIA BRIONES ESPARZA",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 4,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "familia-esparza-nunez",
+    "displayName": "FAMILIA ESPARZA NÚÑEZ",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 4,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "familia-briones-vazquez",
+    "displayName": "FAMILIA BRIONES VÁZQUEZ",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 2,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "familia-briones-najera",
+    "displayName": "FAMILIA BRIONES NÁJERA",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 2,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "familia-caballero-arellano",
+    "displayName": "FAMILIA CABALLERO ARELLANO",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 3,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "familia-garcia-caballero",
+    "displayName": "FAMILIA GARCÍA CABALLERO",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 2,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "familia-bustamante-arellano",
+    "displayName": "FAMILIA BUSTAMANTE ARELLANO",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 4,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "delia-nunez-briones",
+    "displayName": "DELIA NUÑEZ BRIONES",
+    "relation": "familia",
+    "treatment": "acompanado",
+    "seats": 2,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "alejandro-arellano-nunez",
+    "displayName": "ALEJANDRO ARELLANO NUÑEZ",
+    "relation": "familia",
+    "treatment": "acompanado",
+    "seats": 2,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "monica-eloisa-rodriguez-nunez",
+    "displayName": "MÓNICA ELOÍSA RODRÍGUEZ NÚÑEZ",
+    "relation": "familia",
+    "treatment": "acompanado",
+    "seats": 2,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "carlos-eduardo-guajardo-nunez",
+    "displayName": "CARLOS EDUARDO GUAJARDO NÚÑEZ",
+    "relation": "familia",
+    "treatment": "acompanado",
+    "seats": 2,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "familia-robledo-nunez",
+    "displayName": "FAMILIA ROBLEDO NÚÑEZ",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 3,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "familia-nunez-salazar",
+    "displayName": "FAMILIA NUÑEZ SALAZAR",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 6,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "familia-maldonado-nunez",
+    "displayName": "FAMILIA MALDONADO NÚÑEZ",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 5,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "olga-martinez-briones",
+    "displayName": "OLGA MARTÍNEZ BRIONES",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 5,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "ricardo-illescas-nunez",
+    "displayName": "RICARDO ILLESCAS NÚÑEZ",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 4,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "familia-reyes-nunez",
+    "displayName": "FAMILIA REYES NÚÑEZ",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 2,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "familia-aguilar-reyes",
+    "displayName": "FAMILIA AGUILAR REYES",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 6,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "familia-reyes-padilla",
+    "displayName": "FAMILIA REYES PADILLA",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 5,
+    "whatsapp": "+524491810920"
+  },
+  {
+    "slug": "familia-yoshikai-reyes",
+    "displayName": "FAMILIA YOSHIKAI REYES",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 2,
+    "whatsapp": "+525805715161"
+  },
+  {
+    "slug": "familia-mata-reyes",
+    "displayName": "FAMILIA MATA REYES",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 4,
+    "whatsapp": "+524491373609"
+  },
+  {
+    "slug": "maria-isabel-reyes-nunez",
+    "displayName": "MARÍA ISABEL REYES NÚÑEZ",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 1,
+    "whatsapp": "+524494349177"
+  },
+  {
+    "slug": "familia-reyes-perez",
+    "displayName": "FAMILIA REYES PÉREZ",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 4,
+    "whatsapp": "+14696509656"
+  },
+  {
+    "slug": "familia-cruz-reyes",
+    "displayName": "FAMILIA CRUZ REYES",
+    "relation": "familia",
+    "treatment": "individual",
+    "seats": 3,
+    "whatsapp": "+524492841527"
+  },
+  {
+    "slug": "luis-ricardo-munoz-vazquez",
+    "displayName": "LUIS RICARDO MUÑOZ VÁZQUEZ",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 1,
+    "whatsapp": "+524491155716"
+  },
+  {
+    "slug": "jorge-fernando-ledezma-huerta",
+    "displayName": "JORGE FERNANDO LEDEZMA HUERTA",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 1,
+    "whatsapp": "+524494139236"
+  },
+  {
+    "slug": "mariel-medina-maldonado",
+    "displayName": "MARIEL MEDINA MALDONADO",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 1,
+    "whatsapp": "+524491143689"
+  },
+  {
+    "slug": "monica-ruvalcaba-vargas",
+    "displayName": "MÓNICA RUVALCABA VARGAS",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 1,
+    "whatsapp": "+524491231967"
+  },
+  {
+    "slug": "familia-esparza-vazquez",
+    "displayName": "FAMILIA ESPARZA VÁZQUEZ",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 2,
+    "whatsapp": "+524491189501"
+  },
+  {
+    "slug": "familia-diaz-gonzalez",
+    "displayName": "FAMILIA DÍAZ GONZÁLEZ",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 7,
+    "whatsapp": "+524491108028"
+  },
+  {
+    "slug": "familia-huerta-monreal",
+    "displayName": "FAMILIA HUERTA MONREAL",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 4,
+    "whatsapp": "+525541135766"
+  },
+  {
+    "slug": "familia-acevedo-medina",
+    "displayName": "FAMILIA ACEVEDO MEDINA",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 4,
+    "whatsapp": "+525540312490"
+  },
+  {
+    "slug": "familia-romo-padilla",
+    "displayName": "FAMILIA ROMO PADILLA",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 3,
+    "whatsapp": "+524491108119"
+  },
+  {
+    "slug": "familia-calvillo-gutierrez",
+    "displayName": "FAMILIA CALVILLO GUTIÉRREZ",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 5,
+    "whatsapp": "+524494136000"
+  },
+  {
+    "slug": "familia-reyes-quezada",
+    "displayName": "FAMILIA REYES QUEZADA",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 5,
+    "whatsapp": "+524492223554"
+  },
+  {
+    "slug": "alicia-livier-gutierrez",
+    "displayName": "ALICIA LIVIER GUTIÉRREZ",
+    "relation": "amigo",
+    "treatment": "acompanado",
+    "seats": 2,
+    "whatsapp": "+524491079050"
+  },
+  {
+    "slug": "gloria-soledad-vazquez",
+    "displayName": "GLORIA SOLEDAD VÁZQUEZ",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 1,
+    "whatsapp": "+524497549706"
   }
 ]
