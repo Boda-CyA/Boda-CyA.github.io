@@ -598,5 +598,109 @@
     "treatment": "individual",
     "seats": 1,
     "whatsapp": "+524497549706"
+  },
+  {
+    "slug": "andrea-guadalupe-olivarez-mtz",
+    "displayName": "ANDREA GUADALUPE OLIVAREZ MTZ",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 1,
+    "whatsapp": "+524494003004"
+  },
+  {
+    "slug": "gustavo-rafael-fernandez-macias",
+    "displayName": "GUSTAVO RAFAEL FERNÁNDEZ MACÍAS",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 1,
+    "whatsapp": "+524492999169"
+  },
+  {
+    "slug": "angelica-denisse-perales-diaz-de-leon",
+    "displayName": "ANGELICA DENISSE PERALES DÍAZ DE LEON",
+    "relation": "amigo",
+    "treatment": "acompanado",
+    "seats": 2,
+    "whatsapp": "+524491422628"
+  },
+  {
+    "slug": "familia-delgadillo-luevano",
+    "displayName": "FAMILIA DELGADILLO LUEVANO",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 2,
+    "whatsapp": "+524492799868"
+  },
+  {
+    "slug": "familia-vazquez-gutierrez",
+    "displayName": "FAMILIA VÁZQUEZ GUTIÉRREZ",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 2,
+    "whatsapp": "+524491560130"
+  },
+  {
+    "slug": "landy-danira-de-gante-contreras",
+    "displayName": "LANDY DANIRA DE GANTE CONTRERAS",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 1,
+    "whatsapp": "+524491545382"
+  },
+  {
+    "slug": "sandra-ma-del-refugio-martinez",
+    "displayName": "SANDRA MA DEL REFUGIO MARTÍNEZ",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 1,
+    "whatsapp": "+524492280225"
+  },
+  {
+    "slug": "rosa-isela-lopez",
+    "displayName": "ROSA ISELA LÓPEZ",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 1,
+    "whatsapp": "+524491805468"
+  },
+  {
+    "slug": "monica-elizabeth-gonzalez-calderon",
+    "displayName": "MÓNICA ELIZABETH GONZÁLEZ CALDERON",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 1,
+    "whatsapp": "+524493993873"
+  },
+  {
+    "slug": "claudia-reyes",
+    "displayName": "CLAUDIA REYES",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 1,
+    "whatsapp": "+524491385657"
+  },
+  {
+    "slug": "diana-cordova",
+    "displayName": "DIANA CORDOVA",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 1,
+    "whatsapp": "+524492898813"
+  },
+  {
+    "slug": "familia-serna-munoz",
+    "displayName": "FAMILIA SERNA MUÑOZ",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 2,
+    "whatsapp": "+524494332922"
+  },
+  {
+    "slug": "carlos-enrique-vazquez",
+    "displayName": "CARLOS ENRIQUE VÁZQUEZ",
+    "relation": "amigo",
+    "treatment": "individual",
+    "seats": 1,
+    "whatsapp": "+524492886879"
   }
 ]
