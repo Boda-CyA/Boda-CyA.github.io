@@ -998,8 +998,15 @@
           inviteeLastName !== undefined ? inviteeLastName : lastName
         );
 
+        const headingText = heading || 'Invitación para:';
+        const fullDisplayName = [resolvedFirstName, resolvedLastName]
+          .filter(Boolean)
+          .join(' ')
+          .trim();
+        const fallbackTitleName = fullDisplayName || formatTitleCaseName(displayNameSource);
+
         if (invitationElements.heading) {
-          invitationElements.heading.textContent = heading || `Invitación para ${name}`;
+          invitationElements.heading.textContent = headingText;
         }
         if (invitationElements.personalizedLabel) {
           const labelText = invitationTypeLabel || 'Invitación: Individual';
@@ -1074,14 +1081,20 @@
 
         toggleHidden(invitationElements.generic, true);
         toggleHidden(invitationElements.personalized, false);
+        const descriptiveTitle =
+          headingText === 'Invitación especial'
+            ? headingText
+            : fallbackTitleName
+              ? `${headingText} ${fallbackTitleName}`.trim()
+              : headingText;
         if (invitationElements.brand) {
-          if (heading) {
-            invitationElements.brand.setAttribute('title', heading);
+          if (descriptiveTitle) {
+            invitationElements.brand.setAttribute('title', descriptiveTitle);
           } else {
             invitationElements.brand.removeAttribute('title');
           }
         }
-        document.title = heading ? `${heading} · ${originalTitle}` : originalTitle;
+        document.title = descriptiveTitle ? `${descriptiveTitle} · ${originalTitle}` : originalTitle;
         setCardState('personalized');
 
       };
@@ -1164,7 +1177,7 @@
         const note = normalizedString(entry.note);
         const whatsapp = normalizeWhatsappValue(entry.whatsapp);
 
-        return {
+        const inviteeRecord = {
           slug,
           displayName,
           relation,
@@ -1174,6 +1187,15 @@
           whatsapp,
           tokens: extractTokens(entry)
         };
+
+        if (firstNameSource) {
+          inviteeRecord.nombre = firstNameSource;
+        }
+        if (lastNameSource) {
+          inviteeRecord.apellidos = lastNameSource;
+        }
+
+        return inviteeRecord;
       };
 
       const buildInviteesRequestUrl = baseUrl => {

@@ -315,6 +315,18 @@
     let firstNamePart = nameParts.firstName;
     let lastNamePart = nameParts.lastName;
 
+    const explicitFirstName =
+      invitee && typeof invitee.nombre === 'string' ? invitee.nombre.trim() : '';
+    const explicitLastName =
+      invitee && typeof invitee.apellidos === 'string' ? invitee.apellidos.trim() : '';
+
+    if (explicitFirstName) {
+      firstNamePart = explicitFirstName;
+    }
+    if (explicitLastName) {
+      lastNamePart = explicitLastName;
+    }
+
     if (!firstNamePart) {
       if (rawDisplayName) {
         firstNamePart = rawDisplayName;
@@ -408,7 +420,7 @@
       .map(paragraph => replacePlaceholders(paragraph, replacements))
       .filter(Boolean);
 
-    const heading = name === 'Invitad@' ? 'Invitación especial' : `Invitación para ${name}`;
+    const heading = name === 'Invitad@' ? 'Invitación especial' : 'Invitación para:';
 
     const whatsappTemplate =
       typeof options.whatsappTemplate === 'string' && options.whatsappTemplate.trim()

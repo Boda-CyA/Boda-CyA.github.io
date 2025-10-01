@@ -1388,9 +1388,26 @@ Confirma tu asistencia aquí: {url}</textarea>
       previewElements.empty.classList.add('hidden');
       previewElements.content.classList.remove('hidden');
 
-      const heading = message.heading || (guest.displayName ? `Invitación para ${guest.displayName}` : 'Invitación personalizada');
+      const headingBase = message.heading || 'Invitación para:';
+      const previewFullName = [
+        typeof message.firstName === 'string' ? message.firstName.trim() : '',
+        typeof message.lastName === 'string' ? message.lastName.trim() : '',
+        !message.firstName && !message.lastName && typeof guest.nombre === 'string' ? guest.nombre.trim() : '',
+        !message.firstName && !message.lastName && typeof guest.apellidos === 'string' ? guest.apellidos.trim() : ''
+      ]
+        .filter(Boolean)
+        .join(' ');
+      const fallbackDisplayName = guest.displayName ? guest.displayName.trim() : '';
+      const descriptiveHeading =
+        headingBase === 'Invitación especial'
+          ? headingBase
+          : previewFullName
+              ? `${headingBase} ${previewFullName}`.trim()
+              : fallbackDisplayName
+                ? `${headingBase} ${fallbackDisplayName}`.trim()
+                : headingBase;
       if (previewElements.heading) {
-        previewElements.heading.textContent = heading;
+        previewElements.heading.textContent = descriptiveHeading;
       }
 
       setChip(previewElements.relation, formatRelation(message.relation || guest.relation));
