@@ -900,7 +900,7 @@ Confirma tu asistencia aquí: {url}</textarea>
     </aside>
   </div>
   </main>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" integrity="sha256-td24kTx5cDIeEJD7BqXc9E+u6KDAdAm8YGtS+wGGyR0=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" integrity="sha256-uOhwxdKyl3LxDJ+pppPIuJaqyFQO1nAePMYwTGg/69s=" crossorigin="anonymous"></script>
   <script src="scripts/message-utils.js"></script>
   <script>
     const messaging = window.InvitationMessaging || {};
@@ -952,6 +952,9 @@ Confirma tu asistencia aquí: {url}</textarea>
     const errorBanner = document.getElementById('error-banner');
     const tableBody = document.getElementById('guest-table-body');
     const searchInput = document.getElementById('search-input');
+    const fetchButton = document.getElementById('fetch-button');
+    const fileButton = document.getElementById('file-button');
+    const fileInput = document.getElementById('file-input');
 
     const previewElements = {
       content: document.querySelector('[data-preview-content]'),
@@ -993,6 +996,29 @@ Confirma tu asistencia aquí: {url}</textarea>
 
     function hideErrorBanner() {
       showErrorBanner('');
+    }
+
+    function setLoading(isLoading) {
+      state.isLoading = Boolean(isLoading);
+      if (fetchButton) {
+        if (!fetchButton.dataset.originalLabel) {
+          fetchButton.dataset.originalLabel = fetchButton.textContent;
+        }
+        fetchButton.disabled = state.isLoading;
+        fetchButton.textContent = state.isLoading
+          ? 'Cargando…'
+          : fetchButton.dataset.originalLabel || 'Cargar CSV';
+      }
+      if (fileButton) {
+        fileButton.disabled = state.isLoading;
+      }
+      if (fileInput) {
+        fileInput.disabled = state.isLoading;
+      }
+      if (tableBody) {
+        tableBody.setAttribute('aria-busy', state.isLoading ? 'true' : 'false');
+      }
+      renderTable();
     }
 
     function debounce(fn, delay = SEARCH_DEBOUNCE_MS) {
@@ -1651,7 +1677,6 @@ Confirma tu asistencia aquí: {url}</textarea>
       reader.readAsText(file);
     }
 
-    const fetchButton = document.getElementById('fetch-button');
     if (fetchButton) {
       fetchButton.addEventListener('click', () => {
         const input = document.getElementById('json-path-input');
@@ -1661,8 +1686,6 @@ Confirma tu asistencia aquí: {url}</textarea>
       });
     }
 
-    const fileButton = document.getElementById('file-button');
-    const fileInput = document.getElementById('file-input');
     if (fileButton && fileInput) {
       fileButton.addEventListener('click', () => {
         fileInput.click();
