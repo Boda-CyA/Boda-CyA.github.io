@@ -104,6 +104,31 @@
   </script>
 </head>
 <body class="bg-ivory/95 antialiased text-base">
+  <div id="envelope-intro" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="envelope-stage">
+      <div class="envelope" aria-hidden="true">
+        <div class="envelope__body" aria-hidden="true">
+          <div class="envelope__pocket"></div>
+          <div class="envelope__letter" aria-hidden="true">
+            <p class="envelope__letter-heading">Carmen &amp; Alfredo</p>
+            <p class="envelope__letter-date">8 de noviembre de 2025</p>
+            <p class="envelope__letter-message">Da clic para abrir tu invitación.</p>
+          </div>
+        </div>
+        <div class="envelope__flap" aria-hidden="true"></div>
+        <div class="envelope__seal" aria-hidden="true">
+          <span>C&amp;A</span>
+        </div>
+      </div>
+      <button type="button" id="open-envelope" aria-label="Abrir sobre y ver invitación">
+        <span class="visually-hidden">Abrir sobre y ver invitación</span>
+      </button>
+    </div>
+    <button type="button" id="skip-intro" class="intro-skip" aria-label="Saltar introducción">
+      Saltar
+    </button>
+  </div>
+
   <div class="min-h-screen">
     <header class="relative isolate flex min-h-screen items-center justify-center overflow-hidden" data-hero>
       <div class="w-full max-w-4xl mx-auto px-5 sm:px-6 lg:px-8 py-24 sm:py-32 text-center">
@@ -152,7 +177,7 @@
       </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-5 sm:px-6 lg:px-8 space-y-16 py-12 sm:py-16">
+    <main id="invite" class="max-w-4xl mx-auto px-5 sm:px-6 lg:px-8 space-y-16 py-12 sm:py-16" aria-hidden="true" tabindex="-1">
       <section id="contador" class="reveal">
         <div class="section-card rounded-3xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-petal p-8 sm:p-10">
           <h2 class="text-2xl sm:text-3xl font-semibold tracking-wide text-center">La cuenta regresiva comenzó</h2>
@@ -503,6 +528,7 @@
     <a href="#ubicacion" class="button button--outline button--sm"><i class="fa-solid fa-map-pin button__icon-gold"></i>¿Cómo llegar?</a>
   </nav>
 
+  <script src="scripts/envelope-intro.js" defer></script>
   <script src="scripts/message-utils.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js" defer></script>
   <script>
