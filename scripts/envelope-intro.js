@@ -127,10 +127,12 @@
       openButton.disabled = true;
       skipButton.disabled = true;
 
+      const animationDuration = reduceMotionQuery.matches ? 0 : 1700;
+
       animationTimeoutId = window.setTimeout(() => {
         skipButton.disabled = false;
         finishIntro();
-      }, 1700);
+      }, animationDuration);
     };
 
     const skipIntro = () => {
@@ -153,9 +155,7 @@
 
       window.requestAnimationFrame(() => {
         window.setTimeout(() => {
-          if (!reduceMotionQuery.matches) {
-            openButton.focus();
-          }
+          openButton.focus();
         }, 120);
       });
 
@@ -169,7 +169,7 @@
       }, 6000);
     };
 
-    const shouldSkipIntro = () => reduceMotionQuery.matches || safeSessionGet() === '1';
+    const shouldSkipIntro = () => safeSessionGet() === '1';
 
     main.setAttribute('aria-hidden', 'false');
     intro.setAttribute('aria-hidden', 'true');
@@ -179,9 +179,7 @@
       intro.setAttribute('aria-hidden', 'true');
       intro.style.display = 'none';
       unlockScroll();
-      if (!reduceMotionQuery.matches) {
-        safeSessionSet('1');
-      }
+      safeSessionSet('1');
       return;
     }
 
