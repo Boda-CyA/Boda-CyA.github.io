@@ -4,10 +4,6 @@
   --forest: #2F4F4F;
   --sage: #8DA08C;
   --gold: #C2A675;
-  --sticky-duration: 150vh;
-  --sticky-fade-distance: 2rem;
-  --sticky-transition: 480ms;
-  --sticky-easing: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 body {
@@ -16,18 +12,6 @@ body {
   background-size: 100% 100%, 520px 520px;
   background-attachment: fixed;
   background-repeat: no-repeat, repeat;
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
 }
 
 #audio-progress {
@@ -142,6 +126,20 @@ body {
 
 .section-card:hover {
   box-shadow: 0 42px 105px -30px rgba(47, 79, 79, 0.75), 0 26px 60px -34px rgba(47, 79, 79, 0.65);
+}
+
+.reveal {
+  opacity: 0;
+  transform-origin: bottom center;
+  transform: perspective(1200px) rotateX(22deg) translateY(48px);
+  transition: opacity 0.6s ease, transform 0.85s cubic-bezier(0.19, 1, 0.22, 1);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.reveal.reveal-visible {
+  opacity: 1;
+  transform: perspective(1200px) rotateX(0deg) translateY(0);
 }
 
 .blur-up {
@@ -314,9 +312,16 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .reveal,
   .mobile-action-bar,
   .blur-up {
     transition: none;
+  }
+
+  .reveal,
+  .reveal.reveal-visible {
+    opacity: 1;
+    transform: none !important;
   }
 }
 
@@ -663,235 +668,4 @@ body {
 
 .bank-card__feedback.is-visible {
   opacity: 1;
-}
-
-.sticky-story {
-  position: relative;
-  padding: clamp(4rem, 10vh, 6rem) 0 clamp(5rem, 12vh, 7rem);
-  isolation: isolate;
-}
-
-.sticky-flow {
-  position: relative;
-  width: min(1200px, 92vw);
-  margin: 0 auto;
-}
-
-.panel-wrapper {
-  position: relative;
-  min-height: var(--sticky-duration, 150vh);
-}
-
-.panel {
-  position: sticky;
-  top: 0;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
-  border-radius: clamp(2rem, 4vw, 3.5rem);
-  background: var(--panel-bg, rgba(250, 247, 242, 0.95));
-  color: var(--panel-fg, var(--forest));
-  box-shadow: 0 -42px 90px -64px rgba(47, 79, 79, 0.32), 0 60px 120px -70px rgba(47, 79, 79, 0.4);
-  overflow: clip;
-  opacity: 0;
-  transform: translate3d(0, var(--sticky-fade-distance, 2rem), 0);
-  transition: opacity var(--sticky-transition, 480ms) var(--sticky-easing, cubic-bezier(0.22, 1, 0.36, 1)),
-    transform var(--sticky-transition, 480ms) var(--sticky-easing, cubic-bezier(0.22, 1, 0.36, 1));
-  will-change: transform, opacity;
-  contain: layout paint style;
-  content-visibility: auto;
-}
-
-.panel::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(to bottom, rgba(47, 79, 79, 0.14), transparent 30%);
-  opacity: 0;
-  transition: opacity var(--sticky-transition, 480ms) var(--sticky-easing, cubic-bezier(0.22, 1, 0.36, 1));
-}
-
-.panel.is-active {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-
-.panel.is-active::before {
-  opacity: 0.35;
-}
-
-.panel.is-prev {
-  opacity: 0;
-  transform: translate3d(0, calc(var(--sticky-fade-distance, 2rem) * -0.6), 0);
-}
-
-.panel.is-next {
-  opacity: 0.35;
-}
-
-.panel__content {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(1.25rem, 3vw, 2.75rem);
-  max-width: min(760px, 92vw);
-  margin: 0 auto;
-  padding: clamp(1.25rem, 3vw, 3rem);
-  text-align: center;
-  z-index: 1;
-}
-
-.panel__eyebrow {
-  font-size: 0.85rem;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  color: rgba(47, 79, 79, 0.6);
-}
-
-.panel__title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.4rem, 4vw, 3.4rem);
-  line-height: 1.1;
-  text-wrap: balance;
-}
-
-.panel__description,
-.panel__list,
-.panel__cta {
-  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
-  line-height: 1.65;
-  color: rgba(47, 79, 79, 0.85);
-}
-
-.panel__list {
-  display: grid;
-  gap: 0.75rem;
-  padding-left: 0;
-  list-style: none;
-}
-
-.panel__list li {
-  position: relative;
-  padding-left: 1.5rem;
-  text-align: left;
-}
-
-.panel__list li::before {
-  content: '✦';
-  position: absolute;
-  left: 0;
-  color: rgba(194, 166, 117, 0.9);
-  font-size: 0.85em;
-  top: 0.25em;
-}
-
-.panel__media {
-  width: min(420px, 85vw);
-  border-radius: clamp(1.5rem, 3vw, 2.5rem);
-  overflow: hidden;
-  box-shadow: 0 38px 95px -38px rgba(47, 79, 79, 0.55);
-}
-
-.panel__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transform: scale(1.02);
-  transition: transform var(--sticky-transition, 480ms) var(--sticky-easing, cubic-bezier(0.22, 1, 0.36, 1));
-}
-
-.panel.is-active .panel__media img {
-  transform: scale(1);
-}
-
-.panel__cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-  align-self: center;
-  padding: 0.85rem 1.75rem;
-  border-radius: 999px;
-  border: 1px solid rgba(194, 166, 117, 0.55);
-  background: rgba(250, 247, 242, 0.8);
-  color: rgba(47, 79, 79, 0.85);
-  text-decoration: none;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
-}
-
-.panel__cta:hover,
-.panel__cta:focus-visible {
-  transform: translateY(-1px);
-  border-color: rgba(194, 166, 117, 0.85);
-  background: rgba(231, 216, 201, 0.8);
-}
-
-.panel__cta:focus-visible {
-  outline: 3px solid rgba(194, 166, 117, 0.45);
-  outline-offset: 4px;
-}
-
-.panel--intro {
-  --panel-bg: rgba(250, 247, 242, 0.95);
-}
-
-.panel--journey {
-  --panel-bg: rgba(231, 216, 201, 0.92);
-}
-
-.panel--proposal {
-  --panel-bg: rgba(213, 206, 197, 0.92);
-}
-
-.panel--celebration {
-  --panel-bg: rgba(250, 247, 242, 0.96);
-}
-
-@media (min-width: 768px) {
-  .panel__content {
-    text-align: left;
-    align-items: flex-start;
-  }
-
-  .panel__eyebrow {
-    letter-spacing: 0.5em;
-  }
-
-  .panel__media {
-    align-self: flex-end;
-  }
-}
-
-@supports (height: 100svh) {
-  .panel {
-    min-height: 100svh;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .panel,
-  .panel::before,
-  .panel__media img,
-  .panel__cta {
-    transition-duration: 0.01ms !important;
-    transition-delay: 0s !important;
-  }
-
-  .panel,
-  .panel.is-prev,
-  .panel.is-next {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
-  .panel::before {
-    opacity: 0 !important;
-  }
 }
