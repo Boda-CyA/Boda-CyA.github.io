@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://cdn.tailwindcss.com?plugins=typography" defer></script>
+  <script src="scripts/sticky-flow.js" defer></script>
   <script>
     tailwind = window.tailwind || {};
     tailwind.config = {
@@ -151,6 +152,107 @@
         </div>
       </div>
     </header>
+
+    <section
+      class="sticky-story"
+      aria-label="Momentos que nos trajeron hasta aquí"
+    >
+      <div class="sticky-flow" data-sticky-flow>
+        <div class="panel-wrapper" data-panel-wrapper>
+          <section class="panel panel--intro" aria-labelledby="panel-intro-title">
+            <div class="panel__content">
+              <p class="panel__eyebrow">Desde el primer encuentro</p>
+              <h2 id="panel-intro-title" class="panel__title">Cuando dos caminos se cruzaron</h2>
+              <p class="panel__description">
+                Una tarde cualquiera de 2018 se volvió inolvidable. Entre conversaciones sin prisa y una risa compartida,
+                supimos que habíamos encontrado un hogar en la mirada del otro. Desde entonces, cada aventura ha estado llena
+                de pequeños detalles, playlists interminables y viajes improvisados.
+              </p>
+              <figure class="panel__media">
+                <img
+                  src="images/Foto (2).jpg"
+                  alt="Carmen y Alfredo caminando juntos en un atardecer"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+            </div>
+          </section>
+        </div>
+
+        <div class="panel-wrapper" data-panel-wrapper>
+          <section class="panel panel--journey" aria-labelledby="panel-journey-title">
+            <div class="panel__content">
+              <p class="panel__eyebrow">Los capítulos que escribimos</p>
+              <h2 id="panel-journey-title" class="panel__title">Una historia contada paso a paso</h2>
+              <p class="panel__description">
+                Nuestro amor creció entre ciudades, conciertos, reuniones familiares y tardes de cocina experimental. Cada
+                celebración, cada abrazo y cada noche de películas ha tejido una red de memorias que hoy queremos compartir
+                con ustedes.
+              </p>
+              <ul class="panel__list">
+                <li>2019 — Un sí a la aventura: nuestro primer viaje juntos.</li>
+                <li>2021 — Nuevos comienzos al mudarnos al mismo hogar.</li>
+                <li>2023 — Un brindis por los sueños que seguimos persiguiendo de la mano.</li>
+              </ul>
+              <figure class="panel__media">
+                <img
+                  src="images/Foto (4).jpg"
+                  alt="Carmen y Alfredo celebrando con amigos"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+            </div>
+          </section>
+        </div>
+
+        <div class="panel-wrapper" data-panel-wrapper>
+          <section class="panel panel--proposal" aria-labelledby="panel-proposal-title">
+            <div class="panel__content">
+              <p class="panel__eyebrow">La promesa</p>
+              <h2 id="panel-proposal-title" class="panel__title">Un anillo, un sí y un mar de emociones</h2>
+              <p class="panel__description">
+                En 2024, frente a un cielo lleno de estrellas, Alfredo preguntó y Carmen respondió con un sí emocionado. Fue un
+                instante íntimo, sincero y profundamente nuestro, el preludio perfecto para esta celebración que está por
+                llegar.
+              </p>
+              <figure class="panel__media">
+                <img
+                  src="images/Foto (6).jpg"
+                  alt="Detalle de la propuesta de matrimonio"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+            </div>
+          </section>
+        </div>
+
+        <div class="panel-wrapper" data-panel-wrapper>
+          <section class="panel panel--celebration" aria-labelledby="panel-celebration-title">
+            <div class="panel__content">
+              <p class="panel__eyebrow">Lo que viene</p>
+              <h2 id="panel-celebration-title" class="panel__title">El 8 de noviembre nos reunimos para celebrar</h2>
+              <p class="panel__description">
+                Queremos que cada invitado se sienta parte de nuestra historia. Prepárense para una tarde llena de abrazos,
+                música romántica y momentos que recordaremos siempre. Gracias por acompañarnos en este viaje que apenas
+                comienza.
+              </p>
+              <a class="panel__cta" href="#itinerario">Descubre el itinerario completo</a>
+              <figure class="panel__media">
+                <img
+                  src="images/Foto (8).jpg"
+                  alt="Brindis al atardecer en Villa La Perla"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
 
     <main id="invite" class="max-w-4xl mx-auto px-5 sm:px-6 lg:px-8 space-y-16 py-12 sm:py-16">
       <section id="contador">
