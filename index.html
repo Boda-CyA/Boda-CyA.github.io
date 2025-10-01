@@ -199,12 +199,18 @@
             <p>Será un privilegio contar con su presencia, siendo su compañía el más valioso de los regalos. Les esperamos para compartir una velada honrando los valores del respeto, la igualdad y la unión libremente elegida.</p>
           </div>
           <div
-            class="mx-auto mt-8 hidden max-w-2xl flex flex-col items-center gap-6 rounded-3xl border border-champagne/60 bg-ivory px-6 py-8 text-center shadow-[0_24px_60px_-34px_rgba(47,79,79,0.6)]"
+            class="mx-auto mt-8 hidden max-w-2xl flex flex-col items-center gap-4 rounded-3xl border border-champagne/60 bg-ivory px-6 py-8 text-center shadow-[0_24px_60px_-34px_rgba(47,79,79,0.6)]"
             data-invitee-personalized
             aria-live="polite"
           >
-            <p data-invitee-general class="text-lg sm:text-xl leading-relaxed text-forest/95"></p>
-            <p data-invitee-seats class="text-base sm:text-lg font-semibold text-forest"></p>
+            <p
+              class="text-xs uppercase tracking-[0.5em] text-forest/60"
+              data-invitee-personalized-label
+            >
+              Invitación para:
+            </p>
+            <p data-invitee-first-name class="text-3xl sm:text-4xl font-semibold tracking-tight text-forest"></p>
+            <p data-invitee-last-name class="text-lg sm:text-xl text-forest/80"></p>
             <p data-invitee-note class="text-sm sm:text-base text-forest/80 hidden"></p>
           </div>
           <div class="mt-8 flex flex-col items-center gap-4 hidden" data-invitee-actions>
@@ -514,8 +520,9 @@
         heading: document.querySelector('[data-invitee-heading]'),
         generic: document.querySelector('[data-invitee-generic]'),
         personalized: document.querySelector('[data-invitee-personalized]'),
-        generalMessage: document.querySelector('[data-invitee-general]'),
-        seatsMessage: document.querySelector('[data-invitee-seats]'),
+        personalizedLabel: document.querySelector('[data-invitee-personalized-label]'),
+        firstName: document.querySelector('[data-invitee-first-name]'),
+        lastName: document.querySelector('[data-invitee-last-name]'),
         note: document.querySelector('[data-invitee-note]'),
         actions: document.querySelector('[data-invitee-actions]'),
         whatsappGroom: document.querySelector('[data-invitee-whatsapp-groom]'),
@@ -558,6 +565,18 @@
         element.classList.toggle('hidden', Boolean(shouldHide));
       };
 
+      const derivePersonalizedNameParts = displayName => {
+        if (!displayName || typeof displayName !== 'string') {
+          return { firstName: '', lastName: '' };
+        }
+        const parts = displayName.trim().split(/\s+/).filter(Boolean);
+        if (!parts.length) {
+          return { firstName: '', lastName: '' };
+        }
+        const [firstName, ...rest] = parts;
+        return { firstName, lastName: rest.join(' ') };
+      };
+
       const setCtaMessage = message => {
         if (!invitationElements.ctaText) return;
         invitationElements.ctaText.textContent = message || '';
@@ -585,12 +604,16 @@
       };
 
       const resetPersonalizedFields = () => {
-        if (invitationElements.generalMessage) {
-          invitationElements.generalMessage.textContent = '';
+        if (invitationElements.personalizedLabel) {
+          invitationElements.personalizedLabel.textContent = 'Invitación para:';
         }
-        if (invitationElements.seatsMessage) {
-          invitationElements.seatsMessage.textContent = '';
-          toggleHidden(invitationElements.seatsMessage, true);
+        if (invitationElements.firstName) {
+          invitationElements.firstName.textContent = '';
+          toggleHidden(invitationElements.firstName, true);
+        }
+        if (invitationElements.lastName) {
+          invitationElements.lastName.textContent = '';
+          toggleHidden(invitationElements.lastName, true);
         }
         if (invitationElements.note) {
           invitationElements.note.textContent = '';
@@ -652,8 +675,6 @@
         const {
           name,
           heading,
-          generalMessage,
-          seatsMessage,
           helperText,
           groomWhatsappLink,
           brideWhatsappLink,
@@ -664,15 +685,24 @@
         const hasGroomWhatsapp = Boolean(groomWhatsappLink);
         const hasBrideWhatsapp = Boolean(brideWhatsappLink);
 
+        const displayNameSource = invitee.displayName || name || '';
+        const { firstName, lastName } = derivePersonalizedNameParts(displayNameSource);
+        const resolvedFirstName = firstName || name || invitee.displayName || '';
+        const resolvedLastName = lastName;
+
         if (invitationElements.heading) {
           invitationElements.heading.textContent = heading || `Invitación para ${name}`;
         }
-        if (invitationElements.generalMessage) {
-          invitationElements.generalMessage.textContent = generalMessage || '';
+        if (invitationElements.personalizedLabel) {
+          invitationElements.personalizedLabel.textContent = 'Invitación para:';
         }
-        if (invitationElements.seatsMessage) {
-          invitationElements.seatsMessage.textContent = seatsMessage || '';
-          toggleHidden(invitationElements.seatsMessage, !seatsMessage);
+        if (invitationElements.firstName) {
+          invitationElements.firstName.textContent = resolvedFirstName;
+          toggleHidden(invitationElements.firstName, !resolvedFirstName);
+        }
+        if (invitationElements.lastName) {
+          invitationElements.lastName.textContent = resolvedLastName;
+          toggleHidden(invitationElements.lastName, !resolvedLastName);
         }
         if (invitationElements.note) {
           if (note) {
