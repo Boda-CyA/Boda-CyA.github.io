@@ -199,19 +199,29 @@
             <p>Será un privilegio contar con su presencia, siendo su compañía el más valioso de los regalos. Les esperamos para compartir una velada honrando los valores del respeto, la igualdad y la unión libremente elegida.</p>
           </div>
           <div
-            class="mx-auto mt-8 hidden max-w-2xl flex flex-col items-center gap-4 rounded-3xl border border-champagne/60 bg-ivory px-6 py-8 text-center shadow-[0_24px_60px_-34px_rgba(47,79,79,0.6)]"
+            class="mx-auto mt-8 hidden max-w-2xl flex flex-col items-center gap-5 rounded-3xl border border-champagne/60 bg-ivory px-6 py-8 text-center shadow-[0_24px_60px_-34px_rgba(47,79,79,0.6)]"
             data-invitee-personalized
             aria-live="polite"
           >
-            <p
-              class="text-xs uppercase tracking-[0.5em] text-forest/60"
+            <div class="flex flex-col items-center gap-1">
+              <p data-invitee-first-name class="font-display text-4xl sm:text-5xl tracking-tight text-forest"></p>
+              <p data-invitee-last-name class="text-lg sm:text-xl text-forest/80"></p>
+            </div>
+            <div class="relative w-20 max-w-[60%]" aria-hidden="true">
+              <span class="block h-px w-full bg-gradient-to-r from-transparent via-gold/70 to-transparent"></span>
+            </div>
+            <p data-invitee-relation-message class="text-base sm:text-lg text-forest/80"></p>
+            <span
               data-invitee-personalized-label
+              class="inline-flex items-center rounded-full border border-gold/40 bg-champagne/30 px-4 py-1 text-sm font-medium text-forest/80"
             >
-              Invitación para:
+              Invitación: Individual
+            </span>
+            <p data-invitee-seats class="flex items-center gap-2 text-sm sm:text-base text-forest/80">
+              <span class="text-lg leading-none" role="img" aria-label="Boleto de invitación">🎟️</span>
+              <span data-invitee-seats-text>Lugar reservado: 1 boleto</span>
             </p>
-            <p data-invitee-first-name class="text-3xl sm:text-4xl font-semibold tracking-tight text-forest"></p>
-            <p data-invitee-last-name class="text-lg sm:text-xl text-forest/80"></p>
-            <p data-invitee-note class="text-sm sm:text-base text-forest/80 hidden"></p>
+            <p data-invitee-note class="text-sm sm:text-base text-forest/70 hidden"></p>
           </div>
           <div class="mt-8 flex flex-col items-center gap-4 hidden" data-invitee-actions>
             <div class="flex w-full flex-col items-center gap-3 sm:flex-row sm:justify-center" data-invitee-buttons>
@@ -523,6 +533,9 @@
         personalizedLabel: document.querySelector('[data-invitee-personalized-label]'),
         firstName: document.querySelector('[data-invitee-first-name]'),
         lastName: document.querySelector('[data-invitee-last-name]'),
+        relationMessage: document.querySelector('[data-invitee-relation-message]'),
+        seats: document.querySelector('[data-invitee-seats]'),
+        seatsText: document.querySelector('[data-invitee-seats-text]'),
         note: document.querySelector('[data-invitee-note]'),
         actions: document.querySelector('[data-invitee-actions]'),
         whatsappGroom: document.querySelector('[data-invitee-whatsapp-groom]'),
@@ -605,7 +618,8 @@
 
       const resetPersonalizedFields = () => {
         if (invitationElements.personalizedLabel) {
-          invitationElements.personalizedLabel.textContent = 'Invitación para:';
+          invitationElements.personalizedLabel.textContent = 'Invitación: Individual';
+          toggleHidden(invitationElements.personalizedLabel, true);
         }
         if (invitationElements.firstName) {
           invitationElements.firstName.textContent = '';
@@ -614,6 +628,16 @@
         if (invitationElements.lastName) {
           invitationElements.lastName.textContent = '';
           toggleHidden(invitationElements.lastName, true);
+        }
+        if (invitationElements.relationMessage) {
+          invitationElements.relationMessage.textContent = '';
+          toggleHidden(invitationElements.relationMessage, true);
+        }
+        if (invitationElements.seatsText) {
+          invitationElements.seatsText.textContent = '';
+        }
+        if (invitationElements.seats) {
+          toggleHidden(invitationElements.seats, true);
         }
         if (invitationElements.note) {
           invitationElements.note.textContent = '';
@@ -679,7 +703,12 @@
           groomWhatsappLink,
           brideWhatsappLink,
           groomWhatsappLabel,
-          brideWhatsappLabel
+          brideWhatsappLabel,
+          firstName: inviteeFirstName,
+          lastName: inviteeLastName,
+          relationMessage,
+          invitationTypeLabel,
+          ticketsMessage
         } = messageData;
         const note = typeof invitee.note === 'string' ? invitee.note.trim() : '';
         const hasGroomWhatsapp = Boolean(groomWhatsappLink);
@@ -687,14 +716,17 @@
 
         const displayNameSource = invitee.displayName || name || '';
         const { firstName, lastName } = derivePersonalizedNameParts(displayNameSource);
-        const resolvedFirstName = firstName || name || invitee.displayName || '';
-        const resolvedLastName = lastName;
+        const resolvedFirstName = inviteeFirstName || firstName || displayNameSource || name || '';
+        const resolvedLastName =
+          inviteeLastName !== undefined ? inviteeLastName : lastName;
 
         if (invitationElements.heading) {
           invitationElements.heading.textContent = heading || `Invitación para ${name}`;
         }
         if (invitationElements.personalizedLabel) {
-          invitationElements.personalizedLabel.textContent = 'Invitación para:';
+          const labelText = invitationTypeLabel || 'Invitación: Individual';
+          invitationElements.personalizedLabel.textContent = labelText;
+          toggleHidden(invitationElements.personalizedLabel, !labelText);
         }
         if (invitationElements.firstName) {
           invitationElements.firstName.textContent = resolvedFirstName;
@@ -703,6 +735,16 @@
         if (invitationElements.lastName) {
           invitationElements.lastName.textContent = resolvedLastName;
           toggleHidden(invitationElements.lastName, !resolvedLastName);
+        }
+        if (invitationElements.relationMessage) {
+          invitationElements.relationMessage.textContent = relationMessage || '';
+          toggleHidden(invitationElements.relationMessage, !(relationMessage && relationMessage.trim()));
+        }
+        if (invitationElements.seatsText) {
+          invitationElements.seatsText.textContent = ticketsMessage || '';
+        }
+        if (invitationElements.seats) {
+          toggleHidden(invitationElements.seats, !(ticketsMessage && ticketsMessage.trim()));
         }
         if (invitationElements.note) {
           if (note) {

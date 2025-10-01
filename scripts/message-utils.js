@@ -14,6 +14,55 @@
     '{urlLine}'
   ].join('\n');
 
+  const RELATION_MESSAGES = {
+    familia:
+      'Nos emociona compartir este momento en familia y contar contigo en nuestra celebración civil.',
+    amigo:
+      'Nos hace mucha ilusión celebrar este día contigo y agradecer tu amistad en nuestra boda civil.'
+  };
+
+  const TREATMENT_LABELS = {
+    individual: 'Invitación: Individual',
+    acompanado: 'Invitación: Acompañado(a)',
+    grupal: 'Invitación: Familia/Grupo'
+  };
+
+  function deriveNameParts(displayName) {
+    if (typeof displayName !== 'string') {
+      return { firstName: '', lastName: '' };
+    }
+    const trimmed = displayName.trim();
+    if (!trimmed) {
+      return { firstName: '', lastName: '' };
+    }
+    const segments = trimmed.split(/\s+/).filter(Boolean);
+    if (!segments.length) {
+      return { firstName: trimmed, lastName: '' };
+    }
+    const [firstName, ...rest] = segments;
+    if (!firstName) {
+      return { firstName: trimmed, lastName: '' };
+    }
+    return { firstName, lastName: rest.join(' ') };
+  }
+
+  function buildRelationMessage(relation) {
+    if (relation === 'familia') {
+      return RELATION_MESSAGES.familia;
+    }
+    return RELATION_MESSAGES.amigo;
+  }
+
+  function buildTreatmentLabel(treatment) {
+    return TREATMENT_LABELS[treatment] || TREATMENT_LABELS.individual;
+  }
+
+  function buildTicketsMessage(seatCount) {
+    return seatCount === 1
+      ? 'Lugar reservado: 1 boleto'
+      : `Lugares reservados: ${seatCount} boletos`;
+  }
+
   function sanitizeName(value) {
     if (!value || typeof value !== 'string') {
       return 'Invitad@';
@@ -253,6 +302,7 @@
   }
 
   function buildInviteMessage(invitee, options = {}) {
+    const rawDisplayName = typeof invitee?.displayName === 'string' ? invitee.displayName.trim() : '';
     const name = sanitizeName(invitee && invitee.displayName);
     const relation = normalizeRelation(invitee && invitee.relation);
     const treatment = normalizeTreatment(invitee && invitee.treatment);
@@ -260,6 +310,25 @@
     const slug = typeof invitee?.slug === 'string' ? invitee.slug.trim() : '';
     const baseUrl = typeof options.baseUrl === 'string' ? options.baseUrl : '';
     const url = slug ? buildInviteUrl(baseUrl, slug) : '';
+
+    const nameParts = deriveNameParts(rawDisplayName);
+    let firstNamePart = nameParts.firstName;
+    let lastNamePart = nameParts.lastName;
+
+    if (!firstNamePart) {
+      if (rawDisplayName) {
+        firstNamePart = rawDisplayName;
+        lastNamePart = '';
+      } else if (name && name !== 'Invitad@') {
+        firstNamePart = name;
+        lastNamePart = '';
+      }
+    }
+
+    const relationMessage = buildRelationMessage(relation);
+    const invitationTypeLabel = buildTreatmentLabel(treatment);
+    const seatsForDisplay = hasSeatsValue(seats) ? Math.max(1, Math.round(seats)) : 1;
+    const ticketsMessage = buildTicketsMessage(seatsForDisplay);
 
     const toneContext = getToneContext(relation, treatment);
     const isAnonymousInvitee = name === 'Invitad@';
@@ -382,6 +451,11 @@
       relation,
       treatment,
       seats,
+      firstName: firstNamePart,
+      lastName: lastNamePart,
+      relationMessage,
+      invitationTypeLabel,
+      ticketsMessage,
       slug,
       url,
       greeting,
