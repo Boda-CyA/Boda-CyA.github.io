@@ -912,10 +912,10 @@ Confirma tu asistencia aquí: {url}</textarea>
       displayName: ['displayname', 'nombrecompleto', 'nombreyapellidos', 'invitado', 'nombreinvitado'],
       firstName: ['nombre', 'nombres', 'firstname', 'name'],
       lastName: ['apellidos', 'apellido', 'apellidopaterno', 'apellidomaterno', 'lastname'],
-      relation: ['relation', 'relacion', 'parentesco', 'categoria'],
-      treatment: ['treatment', 'trato', 'tratamiento', 'tipoinvitacion', 'tipo', 'modalidad'],
+      relation: ['relation', 'relacion', 'parentesco', 'categoria', 'amigoofamilia'],
+      treatment: ['treatment', 'trato', 'tratamiento', 'tipoinvitacion', 'tipodeinvitacion', 'tipo', 'modalidad'],
       seats: ['seats', 'lugares', 'pases', 'pase', 'asientos', 'cupos', 'boletos', 'boletosasignado', 'boletosasignados'],
-      whatsapp: ['whatsapp', 'telefono', 'tel', 'celular', 'mobile', 'phone', 'whats'],
+      whatsapp: ['whatsapp', 'telefono', 'tel', 'celular', 'mobile', 'phone', 'whats', 'telefonowhatsapp'],
       note: ['note', 'nota', 'comentario', 'comentarios', 'observaciones']
     };
     const SEARCH_DEBOUNCE_MS = 250;
@@ -1119,7 +1119,7 @@ Confirma tu asistencia aquí: {url}</textarea>
         }
       }
       const text = String(value || '').toLowerCase();
-      if (text.includes('grup')) return 'grupal';
+      if (text.includes('grup') || text.includes('famil')) return 'grupal';
       if (text.includes('acom') || text.includes('pareja') || text.includes('doble')) return 'acompanado';
       if (text.includes('indi') || text.includes('solo')) return 'individual';
       return 'individual';
