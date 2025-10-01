@@ -104,31 +104,6 @@
   </script>
 </head>
 <body class="bg-ivory/95 antialiased text-base">
-  <div id="envelope-intro" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="envelope-stage">
-      <div class="envelope" aria-hidden="true">
-        <div class="envelope__body" aria-hidden="true">
-          <div class="envelope__pocket"></div>
-          <div class="envelope__letter" aria-hidden="true">
-            <p class="envelope__letter-heading">Carmen &amp; Alfredo</p>
-            <p class="envelope__letter-date">8 de noviembre de 2025</p>
-            <p class="envelope__letter-message">Da clic para abrir tu invitación.</p>
-          </div>
-        </div>
-        <div class="envelope__flap" aria-hidden="true"></div>
-        <div class="envelope__seal" aria-hidden="true">
-          <span>C&amp;A</span>
-        </div>
-      </div>
-      <button type="button" id="open-envelope" aria-label="Abrir sobre y ver invitación">
-        <span class="visually-hidden">Abrir sobre y ver invitación</span>
-      </button>
-    </div>
-    <button type="button" id="skip-intro" class="intro-skip" aria-label="Saltar introducción">
-      Saltar
-    </button>
-  </div>
-
   <div class="min-h-screen">
     <header class="relative isolate flex min-h-screen items-center justify-center overflow-hidden" data-hero>
       <div class="w-full max-w-4xl mx-auto px-5 sm:px-6 lg:px-8 py-24 sm:py-32 text-center">
@@ -177,8 +152,8 @@
       </div>
     </header>
 
-    <main id="invite" class="max-w-4xl mx-auto px-5 sm:px-6 lg:px-8 space-y-16 py-12 sm:py-16" aria-hidden="true" tabindex="-1">
-      <section id="contador" class="reveal">
+    <main id="invite" class="max-w-4xl mx-auto px-5 sm:px-6 lg:px-8 space-y-16 py-12 sm:py-16">
+      <section id="contador">
         <div class="section-card rounded-3xl bg-white/70 backdrop-blur-sm border border-white/40 shadow-petal p-8 sm:p-10">
           <h2 class="text-2xl sm:text-3xl font-semibold tracking-wide text-center">La cuenta regresiva comenzó</h2>
           <p class="mt-4 text-center text-base sm:text-lg text-forest/70">Falta cada vez menos para abrazarnos y brindar juntos por nuestra historia.</p>
@@ -203,7 +178,7 @@
         </div>
       </section>
 
-      <section id="mensaje" class="reveal">
+      <section id="mensaje">
         <div class="section-card rounded-3xl border border-champagne/60 bg-ivory/90 p-8 sm:p-10 shadow-petal" data-invitee-card>
           <h2 class="text-center font-serif text-3xl sm:text-4xl tracking-tight text-forest" data-invitee-heading>
             Estimados familiares y amigos
@@ -280,7 +255,7 @@
         </div>
       </section>
 
-      <section id="lema" class="reveal">
+      <section id="lema">
         <div class="section-card relative overflow-hidden rounded-3xl bg-white/80 p-8 sm:p-12 text-center shadow-petal">
           <div class="absolute inset-x-16 top-0 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent"></div>
           <blockquote class="mt-2 font-serif text-3xl sm:text-4xl text-forest/90 tracking-tight">« Ubi Tu, Ibi Ego »</blockquote>
@@ -289,7 +264,7 @@
         </div>
       </section>
 
-      <section id="cancion" class="reveal">
+      <section id="cancion">
         <div class="section-card grid gap-8 rounded-3xl border border-champagne/60 bg-white/80 p-8 sm:p-10 shadow-petal sm:grid-cols-[1fr_2fr] text-center">
           <div class="flex flex-col items-center text-center">
             <h2 class="text-2xl sm:text-3xl font-semibold">Nuestra canción</h2>
@@ -322,7 +297,7 @@
         </div>
       </section>
 
-      <section id="ubicacion" class="reveal">
+      <section id="ubicacion">
         <div class="section-card overflow-hidden rounded-3xl border border-champagne/70 bg-white/85 shadow-petal text-center">
           <div class="flex flex-col items-center gap-6 p-8 sm:p-10 text-center w-full">
             <div class="flex w-full max-w-3xl flex-col items-center gap-4 mx-auto">
@@ -347,7 +322,7 @@
         </div>
       </section>
 
-      <section id="itinerario" class="reveal">
+      <section id="itinerario">
         <div class="section-card rounded-3xl border border-champagne/70 bg-white/80 p-8 sm:p-10 shadow-petal text-center">
           <h2 class="text-2xl sm:text-3xl font-semibold text-center">Itinerario</h2>
           <div class="mt-8 grid grid-cols-1 gap-6">
@@ -385,7 +360,7 @@
         </div>
       </section>
 
-      <section id="galeria" class="reveal">
+      <section id="galeria">
         <div class="section-card rounded-3xl border border-champagne/70 bg-white/80 p-8 sm:p-10 shadow-petal">
           <h2 class="text-2xl sm:text-3xl font-semibold text-center">Nuestros momentos</h2>
           <div class="mt-8 columns-1 gap-4 sm:columns-2 lg:columns-3">
@@ -417,7 +392,7 @@
         </div>
       </section>
 
-      <section id="codigo" class="reveal">
+      <section id="codigo">
         <div class="section-card rounded-3xl border border-champagne/70 bg-white/80 p-8 sm:p-10 shadow-petal">
           <h2 class="text-2xl sm:text-3xl font-semibold text-center">Código de vestimenta</h2>
           <p class="mt-4 text-center text-base sm:text-lg text-forest/70">Un estilo formal de día con toques románticos será perfecto para disfrutar la tarde y la noche en el jardín.</p>
@@ -429,7 +404,7 @@
         </div>
       </section>
 
-      <section id="lluvia" class="reveal">
+      <section id="lluvia">
         <div class="section-card rounded-3xl border border-champagne/70 bg-white/85 p-8 sm:p-10 shadow-petal text-center">
           <div class="flex flex-col items-center gap-4 text-center">
             <div class="flex h-16 w-16 items-center justify-center rounded-full bg-gold/20 text-gold">
@@ -490,7 +465,7 @@
         </div>
       </section>
 
-      <section id="recuerdos" class="reveal">
+      <section id="recuerdos">
         <div class="section-card rounded-3xl border border-champagne/70 bg-white/80 p-8 sm:p-10 shadow-petal">
           <h2 class="text-2xl sm:text-3xl font-semibold text-center">Comparte tus recuerdos</h2>
           <p class="mt-4 text-center text-base sm:text-lg text-forest/75">Queremos atesorar cada instante de este día mágico. Comparte tus fotos y videos con nosotros para revivirlos una y otra vez.</p>
@@ -528,7 +503,6 @@
     <a href="#ubicacion" class="button button--outline button--sm"><i class="fa-solid fa-map-pin button__icon-gold"></i>¿Cómo llegar?</a>
   </nav>
 
-  <script src="scripts/envelope-intro.js" defer></script>
   <script src="scripts/message-utils.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js" defer></script>
   <script>
@@ -1440,22 +1414,6 @@
 
       updateCountdown();
       setInterval(updateCountdown, 1000);
-
-      // Reveal animations
-      const revealElements = document.querySelectorAll('.reveal');
-      if (!prefersReducedMotion && 'IntersectionObserver' in window) {
-        const observer = new IntersectionObserver(entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('reveal-visible');
-              observer.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.25 });
-        revealElements.forEach(el => observer.observe(el));
-      } else {
-        revealElements.forEach(el => el.classList.add('reveal-visible'));
-      }
 
       // Gallery lightbox
       const galleryImages = Array.from(document.querySelectorAll('.gallery-image'));
