@@ -400,7 +400,55 @@
             <h2 class="mt-0 text-2xl sm:text-3xl font-semibold">Lluvia de sobres</h2>
           </div>
           <p class="mt-6 text-base sm:text-lg leading-8 text-forest/80">Su presencia es el obsequio más valioso que podemos recibir en este día tan importante. Si además desean tener un detalle, les agradeceremos que nos acompañen en la tradición de la “Lluvia de Sobres”.</p>
-          <a href="boda_carmen_alfredo.ics" class="mt-6 button button--outline button--sm button--responsive">Añadir a mis recordatorios</a>
+          <div
+            class="bank-card mt-8"
+            data-bank-card
+            role="button"
+            tabindex="0"
+            aria-expanded="false"
+            aria-controls="bank-card-details"
+            aria-label="Mostrar datos bancarios para transferencias"
+          >
+            <div class="bank-card__inner" data-bank-card-inner>
+              <div class="bank-card__face bank-card__face--front">
+                <div class="bank-card__icon">
+                  <i class="fa-solid fa-credit-card"></i>
+                </div>
+                <p class="bank-card__title">Datos bancarios</p>
+                <p class="bank-card__subtitle">Toca para descubrir las CLABE de la lluvia de sobres</p>
+              </div>
+              <div class="bank-card__face bank-card__face--back" id="bank-card-details">
+                <p class="bank-card__title">Transferencias bancarias</p>
+                <p class="bank-card__subtitle">Elige una opción para copiar la CLABE</p>
+                <div class="bank-card__actions" role="group" aria-label="Copiar CLABE bancaria">
+                  <button
+                    type="button"
+                    class="bank-card__copy-button"
+                    data-clabe="072010001847417938"
+                    data-label="Novio"
+                    aria-label="Copiar CLABE del Novio: 072010001847417938"
+                  >
+                    <span class="bank-card__copy-title">Novio</span>
+                    <span class="bank-card__copy-value">072010001847417938</span>
+                    <span class="bank-card__copy-hint">Toca para copiar</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="bank-card__copy-button"
+                    data-clabe="072010008246528052"
+                    data-label="Novia"
+                    aria-label="Copiar CLABE de la Novia: 072010008246528052"
+                  >
+                    <span class="bank-card__copy-title">Novia</span>
+                    <span class="bank-card__copy-value">072010008246528052</span>
+                    <span class="bank-card__copy-hint">Toca para copiar</span>
+                  </button>
+                </div>
+                <p class="bank-card__feedback" data-bank-card-feedback aria-live="polite"></p>
+              </div>
+            </div>
+          </div>
+          <a href="boda_carmen_alfredo.ics" class="mt-10 button button--outline button--sm button--responsive">Añadir a mis recordatorios</a>
         </div>
       </section>
 
@@ -1057,6 +1105,118 @@
           img.addEventListener('load', handleLoad, { once: true });
         }
       });
+
+      const copyTextToClipboard = async text => {
+        const value = typeof text === 'string' ? text.trim() : '';
+        if (!value) return false;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          try {
+            await navigator.clipboard.writeText(value);
+            return true;
+          } catch (error) {
+            // Fallback to execCommand if direct copy fails
+          }
+        }
+        const textarea = document.createElement('textarea');
+        textarea.value = value;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'absolute';
+        textarea.style.opacity = '0';
+        textarea.style.pointerEvents = 'none';
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        try {
+          textarea.focus({ preventScroll: true });
+        } catch (error) {
+          textarea.focus();
+        }
+        textarea.select();
+        let succeeded = false;
+        try {
+          succeeded = document.execCommand('copy');
+        } catch (error) {
+          succeeded = false;
+        }
+        document.body.removeChild(textarea);
+        return succeeded;
+      };
+
+      const initializeBankCard = () => {
+        const bankCard = document.querySelector('[data-bank-card]');
+        if (!bankCard) return;
+
+        const feedbackElement = bankCard.querySelector('[data-bank-card-feedback]');
+        const copyButtons = bankCard.querySelectorAll('[data-clabe]');
+        let feedbackTimeoutId;
+
+        const setFlipped = isFlipped => {
+          bankCard.classList.toggle('is-flipped', Boolean(isFlipped));
+          bankCard.setAttribute('aria-expanded', isFlipped ? 'true' : 'false');
+        };
+
+        const showFeedback = message => {
+          if (!feedbackElement) return;
+          window.clearTimeout(feedbackTimeoutId);
+          feedbackElement.textContent = message || '';
+          if (message) {
+            feedbackElement.classList.add('is-visible');
+            feedbackTimeoutId = window.setTimeout(() => {
+              feedbackElement.classList.remove('is-visible');
+              feedbackElement.textContent = '';
+            }, 4000);
+          } else {
+            feedbackElement.classList.remove('is-visible');
+          }
+        };
+
+        const toggleFlip = () => {
+          const nextState = !bankCard.classList.contains('is-flipped');
+          setFlipped(nextState);
+          if (!nextState) {
+            showFeedback('');
+          }
+        };
+
+        bankCard.addEventListener('click', event => {
+          if (event.target.closest('[data-clabe]')) {
+            return;
+          }
+          toggleFlip();
+        });
+
+        bankCard.addEventListener('keydown', event => {
+          if (event.target.closest('[data-clabe]')) {
+            return;
+          }
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            toggleFlip();
+          } else if (event.key === 'Escape') {
+            setFlipped(false);
+          }
+        });
+
+        copyButtons.forEach(button => {
+          button.addEventListener('click', async event => {
+            event.stopPropagation();
+            const clabe = (button.dataset.clabe || '').trim();
+            const label = (button.dataset.label || '').trim() || 'la cuenta';
+            if (!clabe) return;
+            const success = await copyTextToClipboard(clabe);
+            if (success) {
+              button.classList.add('is-copied');
+              showFeedback(`CLABE de ${label} copiada al portapapeles.`);
+              window.setTimeout(() => {
+                button.classList.remove('is-copied');
+              }, 1400);
+            } else {
+              showFeedback('No fue posible copiar la CLABE. Inténtalo nuevamente.');
+            }
+          });
+        });
+      };
+
+      initializeBankCard();
 
       // Audio controls
       const audio = document.getElementById('wedding-audio');
