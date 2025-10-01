@@ -909,10 +909,12 @@ Confirma tu asistencia aquí: {url}</textarea>
     const FALLBACK_JSON_URL = './data/invitados.json';
     const CSV_HEADER_ALIASES = {
       slug: ['slug', 'identificador', 'id', 'codigo', 'code', 'sluginvitado'],
-      displayName: ['displayname', 'nombre', 'nombrecompleto', 'nombreyapellidos', 'invitado', 'nombreinvitado'],
+      displayName: ['displayname', 'nombrecompleto', 'nombreyapellidos', 'invitado', 'nombreinvitado'],
+      firstName: ['nombre', 'nombres', 'firstname', 'name'],
+      lastName: ['apellidos', 'apellido', 'apellidopaterno', 'apellidomaterno', 'lastname'],
       relation: ['relation', 'relacion', 'parentesco', 'categoria'],
       treatment: ['treatment', 'trato', 'tratamiento', 'tipoinvitacion', 'tipo', 'modalidad'],
-      seats: ['seats', 'lugares', 'pases', 'pase', 'asientos', 'cupos'],
+      seats: ['seats', 'lugares', 'pases', 'pase', 'asientos', 'cupos', 'boletos', 'boletosasignado', 'boletosasignados'],
       whatsapp: ['whatsapp', 'telefono', 'tel', 'celular', 'mobile', 'phone', 'whats'],
       note: ['note', 'nota', 'comentario', 'comentarios', 'observaciones']
     };
@@ -1175,9 +1177,20 @@ Confirma tu asistencia aquí: {url}</textarea>
     function normalizeGuest(entry) {
       if (!entry || typeof entry !== 'object') return null;
       const rawDisplay = readField(entry, 'displayName');
-      const displayName = rawDisplay !== undefined && rawDisplay !== null
-        ? String(rawDisplay).toUpperCase().trim()
+      const firstNameRaw = readField(entry, 'firstName');
+      const lastNameRaw = readField(entry, 'lastName');
+      const firstName = firstNameRaw !== undefined && firstNameRaw !== null
+        ? String(firstNameRaw).trim()
         : '';
+      const lastName = lastNameRaw !== undefined && lastNameRaw !== null
+        ? String(lastNameRaw).trim()
+        : '';
+      const combinedName = [firstName, lastName].filter(Boolean).join(' ');
+
+      const displaySource = rawDisplay !== undefined && rawDisplay !== null
+        ? String(rawDisplay).trim()
+        : combinedName;
+      const displayName = displaySource.toUpperCase().trim();
       if (!displayName) {
         return null;
       }
