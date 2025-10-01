@@ -506,6 +506,9 @@
   <script src="scripts/message-utils.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js" defer></script>
   <script>
+    const SHEET_CSV_URL =
+      'https://docs.google.com/spreadsheets/d/e/2PACX-1vQaEems58aHqiFhnfx7Mf0nOy3hgFbts1U-3BseX9tZKFoVds7YOpjMos8do9Q_9WDwZ8bHXvW0d19A/pub?gid=1822023372&single=true&output=csv';
+
     document.addEventListener('DOMContentLoaded', () => {
       const originalTitle = document.title;
       const rootDataset = document.documentElement.dataset || {};
@@ -521,7 +524,7 @@
 
       const invitationConfig = {
         basePath: sanitizeBasePath(rootDataset.basePath || ''),
-        dataUrl: rootDataset.inviteesUrl || 'data/invitados.json',
+        dataUrl: rootDataset.inviteesUrl || SHEET_CSV_URL,
         tokenParam: rootDataset.inviteTokenParam || 't'
       };
 
@@ -578,16 +581,288 @@
         element.classList.toggle('hidden', Boolean(shouldHide));
       };
 
+      const collapseWhitespace = value => {
+        if (typeof value !== 'string') return '';
+        return value.replace(/\s+/g, ' ').trim();
+      };
+
+      const removeDiacritics = value => {
+        if (typeof value !== 'string') return '';
+        return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      };
+
+      const normalizedString = value => {
+        if (typeof value !== 'string') return '';
+        return collapseWhitespace(value);
+      };
+
+      const toUpperName = value => {
+        const collapsed = collapseWhitespace(value);
+        return collapsed ? collapsed.toLocaleUpperCase('es-MX') : '';
+      };
+
+      const slugifyValue = value => {
+        const collapsed = collapseWhitespace(value);
+        if (!collapsed) return '';
+        const ascii = removeDiacritics(collapsed);
+        return ascii
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '')
+          .trim();
+      };
+
+      const normalizeRelationValue = value => {
+        const normalized = removeDiacritics(collapseWhitespace(typeof value === 'string' ? value : '')).toLowerCase();
+        if (normalized.startsWith('fam')) {
+          return 'familia';
+        }
+        return 'amigo';
+      };
+
+      const normalizeTreatmentValue = value => {
+        const normalized = removeDiacritics(collapseWhitespace(typeof value === 'string' ? value : '')).toLowerCase();
+        if (!normalized) {
+          return 'individual';
+        }
+        if (normalized.startsWith('grup') || normalized.startsWith('fami')) {
+          return 'grupal';
+        }
+        if (normalized.startsWith('acom') || normalized.startsWith('pare')) {
+          return 'acompanado';
+        }
+        return 'individual';
+      };
+
+      const normalizeSeatsValue = value => {
+        if (value == null) {
+          return 1;
+        }
+        const numeric = Number(String(value).replace(/,/g, '.'));
+        if (!Number.isFinite(numeric) || numeric < 1) {
+          return 1;
+        }
+        return Math.max(1, Math.round(numeric));
+      };
+
+      const normalizeWhatsappValue = value => {
+        if (value == null) {
+          return '';
+        }
+        const digits = String(value).replace(/\D/g, '');
+        if (digits.length >= 12 && digits.startsWith('52')) {
+          return `+${digits}`;
+        }
+        if (digits.length === 11 && digits.startsWith('1')) {
+          return `+52${digits.slice(1)}`;
+        }
+        if (digits.length === 10) {
+          return `+52${digits}`;
+        }
+        if (digits.length > 10) {
+          return `+${digits}`;
+        }
+        return '';
+      };
+
+      const formatTitleCaseName = value => {
+        const collapsed = collapseWhitespace(value);
+        if (!collapsed) return '';
+        let result = '';
+        let capitalizeNext = true;
+        for (const char of collapsed) {
+          if (/[^\p{L}]/u.test(char)) {
+            result += char;
+            capitalizeNext = /[\s\-']/u.test(char);
+            continue;
+          }
+          if (capitalizeNext) {
+            result += char.toLocaleUpperCase('es-MX');
+            capitalizeNext = false;
+          } else {
+            result += char.toLocaleLowerCase('es-MX');
+          }
+        }
+        return result;
+      };
+
       const derivePersonalizedNameParts = displayName => {
         if (!displayName || typeof displayName !== 'string') {
           return { firstName: '', lastName: '' };
         }
-        const parts = displayName.trim().split(/\s+/).filter(Boolean);
+        const normalized = collapseWhitespace(displayName);
+        if (!normalized) {
+          return { firstName: '', lastName: '' };
+        }
+        const parts = normalized.split(/\s+/).filter(Boolean);
         if (!parts.length) {
           return { firstName: '', lastName: '' };
         }
-        const [firstName, ...rest] = parts;
-        return { firstName, lastName: rest.join(' ') };
+        const [first, ...rest] = parts;
+        const formattedFirst = formatTitleCaseName(first);
+        const formattedLast = formatTitleCaseName(rest.join(' '));
+        if (!formattedFirst) {
+          const formattedFull = formatTitleCaseName(normalized);
+          return { firstName: formattedFull, lastName: '' };
+        }
+        return { firstName: formattedFirst, lastName: formattedLast };
+      };
+
+      const parseCsvRows = csvText => {
+        if (typeof csvText !== 'string') return [];
+        const content = csvText.replace(/^\uFEFF/, '');
+        const rows = [];
+        let currentField = '';
+        let currentRow = [];
+        let insideQuotes = false;
+
+        for (let index = 0; index < content.length; index += 1) {
+          const char = content[index];
+          if (insideQuotes) {
+            if (char === '"') {
+              if (content[index + 1] === '"') {
+                currentField += '"';
+                index += 1;
+              } else {
+                insideQuotes = false;
+              }
+            } else {
+              currentField += char;
+            }
+            continue;
+          }
+
+          if (char === '"') {
+            insideQuotes = true;
+            continue;
+          }
+
+          if (char === ',') {
+            currentRow.push(currentField);
+            currentField = '';
+            continue;
+          }
+
+          if (char === '\n') {
+            currentRow.push(currentField);
+            rows.push(currentRow);
+            currentRow = [];
+            currentField = '';
+            continue;
+          }
+
+          if (char === '\r') {
+            continue;
+          }
+
+          currentField += char;
+        }
+
+        if (insideQuotes) {
+          currentRow.push(currentField);
+          rows.push(currentRow);
+        } else if (currentField || currentRow.length) {
+          currentRow.push(currentField);
+          rows.push(currentRow);
+        }
+
+        return rows.filter(row =>
+          Array.isArray(row) && row.some(cell => (typeof cell === 'string' ? cell.trim() : cell != null))
+        );
+      };
+
+      const normalizeHeaderKey = header => {
+        if (typeof header !== 'string') return '';
+        const collapsed = collapseWhitespace(header);
+        if (!collapsed) return '';
+        return removeDiacritics(collapsed)
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+      };
+
+      const parseInviteesCsv = csvText => {
+        const rows = parseCsvRows(csvText);
+        if (!rows.length) return [];
+        const headerRow = rows[0];
+        const headerKeys = headerRow.map(normalizeHeaderKey);
+        const findIndex = key => headerKeys.indexOf(key);
+        const firstNameIndex = findIndex('nombre');
+        const lastNameIndex = findIndex('apellidos');
+        const displayNameIndex = findIndex('displayname');
+        const relationIndex = findIndex('amigo-o-familia');
+        const treatmentIndex = findIndex('tipo-de-invitacion');
+        const seatsIndex = findIndex('boletos-asignados');
+        const whatsappIndex = findIndex('telefono-whatsapp');
+        const slugIndex = findIndex('slug');
+        const noteIndex = findIndex('nota');
+        const tokenIndex = findIndex('token');
+        const tokensIndex = findIndex('tokens');
+
+        const invitees = [];
+
+        for (let rowIndex = 1; rowIndex < rows.length; rowIndex += 1) {
+          const row = rows[rowIndex];
+          if (!Array.isArray(row) || !row.length) {
+            continue;
+          }
+
+          const getCell = index => {
+            if (index < 0 || index >= row.length) return '';
+            const value = row[index];
+            if (typeof value === 'string') return value.trim();
+            if (value == null) return '';
+            return String(value).trim();
+          };
+
+          const firstNameValue = normalizedString(getCell(firstNameIndex));
+          const lastNameValue = normalizedString(getCell(lastNameIndex));
+          const displayNameValue = normalizedString(getCell(displayNameIndex));
+
+          const combinedDisplayName = collapseWhitespace(
+            `${firstNameValue || ''} ${lastNameValue || ''}`.trim()
+          );
+
+          const displayNameSource = displayNameValue || combinedDisplayName || firstNameValue || lastNameValue;
+          if (!displayNameSource) {
+            continue;
+          }
+
+          const invitee = {
+            displayName: displayNameSource,
+            relation: getCell(relationIndex),
+            treatment: getCell(treatmentIndex),
+            seats: getCell(seatsIndex),
+            whatsapp: getCell(whatsappIndex),
+            slug: getCell(slugIndex)
+          };
+
+          if (firstNameValue) {
+            invitee.nombre = firstNameValue;
+          }
+          if (lastNameValue) {
+            invitee.apellidos = lastNameValue;
+          }
+
+          const noteValue = getCell(noteIndex);
+          if (noteValue) {
+            invitee.note = noteValue;
+          }
+
+          const tokenValue = getCell(tokenIndex);
+          if (tokenValue) {
+            invitee.token = tokenValue;
+          }
+
+          const tokensValue = getCell(tokensIndex);
+          if (tokensValue) {
+            invitee.tokens = tokensValue;
+          }
+
+          invitees.push(invitee);
+        }
+
+        return invitees;
       };
 
       const setCtaMessage = message => {
@@ -716,9 +991,12 @@
 
         const displayNameSource = invitee.displayName || name || '';
         const { firstName, lastName } = derivePersonalizedNameParts(displayNameSource);
-        const resolvedFirstName = inviteeFirstName || firstName || displayNameSource || name || '';
-        const resolvedLastName =
-          inviteeLastName !== undefined ? inviteeLastName : lastName;
+        const resolvedFirstName = formatTitleCaseName(
+          inviteeFirstName || firstName || displayNameSource || name || ''
+        );
+        const resolvedLastName = formatTitleCaseName(
+          inviteeLastName !== undefined ? inviteeLastName : lastName
+        );
 
         if (invitationElements.heading) {
           invitationElements.heading.textContent = heading || `Invitación para ${name}`;
@@ -848,19 +1126,66 @@
 
       const sanitizeInvitee = entry => {
         if (!entry || typeof entry !== 'object') return null;
-        const slug = typeof entry.slug === 'string' ? entry.slug.trim() : '';
+
+        const candidates = [];
+        const pushCandidate = value => {
+          const normalized = normalizedString(value);
+          if (normalized) {
+            candidates.push(normalized);
+          }
+        };
+
+        pushCandidate(entry.displayName);
+        pushCandidate(entry.name);
+        pushCandidate(entry.fullName);
+
+        const firstNameSource = normalizedString(entry.nombre) || normalizedString(entry.firstName);
+        const lastNameSource = normalizedString(entry.apellidos) || normalizedString(entry.lastName);
+
+        if (firstNameSource || lastNameSource) {
+          const combined = collapseWhitespace(`${firstNameSource || ''} ${lastNameSource || ''}`.trim());
+          pushCandidate(combined);
+        }
+
+        pushCandidate(firstNameSource);
+        pushCandidate(lastNameSource);
+
+        const displayNameSource = candidates.length ? candidates[0] : '';
+        if (!displayNameSource) return null;
+
+        const displayName = toUpperName(displayNameSource);
+        const slugSource = normalizedString(entry.slug) || displayName;
+        const slug = slugifyValue(slugSource);
         if (!slug) return null;
-        const seats = Number(entry.seats);
+
+        const relation = normalizeRelationValue(entry.relation);
+        const treatment = normalizeTreatmentValue(entry.treatment);
+        const seats = normalizeSeatsValue(entry.seats);
+        const note = normalizedString(entry.note);
+        const whatsapp = normalizeWhatsappValue(entry.whatsapp);
+
         return {
           slug,
-          displayName: typeof entry.displayName === 'string' ? entry.displayName.trim() : '',
-          relation: typeof entry.relation === 'string' ? entry.relation.trim() : '',
-          treatment: typeof entry.treatment === 'string' ? entry.treatment.trim() : '',
-          seats: Number.isFinite(seats) ? seats : null,
-          note: typeof entry.note === 'string' ? entry.note.trim() : '',
-          whatsapp: typeof entry.whatsapp === 'string' ? entry.whatsapp.trim() : '',
+          displayName,
+          relation,
+          treatment,
+          seats,
+          note,
+          whatsapp,
           tokens: extractTokens(entry)
         };
+      };
+
+      const buildInviteesRequestUrl = baseUrl => {
+        const trimmed = typeof baseUrl === 'string' ? baseUrl.trim() : '';
+        const resolved = trimmed || SHEET_CSV_URL;
+        if (resolved.endsWith('&') || resolved.endsWith('?')) {
+          return `${resolved}cb=${Date.now()}`;
+        }
+        if (resolved.includes('?')) {
+          return `${resolved}&cb=${Date.now()}`;
+        }
+        return `${resolved}?cb=${Date.now()}`;
       };
 
       const loadInvitees = (() => {
@@ -869,7 +1194,8 @@
         return async () => {
           if (cachedInvitees) return cachedInvitees;
           if (pendingRequest) return pendingRequest;
-          pendingRequest = fetch(invitationConfig.dataUrl, {
+          const requestUrl = buildInviteesRequestUrl(invitationConfig.dataUrl);
+          pendingRequest = fetch(requestUrl, {
             cache: 'no-store',
             headers: {
               'Cache-Control': 'no-cache',
@@ -880,15 +1206,20 @@
               if (!response.ok) {
                 throw new Error(`Error ${response.status} al cargar los invitados.`);
               }
-              return response.json();
+              return response.text();
             })
-            .then(data => {
-              if (!Array.isArray(data)) {
+            .then(text => {
+              const parsed = parseInviteesCsv(text);
+              if (!Array.isArray(parsed)) {
                 throw new Error('El archivo de invitados no tiene el formato esperado.');
               }
-              cachedInvitees = data
+              const sanitizedInvitees = parsed
                 .map(sanitizeInvitee)
                 .filter(Boolean);
+              if (!sanitizedInvitees.length) {
+                throw new Error('El archivo de invitados no tiene registros válidos.');
+              }
+              cachedInvitees = sanitizedInvitees;
               return cachedInvitees;
             })
             .catch(error => {
