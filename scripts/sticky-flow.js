@@ -60,6 +60,17 @@
     let activeIndex = -1;
     let rafId = null;
     let initialized = false;
+    let panelPositions = [];
+
+    const measurePanelPositions = () => {
+      const currentScrollY = window.scrollY || window.pageYOffset || 0;
+      container.classList.add('sticky-flow--measuring');
+      const containerRect = container.getBoundingClientRect();
+      const containerTop = containerRect.top + currentScrollY;
+      panelPositions = sections.map(panel => containerTop + panel.offsetTop);
+      container.classList.remove('sticky-flow--measuring');
+      window.scrollTo(0, currentScrollY);
+    };
 
     const applyStates = index => {
       if (index < 0 || index >= sections.length) return;
@@ -74,20 +85,21 @@
     const updateStates = () => {
       rafId = null;
       const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
-      let bestIndex = 0;
-      let bestVisible = -1;
+      if (!panelPositions.length) {
+        measurePanelPositions();
+      }
 
-      sections.forEach((panel, index) => {
-        const rect = panel.getBoundingClientRect();
-        const top = Math.max(rect.top, 0);
-        const bottom = Math.min(rect.bottom, viewportHeight);
-        const visible = bottom - top;
-        const clamped = visible > 0 ? visible : 0;
-        if (clamped > bestVisible) {
-          bestVisible = clamped;
+      const focusLine = (window.scrollY || window.pageYOffset || 0) + viewportHeight * 0.35;
+      let bestIndex = 0;
+
+      for (let index = 0; index < panelPositions.length; index += 1) {
+        const panelPosition = panelPositions[index];
+        if (focusLine >= panelPosition) {
           bestIndex = index;
+        } else {
+          break;
         }
-      });
+      }
 
       applyStates(bestIndex);
 
@@ -102,31 +114,31 @@
       rafId = window.requestAnimationFrame(updateStates);
     };
 
-    const throttledRequestUpdate = throttle(requestStateUpdate, 60);
-
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver(() => {
-        requestStateUpdate();
-      }, {
-        root: null,
-        rootMargin: '-40% 0px -40% 0px',
-        threshold: [0, 0.25, 0.5, 0.75, 1]
-      });
-      sections.forEach(panel => observer.observe(panel));
+    const throttledRequestUpdate = throttle(() => {
+      measurePanelPositions();
       requestStateUpdate();
-    } else {
-      const handleScroll = () => throttledRequestUpdate();
-      window.addEventListener('scroll', handleScroll, { passive: true });
-      window.addEventListener('resize', throttledRequestUpdate);
-      window.addEventListener('orientationchange', throttledRequestUpdate);
-      throttledRequestUpdate();
+    }, 120);
+
+    const handleScroll = throttle(requestStateUpdate, 60);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', throttledRequestUpdate);
+    window.addEventListener('orientationchange', throttledRequestUpdate);
+
+    if ('ResizeObserver' in window) {
+      const resizeObserver = new ResizeObserver(() => {
+        measurePanelPositions();
+        requestStateUpdate();
+      });
+      resizeObserver.observe(container);
     }
 
-    if ('IntersectionObserver' in window) {
-      window.addEventListener('resize', throttledRequestUpdate);
-      window.addEventListener('orientationchange', throttledRequestUpdate);
-    }
+    window.addEventListener('load', () => {
+      measurePanelPositions();
+      requestStateUpdate();
+    }, { once: true });
 
+    measurePanelPositions();
     applyStates(0);
     requestStateUpdate();
   };
