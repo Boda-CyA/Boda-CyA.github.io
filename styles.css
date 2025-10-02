@@ -4,9 +4,6 @@
   --forest: #2F4F4F;
   --sage: #8DA08C;
   --gold: #C2A675;
-  --panel-duration: clamp(20vh, 30vh, 40vh);
-  --t: 480ms;
-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 body {
@@ -671,69 +668,4 @@ body {
 
 .bank-card__feedback.is-visible {
   opacity: 1;
-}
-
-.sticky-flow {
-  position: relative;
-}
-
-.sticky-flow > .panel {
-  position: sticky;
-  top: 0;
-  min-height: 100vh;
-  margin-bottom: var(--panel-duration);
-  overflow: clip;
-  opacity: 0;
-  transform: translateY(2rem);
-  transition: opacity var(--t) var(--ease), transform var(--t) var(--ease);
-  z-index: 0;
-  will-change: opacity, transform;
-  content-visibility: auto;
-  contain-intrinsic-size: 100vh;
-}
-
-.sticky-flow--measuring > .panel {
-  position: static;
-  opacity: 1;
-  transform: none;
-  transition: none;
-  content-visibility: visible;
-}
-
-.sticky-flow > .panel + .panel {
-  margin-top: 0;
-}
-
-.sticky-flow:not(.sticky-flow--initialized) > .panel {
-  opacity: 1;
-  transform: none;
-}
-
-.sticky-flow > .panel.is-active {
-  opacity: 1;
-  transform: none;
-  z-index: 2;
-  content-visibility: visible;
-}
-
-.sticky-flow > .panel.is-next {
-  z-index: 1;
-}
-
-.sticky-flow--no-sticky > .panel {
-  position: static;
-  opacity: 1;
-  transform: none;
-}
-
-.sticky-flow--no-sticky > .panel:not(.is-active) {
-  display: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .sticky-flow > .panel {
-    transition: none;
-    opacity: 1;
-    transform: none;
-  }
 }
