@@ -485,6 +485,8 @@ body {
 .bank-card {
   display: flex;
   justify-content: center;
+  width: min(100%, 26rem);
+  margin-inline: auto;
   perspective: 1600px;
   cursor: pointer;
 }
