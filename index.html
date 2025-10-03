@@ -107,19 +107,19 @@
   <div class="min-h-screen">
     <header class="relative isolate flex min-h-screen items-center justify-center overflow-hidden" data-hero>
       <div class="w-full max-w-4xl mx-auto px-5 sm:px-6 lg:px-8 py-24 sm:py-32 text-center">
-        <p class="uppercase tracking-[0.35em] text-sm sm:text-base text-forest/70">Nos casamos</p>
+        <p class="uppercase tracking-[0.35em] text-sm sm:text-lg text-forest/70">Nos casamos</p>
         <div class="mt-10 flex flex-col items-center gap-6 sm:gap-8">
           <img
             src="adorno_arriba.png"
             alt=""
-            class="hero-floral pointer-events-none hidden h-12 w-64 max-w-full text-gold sm:block sm:h-14 sm:w-80"
+            class="hero-floral pointer-events-none hidden h-12 w-64 max-w-full text-gold sm:block sm:h-20 sm:w-96"
             aria-hidden="true"
             data-hero-floral
           />
           <div class="flex flex-col items-center gap-4 sm:gap-5">
             <div class="hero-mobile-adornment">
               <h1
-                class="font-display text-[3.2rem] sm:text-[4.8rem] leading-none tracking-tight drop-shadow-sm flex flex-col items-center justify-center gap-1 sm:flex-row sm:gap-2 w-fit mx-auto"
+                class="font-display text-[3.2rem] sm:text-[6rem] leading-none tracking-tight drop-shadow-sm flex flex-col items-center justify-center gap-1 sm:flex-row sm:gap-2 w-fit mx-auto"
                 data-hero-names
                 data-site-brand
               >
@@ -134,7 +134,7 @@
               <span>Aguascalientes</span>
             </div>
             <p
-              class="font-serif text-xl sm:text-2xl text-forest/80 text-center hidden sm:block w-fit mx-auto"
+              class="font-serif text-xl sm:text-3xl text-forest/80 text-center hidden sm:block w-fit mx-auto"
               data-hero-date
             >
               8 de noviembre de 2025 · Calvillo, Aguascalientes
@@ -143,7 +143,7 @@
           <img
             src="adorno_abajo.png"
             alt=""
-            class="hero-floral pointer-events-none hidden h-12 w-64 max-w-full text-gold sm:block sm:h-14 sm:w-80"
+            class="hero-floral pointer-events-none hidden h-12 w-64 max-w-full text-gold sm:block sm:h-20 sm:w-96"
             aria-hidden="true"
             data-hero-floral
           />
@@ -1359,7 +1359,7 @@
         const contentWidth = Math.max(nameWidth - totalGap, 1);
         const targetContentWidth = Math.max(dateWidth - totalGap, 1);
         const scale = targetContentWidth / contentWidth;
-        const clampedScale = Math.min(Math.max(scale, 0.9), 2);
+        const clampedScale = Math.min(Math.max(scale, 1), 2);
         heroNames.style.fontSize = `${baseFontSize * clampedScale}px`;
 
         heroFlorals.forEach(img => {
