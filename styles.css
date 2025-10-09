@@ -623,6 +623,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  transform: translateZ(0);
 }
 
 .bank-card__icon {
