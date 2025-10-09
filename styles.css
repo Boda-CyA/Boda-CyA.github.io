@@ -256,6 +256,11 @@ body {
   }
 }
 
+.hero-loading [data-hero-names],
+.hero-loading [data-hero-floral] {
+  visibility: hidden;
+}
+
 @media (min-width: 640px) {
   .hero-mobile-adornment {
     width: auto;
@@ -623,6 +628,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  transform: translateZ(0);
 }
 
 .bank-card__icon {
