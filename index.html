@@ -105,7 +105,7 @@
 </head>
 <body class="bg-ivory/95 antialiased text-base">
   <div class="min-h-screen">
-    <header class="relative isolate flex min-h-screen items-center justify-center overflow-hidden" data-hero>
+    <header class="relative isolate flex min-h-screen items-center justify-center overflow-hidden hero-loading" data-hero>
       <div class="w-full max-w-4xl mx-auto px-5 sm:px-6 lg:px-8 py-24 sm:py-32 text-center">
         <p class="uppercase tracking-[0.35em] text-sm sm:text-lg text-forest/70">Nos casamos</p>
         <div class="mt-10 flex flex-col items-center gap-6 sm:gap-8">
@@ -1339,6 +1339,7 @@
 
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+      const heroHeader = document.querySelector('[data-hero]');
       const heroNames = document.querySelector('[data-hero-names]');
       const heroDate = document.querySelector('[data-hero-date]');
       const heroFlorals = document.querySelectorAll('[data-hero-floral]');
@@ -1356,6 +1357,9 @@
             img.style.width = '';
             img.style.height = '';
           });
+          if (heroHeader) {
+            heroHeader.classList.remove('hero-loading');
+          }
           return;
         }
 
@@ -1372,6 +1376,9 @@
             img.style.width = '';
             img.style.height = '';
           });
+          if (heroHeader) {
+            heroHeader.classList.remove('hero-loading');
+          }
           return;
         }
 
@@ -1385,6 +1392,10 @@
           img.style.width = `${dateWidth}px`;
           img.style.height = 'auto';
         });
+
+        if (heroHeader) {
+          heroHeader.classList.remove('hero-loading');
+        }
       };
 
       const scheduleHeroLayout = () => {
