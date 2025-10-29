@@ -24,6 +24,8 @@
     'Tu presencia sería muy especial para nosotros.',
     'Cuando tengas un momento, ¿podrías confirmarnos por favor?',
     '',
+    '{url}',
+    '',
     'Con mucho cariño,',
     '',
     'Carmen y Alfredo'
@@ -454,7 +456,8 @@
     const reminderTemplate = DEFAULT_REMINDER_TEMPLATE;
     const reminderMessage = collapseBlankLines(
       replacePlaceholders(reminderTemplate, {
-        name: reminderName
+        name: reminderName,
+        url
       })
     );
     const encodedReminderWhatsappMessage = reminderMessage ? encodeURIComponent(reminderMessage) : '';
