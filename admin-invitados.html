@@ -888,6 +888,10 @@ Confirma tu asistencia aquí: {url}</textarea>
             <strong>Enlace de WhatsApp:</strong>
             <a href="#" target="_blank" rel="noopener" class="preview-link disabled" data-preview-whatsapp-link>—</a>
           </li>
+          <li>
+            <strong>Enlace recordatorio WhatsApp:</strong>
+            <a href="#" target="_blank" rel="noopener" class="preview-link disabled" data-preview-reminder-whatsapp-link>—</a>
+          </li>
           <li><strong>URL:</strong> <a href="#" target="_blank" rel="noopener" class="preview-link disabled" data-preview-url>—</a></li>
         </ul>
         <p class="preview-helper hidden" data-preview-helper></p>
@@ -896,6 +900,12 @@ Confirma tu asistencia aquí: {url}</textarea>
         </label>
         <label class="preview-label">Enlace WhatsApp (wa.me)
           <input type="text" data-preview-whatsapp-url readonly>
+        </label>
+        <label class="preview-label">Mensaje recordatorio WhatsApp
+          <textarea data-preview-reminder-whatsapp readonly></textarea>
+        </label>
+        <label class="preview-label">Enlace recordatorio (wa.me)
+          <input type="text" data-preview-reminder-whatsapp-url readonly>
         </label>
       </div>
     </aside>
@@ -974,7 +984,10 @@ Confirma tu asistencia aquí: {url}</textarea>
       whatsappDisplay: document.querySelector('[data-preview-whatsapp-display]'),
       whatsappLink: document.querySelector('[data-preview-whatsapp-link]'),
       whatsappMessage: document.querySelector('[data-preview-whatsapp]'),
-      whatsappUrl: document.querySelector('[data-preview-whatsapp-url]')
+      whatsappUrl: document.querySelector('[data-preview-whatsapp-url]'),
+      reminderLink: document.querySelector('[data-preview-reminder-whatsapp-link]'),
+      reminderMessage: document.querySelector('[data-preview-reminder-whatsapp]'),
+      reminderUrl: document.querySelector('[data-preview-reminder-whatsapp-url]')
     };
 
     function setStatus(message, type = '') {
@@ -1458,10 +1471,19 @@ Confirma tu asistencia aquí: {url}</textarea>
         previewElements.whatsappMessage.value = message.whatsappMessage || '';
       }
 
+      if (previewElements.reminderMessage) {
+        previewElements.reminderMessage.value = message.reminderWhatsappMessage || '';
+      }
+
       const encodedMessage = message.encodedWhatsappMessage || '';
       const whatsappNumber = guest.normalizedWhatsapp && guest.normalizedWhatsapp.wa ? guest.normalizedWhatsapp.wa : '';
       const whatsappLink = whatsappNumber && encodedMessage
         ? `https://wa.me/${whatsappNumber}?text=${encodedMessage}`
+        : '';
+
+      const reminderEncodedMessage = message.encodedReminderWhatsappMessage || '';
+      const reminderLink = whatsappNumber && reminderEncodedMessage
+        ? `https://wa.me/${whatsappNumber}?text=${reminderEncodedMessage}`
         : '';
 
       if (previewElements.whatsappLink) {
@@ -1478,6 +1500,22 @@ Confirma tu asistencia aquí: {url}</textarea>
 
       if (previewElements.whatsappUrl) {
         previewElements.whatsappUrl.value = whatsappLink || '';
+      }
+
+      if (previewElements.reminderLink) {
+        if (reminderLink) {
+          previewElements.reminderLink.textContent = reminderLink;
+          previewElements.reminderLink.href = reminderLink;
+          previewElements.reminderLink.classList.remove('disabled');
+        } else {
+          previewElements.reminderLink.textContent = '—';
+          previewElements.reminderLink.href = '#';
+          previewElements.reminderLink.classList.add('disabled');
+        }
+      }
+
+      if (previewElements.reminderUrl) {
+        previewElements.reminderUrl.value = reminderLink || '';
       }
 
       setPreviewLink(message.url);
@@ -1533,9 +1571,13 @@ Confirma tu asistencia aquí: {url}</textarea>
         row.dataset.slug = guest.slug;
 
         const encodedWhatsappMessage = message.encodedWhatsappMessage || '';
+        const encodedReminderWhatsappMessage = message.encodedReminderWhatsappMessage || '';
         const normalizedWhatsapp = guest.normalizedWhatsapp;
         const guestWhatsappLink = normalizedWhatsapp && normalizedWhatsapp.wa && encodedWhatsappMessage
           ? `https://wa.me/${normalizedWhatsapp.wa}?text=${encodedWhatsappMessage}`
+          : '';
+        const guestReminderLink = normalizedWhatsapp && normalizedWhatsapp.wa && encodedReminderWhatsappMessage
+          ? `https://wa.me/${normalizedWhatsapp.wa}?text=${encodedReminderWhatsappMessage}`
           : '';
 
         const relationChip = guest.relation ? `<span class="chip">${escapeHtml(formatRelation(guest.relation))}</span>` : '';
@@ -1582,6 +1624,13 @@ Confirma tu asistencia aquí: {url}</textarea>
                 <path d="M.057 24l1.687-6.163A11.88 11.88 0 0 1 0 11.887C.003 5.326 5.38 0 12.004 0a11.86 11.86 0 0 1 8.44 3.491 11.83 11.83 0 0 1 3.497 8.425C23.938 18.579 18.563 24 11.936 24c-1.99-.001-3.951-.5-5.688-1.448zm6.597-3.807a9.78 9.78 0 0 0 5.282 1.533c5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.894-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648zm11.387-5.464c-.074-.123-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.149-.174.198-.298.297-.497.099-.198.05-.372-.025-.521-.074-.149-.669-1.611-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z" fill="currentColor" />
               </svg>
               <span class="button-text">Enviar WhatsApp</span>
+            </button>
+            <button type="button" data-action="whatsapp-reminder" data-slug="${encodeURIComponent(guest.slug)}" ${guestReminderLink ? '' : 'disabled'} aria-label="Enviar recordatorio" title="Enviar recordatorio">
+              <svg class="button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 22a1 1 0 0 1-1-1v-1.062a8.002 8.002 0 0 1-6.32-6.774A2.998 2.998 0 0 1 7.087 8.79l.558-2.23a4.355 4.355 0 0 1 4.257-3.36H12a4.355 4.355 0 0 1 4.254 3.358l.556 2.224a2.998 2.998 0 0 1 2.409 4.379A8.003 8.003 0 0 1 13 19.938V21a1 1 0 0 1-1 1zm0-18c-1.03 0-1.92.698-2.149 1.7l-.669 2.676a1 1 0 0 1-.773.735 1 1 0 0 0-.773.735 1 1 0 0 0 .611 1.155A6.001 6.001 0 0 0 11 17.917V18h2v-.083a6.001 6.001 0 0 0 2.754-6.887 1 1 0 0 0-.773-.735 1 1 0 0 1-.773-.735l-.669-2.676A2.355 2.355 0 0 0 12 4z" fill="currentColor" />
+                <path d="M12 8a1 1 0 0 1 1 1v3.06l1.724.988a1 1 0 0 1-1 1.732l-2.225-1.276A1 1 0 0 1 11 12.732V9a1 1 0 0 1 1-1z" fill="currentColor" />
+              </svg>
+              <span class="button-text">Recordatorio</span>
             </button>
           </td>
         `;
@@ -1840,6 +1889,18 @@ Confirma tu asistencia aquí: {url}</textarea>
             window.open(whatsappLink, '_blank');
           } else {
             setStatus('No hay un número de WhatsApp disponible para est@ invitad@.', 'error');
+          }
+          break;
+        case 'whatsapp-reminder':
+          const encodedReminder = message.encodedReminderWhatsappMessage || '';
+          const reminderWhatsapp = guest.normalizedWhatsapp;
+          const reminderLink = reminderWhatsapp && reminderWhatsapp.wa && encodedReminder
+            ? `https://wa.me/${reminderWhatsapp.wa}?text=${encodedReminder}`
+            : '';
+          if (reminderLink) {
+            window.open(reminderLink, '_blank');
+          } else {
+            setStatus('No hay un número de WhatsApp disponible para enviar el recordatorio.', 'error');
           }
           break;
         default:
