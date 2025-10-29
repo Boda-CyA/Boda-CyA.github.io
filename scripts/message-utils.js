@@ -14,6 +14,21 @@
     '{urlLine}'
   ].join('\n');
 
+  const DEFAULT_REMINDER_TEMPLATE = [
+    'Hola {name},',
+    '',
+    'Esperamos que te encuentres muy bien. Queríamos recordarte con mucho cariño que nuestra boda civil está cada vez más cerca y estamos muy emocionados por ese día.',
+    '',
+    'Estamos terminando de organizar los últimos detalles y nos ayudaría mucho saber si podrás acompañarnos, para poder considerar tu lugar dentro de la planeación.',
+    '',
+    'Tu presencia sería muy especial para nosotros.',
+    'Cuando tengas un momento, ¿podrías confirmarnos por favor?',
+    '',
+    'Con mucho cariño,',
+    '',
+    'Carmen y Alfredo'
+  ].join('\n');
+
   const RELATION_MESSAGES = {
     familia:
       'Nos emociona compartir este momento en familia y contar contigo en nuestra celebración civil.',
@@ -435,6 +450,15 @@
     const whatsappMessage = collapseBlankLines(replacePlaceholders(whatsappTemplate, whatsappReplacements));
     const encodedWhatsappMessage = whatsappMessage ? encodeURIComponent(whatsappMessage) : '';
 
+    const reminderName = sanitizeName(firstNamePart || name);
+    const reminderTemplate = DEFAULT_REMINDER_TEMPLATE;
+    const reminderMessage = collapseBlankLines(
+      replacePlaceholders(reminderTemplate, {
+        name: reminderName
+      })
+    );
+    const encodedReminderWhatsappMessage = reminderMessage ? encodeURIComponent(reminderMessage) : '';
+
     const buildWhatsappLink = contact => {
       if (!contact || !contact.whatsapp || !contact.whatsapp.wa || !encodedWhatsappMessage) {
         return '';
@@ -478,6 +502,8 @@
       helperText,
       whatsappMessage,
       encodedWhatsappMessage,
+      reminderWhatsappMessage: reminderMessage,
+      encodedReminderWhatsappMessage,
       groomWhatsappLink,
       brideWhatsappLink,
       groomWhatsappLabel: GROOM_CONTACT.label,
